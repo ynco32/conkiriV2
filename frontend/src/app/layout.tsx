@@ -61,6 +61,23 @@ export default function RootLayout({
     <html lang="en">
       <head>
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        {process.env.NEXT_PUBLIC_HOTJAR_ID && (
+          <script
+            dangerouslySetInnerHTML={{
+              __html: `
+                (function (c, s, q, u, a, r, e) {
+                  c.hj=c.hj||function(){(c.hj.q=c.hj.q||[]).push(arguments)};
+                  c._hjSettings = { hjid: a };
+                  r = s.getElementsByTagName('head')[0];
+                  e = s.createElement('script');
+                  e.async = true;
+                  e.src = q + c._hjSettings.hjid + u;
+                  r.appendChild(e);
+                })(window, document, 'https://static.hj.contentsquare.net/c/csq-', '.js', ${process.env.NEXT_PUBLIC_HOTJAR_ID});
+              `,
+            }}
+          />
+        )}
       </head>
       <body className="flex h-[100dvh] flex-col overflow-hidden bg-web bg-cover bg-center font-pretendard">
         <MSWProvider />
