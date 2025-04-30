@@ -1,4 +1,0 @@
-FROM docker.elastic.co/logstash/logstash:8.12.1
-
-COPY pipeline/ /usr/share/logstash/pipeline/
-COPY config/ /usr/share/logstash/config/ 

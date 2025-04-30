@@ -13,8 +13,6 @@ services:
       - frontend
       - backend
     command: /bin/sh -c "nginx -g 'daemon off;' && nginx -s reload"
-    networks:
-      - app-network
 
   certbot:
     image: certbot/certbot
@@ -102,61 +100,5 @@ services:
       retries: 2
       start_period: 10s
 
-  elasticsearch:
-    image: docker.elastic.co/elasticsearch/elasticsearch:8.12.1
-    environment:
-      - discovery.type=single-node
-      - xpack.security.enabled=false
-      - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
-    ports:
-      - "9200:9200"
-    volumes:
-      - elasticsearch_data:/usr/share/elasticsearch/data
-    healthcheck:
-      test: ["CMD", "curl", "-f", "http://localhost:9200"]
-      interval: 10s
-      timeout: 5s
-      retries: 3
-      start_period: 30s
-
-  logstash:
-    build: ./logstash
-    ports:
-      - "5044:5044"
-      - "5000:5000/tcp"
-      - "5000:5000/udp"
-      - "9600:9600"
-    environment:
-      LS_JAVA_OPTS: "-Xmx256m -Xms256m"
-    volumes:
-      - ./logstash/pipeline:/usr/share/logstash/pipeline
-    depends_on:
-      elasticsearch:
-        condition: service_healthy
-    healthcheck:
-      test: ["CMD", "curl", "-f", "http://localhost:9600"]
-      interval: 10s
-      timeout: 5s
-      retries: 3
-      start_period: 30s
-
-  kibana:
-    image: docker.elastic.co/kibana/kibana:8.12.1
-    ports:
-      - "5601:5601"
-    environment:
-      ELASTICSEARCH_HOSTS: http://elasticsearch:9200
-      SERVER_BASEPATH: /kibana/
-    depends_on:
-      elasticsearch:
-        condition: service_healthy
-    networks:
-      - app-network
-
 volumes:
   mysql_data:
-  elasticsearch_data:
-
-networks:
-  app-network:
-    driver: bridge
