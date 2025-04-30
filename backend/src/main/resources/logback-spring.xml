@@ -4,7 +4,7 @@
     <include resource="org/springframework/boot/logging/logback/console-appender.xml"/>
 
     <appender name="LOGSTASH" class="net.logstash.logback.appender.LogstashTcpSocketAppender">
-        <destination>conkiri.com:5000</destination>
+        <destination>conkiri.com:50000</destination>
         <encoder class="net.logstash.logback.encoder.LogstashEncoder">
             <customFields>{"appname":"conkiri-backend"}</customFields>
         </encoder>
