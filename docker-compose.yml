@@ -145,6 +145,7 @@ services:
     environment:
       - ELASTICSEARCH_HOSTS=http://elasticsearch:9200
       - SERVER_HOST=0.0.0.0
+      - SERVER_BASEPATH=/kibana/
     depends_on:
       - elasticsearch
 
