@@ -65,6 +65,7 @@ export default function RootLayout({
           <script
             dangerouslySetInnerHTML={{
               __html: `
+                console.log('Hotjar initialization started');
                 (function (c, s, q, u, a, r, e) {
                   c.hj=c.hj||function(){(c.hj.q=c.hj.q||[]).push(arguments)};
                   c._hjSettings = { hjid: a };
@@ -72,6 +73,12 @@ export default function RootLayout({
                   e = s.createElement('script');
                   e.async = true;
                   e.src = q + c._hjSettings.hjid + u;
+                  e.onload = function() {
+                    console.log('Hotjar script loaded successfully');
+                  };
+                  e.onerror = function() {
+                    console.error('Failed to load Hotjar script');
+                  };
                   r.appendChild(e);
                 })(window, document, 'https://static.hj.contentsquare.net/c/csq-', '.js', ${process.env.NEXT_PUBLIC_HOTJAR_ID});
               `,
