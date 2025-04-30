@@ -110,6 +110,12 @@ services:
       - "9200:9200"
     volumes:
       - elasticsearch_data:/usr/share/elasticsearch/data
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:9200"]
+      interval: 10s
+      timeout: 5s
+      retries: 3
+      start_period: 30s
 
   logstash:
     build: ./logstash
@@ -123,7 +129,14 @@ services:
     volumes:
       - ./logstash/pipeline:/usr/share/logstash/pipeline
     depends_on:
-      - elasticsearch
+      elasticsearch:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:9600"]
+      interval: 10s
+      timeout: 5s
+      retries: 3
+      start_period: 30s
 
   kibana:
     image: docker.elastic.co/kibana/kibana:8.12.1
