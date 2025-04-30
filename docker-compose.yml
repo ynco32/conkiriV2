@@ -143,11 +143,11 @@ services:
     ports:
       - "5601:5601"
     environment:
-      - ELASTICSEARCH_HOSTS=http://elasticsearch:9200
-      - SERVER_HOST=0.0.0.0
-      - SERVER_BASEPATH=/kibana/
+      ELASTICSEARCH_HOSTS: http://elasticsearch:9200
+      SERVER_BASEPATH: /kibana/
     depends_on:
-      - elasticsearch
+      elasticsearch:
+        condition: service_healthy
 
 volumes:
   mysql_data:
