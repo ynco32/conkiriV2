@@ -136,8 +136,8 @@ pipeline {  // 파이프라인 정의 시작
         }
         failure {  // 파이프라인 실패 시 메시지 출력
             echo 'Pipeline failed!'
-            sh "${DOCKER_COMPOSE} down"
-            sh "${DOCKER_COMPOSE} logs > pipeline_failure.log"  // 실패 시 로그 저장  
+            sh "${DOCKER_COMPOSE} -f docker-compose-legacy.yml down"
+            sh "${DOCKER_COMPOSE} -f docker-compose-legacy.yml logs > pipeline_failure.log"  // 실패 시 로그 저장  
         }
     }
 }
