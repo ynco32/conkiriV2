@@ -1,26 +1,6 @@
 version: "3.8"
 
 services:
-  nginx:
-    build: ./nginx
-    ports:
-      - "80:80"
-      - "443:443"
-    volumes:
-      - /home/ubuntu/nginx/certbot/conf:/home/ubuntu/nginx/certbot/conf
-      - ./certbot/www:/var/www/certbot
-    depends_on:
-      - frontend
-      - backend
-    command: /bin/sh -c "nginx -g 'daemon off;' && nginx -s reload"
-
-  certbot:
-    image: certbot/certbot
-    volumes:
-      - /etc/letsencrypt:/etc/letsencrypt
-      - ./certbot/www:/var/www/certbot
-    command: certonly --standalone --preferred-challenges http -d conkiri.com --agree-tos --no-eff-email --email janguk95@naver.com --non-interactive
-
   backend:
     build: ./backend
     ports:
