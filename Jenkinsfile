@@ -100,8 +100,8 @@ pipeline {  // 파이프라인 정의 시작
                         string(credentialsId: 'NEXT_PUBLIC_SKT_API_URL', variable: 'NEXT_PUBLIC_SKT_API_URL')
                     ]) {
                         sh '''
-                            docker-compose -f docker-compose-legacy.yml down
-                            docker-compose -f docker-compose-legacy.yml build \
+                            docker compose -f docker-compose-legacy.yml down
+                            docker compose -f docker-compose-legacy.yml build \
                                 --build-arg KAKAO_CLIENT_ID=$KAKAO_CLIENT_ID \
                                 --build-arg KAKAO_CLIENT_SECRET=$KAKAO_CLIENT_SECRET \
                                 --build-arg JWT_SECRET_KEY=$JWT_SECRET_KEY \
@@ -122,7 +122,7 @@ pipeline {  // 파이프라인 정의 시작
                                 --build-arg REDIS_HOST=$REDIS_HOST \
                                 --build-arg NEXT_PUBLIC_SKT_API_KEY=$NEXT_PUBLIC_SKT_API_KEY \
                                 --build-arg NEXT_PUBLIC_SKT_API_URL=$NEXT_PUBLIC_SKT_API_URL
-                            docker-compose -f docker-compose-legacy.yml up -d
+                            docker compose -f docker-compose-legacy.yml up -d
                         '''
                     }
                 }
