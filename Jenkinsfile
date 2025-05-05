@@ -3,8 +3,12 @@ pipeline {  // 파이프라인 정의 시작
 
     
     environment {  // 파이프라인에서 사용할 환경 변수 정의
-        DOCKER_COMPOSE = 'docker-compose'  // docker-compose 명령어를 환경 변수로 설정
+        DOCKER_COMPOSE = 'docker compose'  // docker-compose 명령어를 환경 변수로 설정
         BRANCH_NAME = 'master'
+    }
+
+    tools {
+        nodejs 'NodeJS 20.18.3'
     }
     
     stages {  // 파이프라인의 주요 단계들 정의
