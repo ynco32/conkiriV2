@@ -6,10 +6,6 @@ pipeline {  // 파이프라인 정의 시작
         DOCKER_COMPOSE = 'docker compose'  // docker-compose 명령어를 환경 변수로 설정
         BRANCH_NAME = 'master'
     }
-
-    tools {
-        nodejs 'NodeJS 22.14'
-    }
     
     stages {  // 파이프라인의 주요 단계들 정의
         stage('Debug') {  // 현재 브랜치 디버깅용 스테이지
