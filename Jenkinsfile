@@ -8,7 +8,7 @@ pipeline {  // 파이프라인 정의 시작
     }
 
     tools {
-        nodejs 'NodeJS 20.18.3'
+        nodejs 'NodeJS-20.18.3'
     }
     
     stages {  // 파이프라인의 주요 단계들 정의
