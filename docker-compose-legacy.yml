@@ -28,6 +28,8 @@ services:
         condition: service_healthy
       redis:
         condition: service_healthy
+    networks:
+      - app-network
 
   frontend:
     container_name: frontend-master
@@ -45,6 +47,8 @@ services:
       - NODE_ENV=production
     depends_on:
       - backend
+    networks:
+      - app-network
 
   mysql:
     container_name: mysql-master
@@ -73,6 +77,8 @@ services:
       - "13306:3306"
     volumes:
       - mysql_data:/var/lib/mysql
+    networks:
+      - app-network
 
   redis:
     container_name: redis-master
@@ -86,6 +92,12 @@ services:
       timeout: 3s
       retries: 2
       start_period: 10s
+    networks:
+      - app-network
 
 volumes:
   mysql_data:
+
+networks:
+  app-network:
+    external: true
