@@ -2,6 +2,7 @@ version: "3.8"
 
 services:
   backend:
+    container_name: backend-master
     build: ./backend
     ports:
       - "8080:8080"
@@ -29,6 +30,7 @@ services:
         condition: service_healthy
 
   frontend:
+    container_name: frontend-master
     build:
       context: ./frontend
       args:
@@ -45,6 +47,7 @@ services:
       - backend
 
   mysql:
+    container_name: mysql-master
     image: mysql:8.0.36
     healthcheck:
       test:
@@ -72,6 +75,7 @@ services:
       - mysql_data:/var/lib/mysql
 
   redis:
+    container_name: redis-master
     image: redis:latest
     ports:
       - "6379:6379"
