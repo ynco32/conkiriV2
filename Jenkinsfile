@@ -52,7 +52,7 @@ pipeline {  // 파이프라인 정의 시작
                     steps {  // Frontend 빌드 및 테스트 수행
                         agent {
                             docker {
-                                image 'node:18'       // Node 20.x 공식 이미지 (npm 내장)
+                                image 'node:18-alpine'       // Node 20.x 공식 이미지 (npm 내장)
                                 args  '-u root'          // 필요하다면 root 권한으로
                             }
                         }
