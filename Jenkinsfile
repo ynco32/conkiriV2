@@ -106,7 +106,7 @@ pipeline {  // 파이프라인 정의 시작
                                 --build-arg KAKAO_CLIENT_ID=$KAKAO_CLIENT_ID \
                                 --build-arg KAKAO_CLIENT_SECRET=$KAKAO_CLIENT_SECRET \
                                 --build-arg JWT_SECRET_KEY=$JWT_SECRET_KEY \
-                                --build-arg DB_URL=$DB_URL \
+                                --build-arg DB_URL=jdbc:mysql://mysql-master:3306/conkiri \
                                 --build-arg DB_USERNAME=$DB_USERNAME \
                                 --build-arg DB_PASSWORD=$DB_PASSWORD \
                                 --build-arg MYSQL_ROOT_PASSWORD=$MYSQL_ROOT_PASSWORD \
