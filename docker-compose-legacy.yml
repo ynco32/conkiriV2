@@ -13,7 +13,7 @@ services:
       - KAKAO_CLIENT_SECRET=${KAKAO_CLIENT_SECRET}
       - KAKAO_REDIRECT_URL=${KAKAO_REDIRECT_URL}
       - JWT_SECRET_KEY=${JWT_SECRET_KEY}
-      - DB_URL=${DB_URL}
+      - DB_URL=jdbc:mysql://mysql-master:3306/conkiri
       - DB_USERNAME=${DB_USERNAME}
       - DB_PASSWORD=${DB_PASSWORD}
       - FRONTEND_URL=${FRONTEND_URL}
