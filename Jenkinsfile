@@ -49,13 +49,13 @@ pipeline {  // 파이프라인 정의 시작
                             expression { env.BRANCH_NAME == 'master' }
                         }
                     }
-                    steps {  // Frontend 빌드 및 테스트 수행
-                        agent {
-                            docker {
-                                image 'node:18-alpine'       // Node 20.x 공식 이미지 (npm 내장)
-                                args  '-u root'          // 필요하다면 root 권한으로
-                            }
+                    agent {
+                        docker {
+                            image 'node:18-alpine'       // Node 20.x 공식 이미지 (npm 내장)
+                            args  '-u root'          // 필요하다면 root 권한으로
                         }
+                    }
+                    steps {  // Frontend 빌드 및 테스트 수행
                         dir('frontend') {  // frontend 디렉토리로 이동
                             sh 'npm install'  // 필요한 패키지 설치
                             sh 'npm run build'  // 빌드 실행
