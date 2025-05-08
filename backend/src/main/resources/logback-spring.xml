@@ -1,19 +1,35 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <configuration>
-    <include resource="org/springframework/boot/logging/logback/defaults.xml"/>
-    <include resource="org/springframework/boot/logging/logback/console-appender.xml"/>
 
+    <!-- Logstash 호스트/포트를 환경변수로 관리
+    <property name="LOGSTASH_HOST" value="${LOGSTASH_HOST:-logstash}"/>
+    <property name="LOGSTASH_PORT" value="${LOGSTASH_PORT:-50000}"/> -->
+
+    <!-- Spring Boot 기본 콘솔 설정 -->
+    <include resource="org/springframework/boot/logback/defaults.xml"/>
+    <include resource="org/springframework/boot/logback/console-appender.xml"/>
+
+    <!-- Logstash TCP Appender -->
     <appender name="LOGSTASH" class="net.logstash.logback.appender.LogstashTcpSocketAppender">
-        <destination>conkiri.com:50000</destination>
+        <!-- service 이름이 docker-compose 네트워크의 logstash 컨테이너를 가리키도록 -->
+        <destination>docker-elk-logstash-1:50000</destination>
+        <!-- 접속 끊길 때 재시도 딜레이(ms) -->
+        <reconnectionDelay>5000</reconnectionDelay>
         <encoder class="net.logstash.logback.encoder.LogstashEncoder">
-            <customFields>{"appname":"conkiri-backend"}</customFields>
+            <customFields>{"appname":"backend-master"}</customFields>
         </encoder>
     </appender>
 
+    <!-- 전역 로거: 콘솔+Logstash 둘 다 찍도록 -->
     <root level="INFO">
         <appender-ref ref="CONSOLE"/>
         <appender-ref ref="LOGSTASH"/>
     </root>
 
-    <logger name="com.conkiri" level="DEBUG"/>
-</configuration> 
+    <!-- com.conkiri 패키지별로 DEBUG 로그를 별도 관리 -->
+    <logger name="com.conkiri" level="DEBUG" additivity="false">
+        <appender-ref ref="CONSOLE"/>
+        <appender-ref ref="LOGSTASH"/>
+    </logger>
+
+</configuration>
