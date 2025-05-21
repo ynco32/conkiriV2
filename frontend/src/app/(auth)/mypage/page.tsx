@@ -1,15 +1,13 @@
-import MyMenu from '@/components/features/mypage/MyMenu';
-import MyProfile from '@/components/features/mypage/MyProfile';
+import React from 'react';
+import MyPageContent from './MyPageContent';
+import { Suspense } from 'react';
+import MyPageSkeleton from './MyPageSkeleton';
 
-export default function MyPage() {
+// 클라이언트 컴포넌트로 책임 이전
+export default function MyPageRoute() {
   return (
-    <div className="h-full overflow-hidden bg-sight-main-gra">
-      <div className="mx-auto flex w-full items-center justify-center">
-        <MyProfile />
-      </div>
-      <div className="container my-4 flex w-full flex-1 items-center justify-center">
-        <MyMenu />
-      </div>
-    </div>
+    <Suspense fallback={<MyPageSkeleton />}>
+      <MyPageContent />
+    </Suspense>
   );
 }

@@ -1,0 +1,455 @@
+.container {
+  max-width: 100%;
+  margin: 0 auto;
+  padding: 0;
+}
+
+// 히어로 섹션 (상단 이미지)
+.heroSection {
+  position: relative;
+  width: 100%;
+  height: 50vh; // 높이를 약간 높임
+  min-height: 300px;
+  overflow: hidden;
+  margin-bottom: 1.5rem;
+
+  .heroImageSlider {
+    width: 100%;
+    height: 100%;
+    position: relative;
+  }
+
+  .heroImage {
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    top: 0;
+    left: 0;
+    opacity: 0;
+    transition: opacity 0.5s ease;
+
+    &.active {
+      opacity: 1;
+      z-index: 2;
+    }
+  }
+
+  // 슬라이더 네비게이션 버튼
+  .sliderNavButton {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    z-index: 10;
+    background-color: rgba(0, 0, 0, 0.3);
+    color: white;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 20px;
+    font-weight: bold;
+    cursor: pointer;
+    border: none;
+    opacity: 0.6;
+    transition: opacity 0.3s, background-color 0.3s;
+
+    &:hover {
+      opacity: 1;
+      background-color: rgba(0, 0, 0, 0.5);
+    }
+
+    &.prevButton {
+      left: 15px;
+    }
+
+    &.nextButton {
+      right: 15px;
+    }
+  }
+
+  // 슬라이더 인디케이터 (도트)
+  .sliderIndicators {
+    position: absolute;
+    top: 1px;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    gap: 8px;
+    z-index: 10;
+
+    .indicator {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background-color: rgba(255, 255, 255, 0.5);
+      cursor: pointer;
+      transition: background-color 0.3s, transform 0.3s;
+
+      &.active {
+        background-color: white;
+        transform: scale(1.3);
+      }
+
+      &:hover {
+        background-color: rgba(255, 255, 255, 0.8);
+      }
+    }
+  }
+
+  .concertOverlay {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    padding: 1rem;
+    background: linear-gradient(transparent, rgba(0, 0, 0, 0.7));
+    color: white;
+    z-index: 5;
+
+    .concertBadge {
+      display: flex;
+      align-items: center;
+      font-size: $font-size-sm;
+
+      .badgeIcon {
+        width: 50px;
+        height: 50px;
+        margin-right: 0.5rem;
+        border-radius: 50%;
+        flex-shrink: 0;
+      }
+    }
+
+    .concertName {
+      font-weight: $font-weight-bold;
+      font-size: $font-size-lg;
+      line-height: 1.3;
+      display: flex;
+      flex-direction: column;
+
+      .firstLine,
+      .secondLine {
+        display: block;
+      }
+
+      .secondLine {
+        max-width: 100%; // 두 번째 줄은 전체 너비 사용 가능
+      }
+    }
+  }
+}
+
+// 좌석 정보 카드
+.seatCard {
+  // background-color: white;
+  border-radius: $border-radius-lg;
+  padding: 0 $spacing-md $spacing-sm $spacing-md;
+  position: relative;
+  align-items: center;
+  z-index: 10;
+
+  .seatTitle {
+    font-size: $font-size-md;
+    text-align: center;
+    color: $text-sub;
+    margin-bottom: $spacing-sm;
+    font-weight: $font-weight-normal;
+  }
+
+  .seatLocation {
+    text-align: center;
+    font-size: $font-size-2xl;
+    font-weight: $font-weight-bold;
+    margin-bottom: $spacing-md;
+    color: $text-main;
+  }
+
+  .gradeChips {
+    display: flex;
+    gap: 0.75rem;
+    margin-bottom: $spacing-md;
+    align-items: center;
+    justify-content: center;
+
+    .chip {
+      display: flex;
+      align-items: center;
+      padding: 0.35rem 0.75rem;
+      border-radius: $border-radius-full;
+      background-color: #f0f0f0;
+      font-size: $font-size-xs;
+
+      .chipIcon {
+        margin-right: 0.35rem;
+      }
+
+      &.artistChip {
+        background-color: #e8f5e9;
+        color: #2e7d32;
+      }
+
+      &.stageChip {
+        background-color: #e3f2fd;
+        color: #1565c0;
+      }
+
+      &.screenChip {
+        background-color: #e8eaf6;
+        color: #3949ab;
+      }
+    }
+  }
+}
+
+// 리뷰 내용
+.reviewContent {
+  // margin: 0 $spacing-md;
+  background-color: white;
+  border-radius: $border-radius-lg;
+  padding: $spacing-md;
+  box-shadow: $shadow-con;
+
+  .content {
+    white-space: pre-line;
+    margin-bottom: 1rem;
+    color: $text-main;
+    line-height: 1.6;
+    font-size: $font-size-md;
+  }
+
+  .cameraInfo {
+    display: flex;
+    align-items: center;
+    font-size: $font-size-xs;
+    color: $text-sub;
+    border-top: 1px solid #f0f0f0;
+    padding-top: 1rem;
+
+    .label {
+      margin-right: 0.5rem;
+    }
+  }
+}
+
+// 액션 버튼 영역 수정
+.actions {
+  display: flex;
+  justify-content: center;
+  gap: 0.5rem; // 버튼 사이 간격 유지
+  padding: 1rem 0 3rem;
+  flex-wrap: nowrap; // 버튼이 항상 한 줄에 표시되도록 설정
+  width: auto; // 자동 너비로 변경
+  margin: 0 auto; // 중앙 정렬
+}
+
+// 버튼 스타일 수정
+button.outlined {
+  background-color: #fff;
+  border-radius: 20px;
+  padding: 6px 12px; // 좌우 패딩 유지
+  font-size: $font-size-xs; // 작은 폰트 크기 유지
+  box-shadow: $shadow-sm;
+  transition: all 0.2s;
+  white-space: nowrap; // 텍스트가 잘리지 않도록 설정
+  flex: 0 0 auto; // 모든 버튼이 콘텐츠에 맞게 크기 조정
+
+  // 기본 버튼 (다른 리뷰 보기)
+  color: $con-blue;
+  border: 1px solid $con-blue;
+
+  &:hover {
+    background-color: rgba($con-blue, 0.05);
+    // box-shadow: $shadow-md;
+  }
+
+  // 수정 버튼 스타일
+  &.edit {
+    color: #4caf50;
+    border-color: #4caf50;
+
+    &:hover {
+      background-color: rgba(#4caf50, 0.05);
+    }
+  }
+
+  // 삭제 버튼 스타일
+  &.delete {
+    color: #f44336;
+    border-color: #f44336;
+
+    &:hover {
+      background-color: rgba(#f44336, 0.05);
+    }
+  }
+}
+
+// 버튼 스타일
+.button {
+  padding: 0.75rem 2rem;
+  border-radius: $border-radius-full;
+  font-weight: $font-weight-medium;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s;
+  font-size: $font-size-sm; // 폰트 크기 줄임
+
+  &.primary {
+    background-color: $con-blue;
+    color: #fff;
+    border: none;
+
+    &:hover {
+      background-color: darken($con-blue, 10%);
+      box-shadow: $shadow-md;
+    }
+  }
+
+  &.outlined {
+    background-color: #fff;
+    border: 1px solid $con-blue;
+    color: $con-blue;
+    box-shadow: $shadow-sm;
+
+    &:hover {
+      background-color: rgba($con-blue, 0.05);
+    }
+  }
+
+  &.error {
+    border: 1px solid #f44336;
+    color: #f44336;
+
+    &:hover {
+      background-color: rgba(#f44336, 0.05);
+    }
+  }
+}
+
+// 로딩 및 에러 상태
+.loading {
+  text-align: center;
+  padding: 3rem 0;
+
+  .spinner {
+    width: 40px;
+    height: 40px;
+    border: 3px solid rgba($con-blue, 0.2);
+    border-radius: 50%;
+    border-top-color: $con-blue;
+    animation: spin 1s linear infinite;
+    margin: 0 auto 1rem;
+  }
+
+  @keyframes spin {
+    to {
+      transform: rotate(360deg);
+    }
+  }
+}
+
+.error {
+  text-align: center;
+  padding: 2rem;
+  color: #f44336;
+}
+
+// 다이얼로그
+.dialogOverlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.6);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+  backdrop-filter: blur(2px);
+  animation: fadeIn 0.2s ease-out;
+}
+
+.dialogContent {
+  background-color: #fff;
+  border-radius: $border-radius-lg;
+  padding: 1.75rem;
+  max-width: 420px;
+  width: 90%;
+  box-shadow: $shadow-con;
+  transform: translateY(0);
+  animation: slideUp 0.3s ease-out;
+}
+
+.dialogTitle {
+  font-size: $font-size-xl;
+  font-weight: $font-weight-bold;
+  color: $text-main;
+  margin-bottom: $spacing-md;
+  text-align: center; // 중앙 정렬 추가
+}
+
+.dialogText {
+  margin-bottom: $spacing-md;
+  color: $text-sub;
+  font-size: $font-size-md;
+  line-height: 1.5;
+  text-align: center; // 중앙 정렬 추가
+}
+
+.dialogActions {
+  display: flex;
+  justify-content: center;
+  gap: 0.75rem;
+
+  .button {
+    padding: 0.75rem 1.25rem;
+    border-radius: $border-radius-md;
+    font-weight: $font-weight-medium;
+    font-size: $font-size-sm;
+    transition: all 0.2s ease;
+
+    &.cancel {
+      background-color: #f5f5f5;
+      color: $text-sub;
+      border: none;
+
+      &:hover {
+        background-color: #eaeaea;
+      }
+    }
+
+    &.delete {
+      background-color: #ff4b4b;
+      color: white;
+      border: none;
+
+      &:hover {
+        background-color: #e43b3b;
+      }
+    }
+  }
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes slideUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}

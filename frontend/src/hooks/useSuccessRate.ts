@@ -1,65 +1,17 @@
 // src/hooks/useSuccessRate.ts
-
-interface ScoreRange {
-  time: number;
-  rate: number;
-}
-
-interface PracticeMode {
-  ranges: ScoreRange[];
-  correction: number;
-  timeLimit: number; // 시간 제한 추가
-}
-
-type PracticeModeType = 'entrance' | 'grape' | 'security';
-
-// [React] 연습 모드별 설정
-const PRACTICE_MODES: Record<PracticeModeType, PracticeMode> = {
-  entrance: {
-    ranges: [
-      { time: 30, rate: 99 }, // 최상급
-      { time: 50, rate: 95 }, // 매우 빠름
-      { time: 100, rate: 85 }, // 빠름
-      { time: 150, rate: 70 }, // 양호
-      { time: 200, rate: 55 }, // 보통
-      { time: 300, rate: 35 }, // 느림
-      { time: 400, rate: 20 }, // 매우 느림
-    ],
-    correction: 0.7,
-    timeLimit: 500, // 입장 연습 시간 제한
-  },
-  grape: {
-    ranges: [
-      { time: 300, rate: 99 },
-      { time: 500, rate: 95 },
-      { time: 800, rate: 85 },
-      { time: 1000, rate: 70 },
-      { time: 1300, rate: 55 },
-      { time: 1600, rate: 35 },
-      { time: 2000, rate: 20 },
-    ],
-    correction: 0.9,
-    timeLimit: 5000, // 포도알 연습 시간 제한
-  },
-  security: {
-    ranges: [
-      { time: 2000, rate: 99 },
-      { time: 3000, rate: 95 },
-      { time: 4000, rate: 85 },
-      { time: 6000, rate: 70 },
-      { time: 8000, rate: 55 },
-      { time: 9000, rate: 35 },
-      { time: 10000, rate: 20 },
-    ],
-    correction: 0.8,
-    timeLimit: 10000, // 보안 메시지 연습 시간 제한
-  },
-};
+import { GAME_CONFIG, GameMode } from '@/lib/constants/minigameConfig';
 
 // [React] 성공률 계산 커스텀 훅
-export const useSuccessRate = (mode: PracticeModeType) => {
+export const useSuccessRate = (mode: GameMode) => {
   const calculateSuccessRate = (reactionTime: number): number => {
-    const { ranges, correction, timeLimit } = PRACTICE_MODES[mode];
+    // mode가 undefined이거나 존재하지 않는 경우 처리
+    if (!mode || !GAME_CONFIG[mode]) {
+      console.error(`Invalid mode: ${mode}`);
+      return 5; // 기본값 반환
+    }
+
+    const config = GAME_CONFIG[mode];
+    const { ranges, correction, maxReactionTime: timeLimit } = config;
 
     // 시간 초과 체크
     if (reactionTime >= timeLimit) {

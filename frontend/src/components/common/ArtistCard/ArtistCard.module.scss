@@ -1,0 +1,59 @@
+.card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 120px; // 기본 카드 너비 (size prop으로 재정의 가능)
+  position: relative;
+  cursor: pointer;
+  transition: transform 0.2s ease;
+
+  &:hover {
+    transform: translateY(-4px);
+  }
+}
+
+.imageWrapper {
+  position: relative;
+  margin-top: 15px;
+}
+
+.imageContainer {
+  position: relative;
+  width: 80px; // 기본 이미지 컨테이너 크기 (imageSize prop으로 재정의 가능)
+  height: 80px;
+  border-radius: 50%;
+  overflow: hidden;
+}
+
+.image {
+  object-fit: cover;
+  border-radius: 50%;
+  transition: box-shadow 0.2s ease;
+}
+
+.name {
+  margin-top: 10px;
+  font-size: $font-size-sm;
+  font-weight: $font-weight-medium;
+  color: $text-main;
+  text-align: center;
+  margin-bottom: 0;
+  width: 100%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.checkmark {
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 24px;
+  height: 24px;
+  background-color: $con-blue;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 10;
+}

@@ -1,0 +1,171 @@
+// 페이지 전체 컨테이너
+.pageContainer {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  background-color: #f7f7f8;
+}
+
+.contentContainer {
+  flex: 1;
+  padding-bottom: 80px; // 하단 버튼 높이만큼 여백
+}
+
+// TicketInfo 스타일
+.ticketInfo {
+  background-color: white;
+  padding: $spacing-md $spacing-md;
+  font-size: $font-size-sm;
+}
+
+.infoRow {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  &:first-child {
+    margin-bottom: $spacing-sm;
+  }
+}
+
+.label {
+  color: $text-sub;
+}
+
+.valueGroup {
+  display: flex;
+  align-items: center;
+}
+
+.changeButton {
+  margin-left: $spacing-sm;
+  border-radius: $border-radius-full;
+  border: 1px solid $con-gray;
+  padding: $spacing-xs $spacing-md;
+  font-size: $font-size-xs;
+}
+
+// DiscountSection 스타일
+.discountSection {
+  margin-top: $spacing-sm;
+  background-color: white;
+  padding: $spacing-md $spacing-md;
+  font-size: $font-size-sm;
+}
+
+.discountRow {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: $spacing-md 0;
+
+  &:first-child {
+    border-bottom: 1px solid $con-gray;
+    padding-top: 0;
+    padding-bottom: $spacing-md;
+  }
+
+  &:last-child {
+    padding-bottom: 0;
+  }
+}
+
+.availableText {
+  color: $text-sub;
+}
+
+.arrowButton {
+  background-color: transparent;
+  margin-left: $spacing-sm;
+}
+
+// TicketPrice 스타일
+.ticketPrice {
+  background-color: white;
+  padding: $spacing-md $spacing-md;
+  font-size: $font-size-sm;
+  margin-top: $spacing-sm;
+}
+
+.priceRow {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.priceLabel {
+  font-weight: $font-weight-medium;
+  color: $con-blue;
+}
+
+.priceControls {
+  display: flex;
+  align-items: center;
+}
+
+.priceValue {
+  font-weight: $font-weight-medium;
+  color: $con-blue;
+}
+
+.quantitySelect {
+  margin-left: $spacing-sm;
+  border: 1px solid $con-gray;
+  border-radius: $border-radius-sm;
+  padding: $spacing-xs $spacing-sm;
+}
+
+// PriceDetail 스타일
+.priceDetail {
+  background-color: #f7f7f8;
+  padding: $spacing-md $spacing-md;
+  font-size: $font-size-sm;
+  margin-top: $spacing-sm;
+}
+
+.priceDetailTitle {
+  margin-bottom: $spacing-md;
+  text-align: center;
+}
+
+.priceDetailList {
+  display: flex;
+  flex-direction: column;
+  gap: $spacing-sm;
+}
+
+.priceDetailItem {
+  display: flex;
+  justify-content: space-between;
+}
+
+.priceDetailTotal {
+  display: flex;
+  justify-content: space-between;
+  margin-top: $spacing-md;
+  font-weight: $font-weight-bold;
+}
+
+.totalPrice {
+  color: $con-blue;
+}
+.fixedBottom {
+  position: fixed;
+  bottom: 0;
+  left: 50%;
+  z-index: 10;
+  width: 100%;
+  max-width: 430px;
+  transform: translateX(-50%);
+  background-color: white;
+  padding: $spacing-md;
+}
+
+.paymentButton {
+  width: 100%;
+  background-color: $con-blue;
+  padding-top: $spacing-md;
+  padding-bottom: $spacing-md;
+  font-size: $font-size-md;
+  color: white;
+}

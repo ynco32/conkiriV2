@@ -1,0 +1,193 @@
+// Header.module.scss (수정된 버전)
+
+.container {
+  position: sticky;
+  left: 0;
+  top: 0;
+  padding: 0 1rem;
+  z-index: 100;
+  color: $text-main;
+  background-color: transparent; /* 명시적으로 배경을 투명하게 설정 */
+  -webkit-backdrop-filter: none; /* Safari 자동 백드롭 필터 방지 */
+  backdrop-filter: none;
+}
+
+.header {
+  height: 4rem;
+  background-color: transparent; /* 명시적으로 배경을 투명하게 설정 */
+  -webkit-background-color: transparent; /* Safari 전용 속성 */
+}
+
+.headerContent {
+  display: flex;
+  height: 100%;
+  align-items: center;
+  justify-content: space-between;
+  background-color: transparent; /* 명시적으로 배경을 투명하게 설정 */
+}
+
+.leftSection {
+  flex: 1;
+  display: flex;
+  justify-content: flex-start;
+  align-items: center; /* 추가: 세로 중앙 정렬 */
+}
+
+.centerSection {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center; /* 추가: 세로 중앙 정렬 */
+}
+
+.rightSection {
+  flex: 1;
+  display: flex;
+  justify-content: flex-end;
+  align-items: center; /* 추가: 세로 중앙 정렬 */
+  gap: 0.8rem;
+  margin-bottom: 2px;
+}
+
+.logoContainer {
+  flex: none;
+  display: flex; /* 추가: 플렉스 표시 */
+  align-items: center; /* 추가: 세로 중앙 정렬 */
+}
+
+.logo {
+  height: 2.5rem;
+  width: auto;
+  display: flex; /* 추가: 플렉스 표시 */
+  align-items: center; /* 추가: 세로 중앙 정렬 */
+}
+
+.headerTitle {
+  font-size: $font-size-md;
+  font-weight: $font-weight-medium;
+  margin: 0;
+  text-align: center;
+}
+
+.iconButton {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: none;
+  border: none;
+  padding: 0;
+  cursor: pointer;
+  width: 23px;
+  height: 23px;
+}
+
+.icon {
+  width: 23px;
+  height: 23px;
+  color: $con-blue;
+}
+
+.detailContainer {
+  position: relative;
+  width: 100%;
+  height: 4rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 1rem;
+  z-index: 100;
+}
+
+.detailImageContainer {
+  position: relative;
+  flex: 1;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  background-color: white;
+  padding: 0;
+}
+
+.detailImage {
+  width: 40px;
+  height: 40px;
+  border-radius: $border-radius-md;
+  object-fit: cover;
+  margin-right: $spacing-md;
+}
+
+.detailOverlay {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  flex: 1;
+  position: relative;
+  padding: 0;
+  background: none;
+}
+
+.backButton {
+  color: $con-blue;
+  width: 24px;
+  height: 24px;
+  border: none;
+  background: none;
+  padding: 0;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-right: $spacing-md;
+}
+
+.backIcon {
+  width: 24px;
+  height: 24px;
+}
+
+.venueInfoContainer {
+  display: flex;
+  flex-direction: column;
+  color: $text-main;
+}
+
+.venueName {
+  font-size: $font-size-lg;
+  font-weight: $font-weight-bold;
+  margin: 0;
+  line-height: 1.2;
+}
+
+.venueDetail {
+  font-size: $font-size-sm;
+  color: $text-sub;
+  margin: 0;
+}
+
+.iconContainer {
+  position: static;
+  display: flex;
+  align-items: center; /* 추가: 세로 중앙 정렬 */
+  height: 100%; /* 추가: 컨테이너 높이 설정 */
+  gap: 0.8rem;
+  margin-bottom: 2px;
+}
+
+/* 알림 아이콘 관련 스타일 */
+.notificationContainer {
+  position: relative;
+  display: inline-flex;
+  align-items: center; /* 추가: 세로 중앙 정렬 */
+  justify-content: center; /* 추가: 가로 중앙 정렬 */
+  height: 24px; /* 추가: 높이 지정 */
+}
+
+.unreadBadge {
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background-color: #ff4d4f; /* 빨간색 알림 표시 */
+}

@@ -1,14 +1,16 @@
 package com.conkiri.domain.base.repository;
 
-import java.time.LocalDateTime;
-
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Slice;
+import java.util.List;
 
 import com.conkiri.domain.base.dto.response.ConcertResponseDTO;
 import com.conkiri.domain.base.entity.Concert;
+import com.conkiri.domain.user.entity.User;
 
 public interface ConcertRepositoryCustom {
 
-	ConcertResponseDTO findConcerts(LocalDateTime now, String concertSearch, Long lastConcertId, Pageable pageable);
+	ConcertResponseDTO findConcerts(Long lastConcertDetailId, String searchWord, User currentUser);
+
+	ConcertResponseDTO findMyConcerts(User user);
+
+	List<Concert> findConcertsByArtist(String searchWord);
 }

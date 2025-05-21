@@ -1,0 +1,93 @@
+.header {
+  position: relative;
+  padding: 16px 16px 0;
+}
+
+.titleBar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 16px;
+}
+
+.title {
+  font-size: 20px;
+  font-weight: 600;
+  margin: 0;
+  color: $text-main;
+}
+
+.settingsButton {
+  background: none;
+  border: none;
+  padding: 0;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.profileCard {
+  position: relative;
+  background-color: rgba(255, 255, 255, 0.6);
+  border-radius: 16px;
+  padding: 20px 16px 20px 90px; /* 왼쪽에 프로필 이미지 공간 확보 */
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08);
+  margin-bottom: 16px;
+}
+
+.profileImageContainer {
+  position: absolute;
+  top: 50%;
+  left: 16px;
+  transform: translateY(-50%);
+  width: 64px;
+  height: 64px;
+  border-radius: 50%;
+  overflow: hidden;
+  background-color: #fff;
+  border: 3px solid #fff;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.avatarImage {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.stats {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.statItem {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 8px 0;
+  gap: 8px;
+}
+
+.separator {
+  width: 1px;
+  height: 40px;
+  background-color: #bae4fd;
+}
+
+.statNumber {
+  font-size: 24px;
+  font-weight: 700;
+  color: $text-main;
+  font-weight: $font-weight-normal;
+  margin-bottom: 4px;
+}
+
+.statLabel {
+  font-size: 12px;
+  font-weight: 700;
+  color: #666;
+  text-align: center;
+}

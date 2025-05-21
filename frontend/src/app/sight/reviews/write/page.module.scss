@@ -1,0 +1,201 @@
+// page.module.scss
+
+.container {
+  padding: 0 $spacing-md;
+  max-width: 768px;
+  margin: 0 auto;
+  padding-bottom: 80px;
+}
+
+.header {
+  font-size: $font-size-2xl;
+  font-weight: $font-weight-bold;
+  text-align: center;
+  margin: $spacing-lg 0;
+  color: $text-main;
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: $spacing-xl;
+}
+
+// 공통 섹션 스타일
+.seatInfo {
+  display: flex;
+  flex-direction: column;
+  gap: $spacing-xs;
+}
+
+.image,
+.sightReview,
+.content,
+.camera {
+  display: flex;
+  flex-direction: column;
+  gap: $spacing-md;
+}
+
+// 좌석 정보 입력 영역
+.seatValue {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: $spacing-md;
+}
+
+// 숫자 입력 컨테이너
+.numberInputContainer {
+  display: flex;
+  align-items: center;
+  gap: $spacing-xs;
+}
+
+// 입력 필드 스타일
+.numberInput {
+  width: 3rem;
+  border-radius: $border-radius-md;
+  background-color: #cbdeea80;
+  padding: $spacing-sm;
+  text-align: center;
+  appearance: textfield;
+  color: $text-main;
+  font-family: $font-pretendard;
+  font-weight: $font-weight-medium;
+  border: none;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  &::-webkit-inner-spin-button,
+  &::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+  }
+
+  &:focus {
+    outline: none;
+    box-shadow: 0 0 0 2px $con-blue;
+  }
+}
+
+// 라벨 스타일
+.label {
+  font-size: $font-size-xs;
+  color: $text-main;
+  font-family: $font-pretendard;
+  font-weight: $font-weight-medium;
+}
+
+// 시야 후기 섹션 스타일
+.sightReview {
+  :global(.reviewSelectContainer) {
+    display: flex;
+    gap: $spacing-sm;
+    flex-wrap: wrap;
+    margin-bottom: $spacing-md;
+  }
+}
+
+// 상세 후기 텍스트 영역
+.content {
+  position: relative;
+
+  textarea {
+    width: 100%;
+    min-height: 150px;
+    border: 1px solid $con-gray;
+    border-radius: $border-radius-md;
+    padding: $spacing-md;
+    resize: none;
+    font-family: $font-family-base;
+    font-size: $font-size-md;
+    color: $text-main;
+    background-color: #f9f9f9;
+
+    &:focus {
+      outline: none;
+      border-color: $con-blue;
+    }
+  }
+
+  .textareaWrapper {
+    position: relative;
+    width: 100%;
+    background-color: #f9f9f9;
+    border-radius: $border-radius-md;
+  }
+
+  .counter {
+    text-align: right;
+    color: $text-sub;
+    font-size: $font-size-xs;
+    position: absolute;
+    right: 8px;
+    bottom: 8px;
+  }
+}
+
+// 촬영 기종 입력 필드
+.camera {
+  input {
+    width: 100%;
+    padding: $spacing-sm $spacing-md;
+    border: 1px solid $con-gray;
+    border-radius: $border-radius-md;
+    font-family: $font-family-base;
+    font-size: $font-size-md;
+
+    &:focus {
+      outline: none;
+      border-color: $con-blue;
+    }
+  }
+
+  .cameraFields {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: $spacing-md;
+  }
+}
+
+// 완료 버튼
+.completeButton {
+  background-color: $con-blue;
+  color: white;
+  width: 100%;
+  padding: $spacing-md;
+  border: none;
+  border-radius: $border-radius-md;
+  font-weight: $font-weight-medium;
+  font-size: $font-size-md;
+  margin-top: $spacing-xl;
+  cursor: pointer;
+
+  &:disabled {
+    background-color: $con-gray;
+    cursor: not-allowed;
+  }
+}
+
+// 성공/에러 메시지 스타일
+.successMessage {
+  background-color: #4ade80; // 성공 메시지 색상
+  color: white;
+  border-radius: $border-radius-md;
+  padding: $spacing-md;
+  margin-bottom: $spacing-md;
+  text-align: center;
+  font-weight: $font-weight-medium;
+}
+
+.errorMessage {
+  background-color: #f43f5e; // 오류 메시지 색상
+  color: white;
+  border-radius: $border-radius-md;
+  padding: $spacing-md;
+  margin-bottom: $spacing-md;
+  text-align: center;
+  font-weight: $font-weight-medium;
+}

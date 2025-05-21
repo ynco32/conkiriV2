@@ -8,12 +8,16 @@ spring:
         - db-local
         - cloud
         - redis
+        - rabbitmq-local
+        - fcm
       dev:
         - oauth
         - db-dev
         - cloud
         - redis
-    include: oauth, db, cloud, redis
+        - rabbitmq-dev
+        - fcm
+    include: oauth, db, cloud, redis, rabbitmq, fcm
 
 logging:
   config: classpath:logback-spring.xml

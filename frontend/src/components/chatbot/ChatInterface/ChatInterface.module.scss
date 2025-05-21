@@ -1,0 +1,459 @@
+.chatInterface {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+// 상단 헤더 바 스타일
+.headerBar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 100;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 12px 16px;
+  background-color: $con-blue;
+  color: white;
+  box-shadow: $shadow-md;
+}
+
+.selectedConcertHeader {
+  font-size: $font-size-lg;
+  font-weight: $font-weight-bold;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 70%; // 텍스트가 너무 길어지지 않도록 제한
+}
+
+.newChatButton {
+  display: flex;
+  align-items: center;
+  background-color: white;
+  color: $con-blue;
+  border: none;
+  border-radius: $border-radius-md;
+  padding: 6px 12px;
+  font-size: $font-size-sm;
+  font-weight: $font-weight-medium;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  box-shadow: $shadow-sm;
+
+  &:hover {
+    background-color: darken(white, 5%);
+    box-shadow: $shadow-md;
+  }
+}
+
+.newChatIcon {
+  margin-right: 6px;
+  font-size: 14px;
+  font-weight: bold;
+}
+
+.quickLinks {
+  padding: 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.quickLink {
+  display: flex;
+  align-items: center;
+  padding: 12px;
+  background-color: white;
+  border-radius: 8px;
+  border: none;
+  text-align: left;
+  cursor: pointer;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+
+  span {
+    flex: 1;
+    margin-left: 8px;
+    font-size: 14px;
+  }
+}
+
+.messagesContainer {
+  flex: 1;
+  padding: 16px;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  -webkit-overflow-scrolling: touch; // 모바일에서 부드러운 스크롤
+
+  // 스크롤바 숨기기 위한 코드
+  scrollbar-width: none; /* Firefox */
+  -ms-overflow-style: none; /* IE and Edge */
+
+  &::-webkit-scrollbar {
+    display: none; /* Chrome, Safari, Opera */
+    width: 0;
+    background: transparent;
+  }
+}
+
+.messageWrapper {
+  display: flex;
+  margin-bottom: 12px;
+
+  &.userMessage {
+    justify-content: flex-end;
+  }
+
+  &.botMessage {
+    justify-content: flex-start;
+  }
+}
+
+.botAvatar {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background-color: #e1f5fe;
+  margin-right: 8px;
+  flex-shrink: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden;
+}
+
+.messageContent {
+  padding: 10px 16px;
+  border-radius: 16px;
+  max-width: 90%;
+  white-space: pre-wrap;
+  word-break: keep-all; // 한글 단어 단위 줄바꿈
+  overflow-wrap: break-word; // 긴 단어 처리
+  font-size: $font-size-md;
+  line-height: 1.3; // 줄 간격 개선
+
+  &.userContent {
+    background-color: $con-blue;
+    color: white;
+    border-top-right-radius: 4px;
+  }
+
+  &.botContent {
+    background-color: white;
+    color: $text-main;
+    border-top-left-radius: 4px;
+  }
+}
+
+.botContent :global(.highlight) {
+  font-weight: $font-weight-bold;
+  color: $con-blue;
+}
+
+.botMessageText {
+  // font-size: $font-size-sm;
+  line-height: 1.4;
+  color: $text-main;
+}
+
+.inputContainer {
+  display: flex;
+  align-items: center;
+  padding: 12px;
+  background-color: white;
+  border-top: 1px solid #eeeeee;
+}
+
+.concertList {
+  display: flex;
+  gap: 12px;
+  overflow-x: auto;
+  overflow-y: hidden; /* 세로 스크롤 방지 */
+  padding: 16px 0;
+  max-height: 220px; /* 최대 높이 제한 */
+  flex-wrap: nowrap; /* 가로로만 배치되도록 설정 */
+
+  /* 스크롤바 숨기기 */
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+
+  &::-webkit-scrollbar {
+    display: none;
+    width: 0;
+    height: 0;
+  }
+}
+
+.selectedConcert {
+  border: 2px solid $con-blue;
+  box-shadow: 0 0 10px rgba(73, 134, 232, 0.3);
+}
+
+.concertContainer {
+  display: flex;
+  flex-direction: column;
+  min-width: 120px; /* 최소 너비 약간 줄임 */
+  flex: 0 0 auto; /* flex-grow: 0, flex-shrink: 0, 고정 크기 유지 */
+  max-width: 140px; /* 최대 너비 설정 */
+  height: 180px; /* 고정 높이 설정 */
+  cursor: pointer;
+  border-radius: $border-radius-md;
+  overflow: hidden;
+  box-shadow: $shadow-sm;
+  margin-bottom: 0; /* 하단 여백 제거 */
+
+  &:hover {
+    transform: translateY(-5px);
+    box-shadow: $shadow-md;
+  }
+}
+
+.concertPoster {
+  width: 100%;
+  height: 120px; /* 고정 높이로 변경 */
+  position: relative;
+  background-color: #f0f0f0;
+  border-radius: $border-radius-md $border-radius-md 0 0;
+  overflow: hidden;
+}
+
+.selectedConcertText {
+  padding-left: $spacing-sm;
+  margin-top: 12px;
+  font-weight: 500;
+  color: $text-main;
+  // text-align: center;
+}
+
+.artistName {
+  font-size: $font-size-sm;
+  color: $text-sub;
+  margin-top: $spacing-sm;
+  padding: 0 $spacing-sm;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis; // 아티스트 이름도 길면 생략
+}
+
+.concertTitle {
+  font-size: $font-size-md;
+  font-weight: $font-weight-bold;
+  color: $text-main;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  padding: 0 $spacing-sm;
+  margin-bottom: $spacing-sm;
+}
+
+.emptyConcertContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+  background-color: white;
+  border-radius: $border-radius-md;
+  margin: 16px 0;
+  box-shadow: $shadow-sm;
+}
+
+.emptyConcertMessage {
+  font-size: $font-size-md;
+  color: $text-sub;
+  margin-bottom: 16px;
+  text-align: center;
+}
+
+.concertSettingButton {
+  background-color: $con-blue;
+  color: white;
+  border: none;
+  border-radius: $border-radius-md;
+  padding: 8px 16px;
+  font-size: $font-size-sm;
+  font-weight: $font-weight-medium;
+  cursor: pointer;
+  transition: all 0.2s ease;
+
+  &:hover {
+    background-color: darken($con-blue, 10%);
+    box-shadow: $shadow-md;
+  }
+}
+
+// 추천 질문 관련 스타일
+.questionRecommendations {
+  // background: #f5f8ff;
+  border-radius: $border-radius-lg;
+  margin-top: $spacing-xs;
+  margin-bottom: $spacing-md;
+  overflow: hidden;
+}
+
+.questionItem {
+  margin-top: $spacing-sm;
+  display: flex;
+  align-items: center;
+  padding: $spacing-sm $spacing-md;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+  transition: background-color 0.2s;
+  cursor: pointer;
+
+  &:last-child {
+    border-bottom: none;
+  }
+
+  &:hover {
+    background-color: #f9f9f9;
+  }
+}
+
+.questionIcon {
+  width: 24px;
+  height: 24px;
+  background: #f0f7ff;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-right: $spacing-sm;
+  font-size: $font-size-md;
+}
+
+.questionText {
+  flex: 1;
+  // font-size: $font-size-sm;
+  color: $text-main;
+}
+
+.questionArrow {
+  color: $text-sub;
+  font-size: $font-size-xl;
+  font-weight: 300;
+}
+
+.evidenceImage {
+  width: 100%;
+  height: 100px; // 이미지 높이 제한
+  object-fit: cover; // 이미지가 잘리지 않고 채워지도록
+  margin: $spacing-sm 0;
+  border-radius: $border-radius-sm;
+  cursor: pointer; // 클릭 가능함을 표시
+  transition: transform 0.2s ease; // 호버 효과 부드럽게
+
+  &:hover {
+    transform: scale(1.02); // 마우스 오버 시 약간 확대
+  }
+}
+
+// 이미지 모달 관련 스타일
+.imageModal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.8);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+  padding: 20px;
+}
+
+.modalImage {
+  max-width: 90%;
+  max-height: 90%;
+  object-fit: contain;
+  border-radius: $border-radius-md;
+}
+
+.closeButton {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  background: white;
+  border: none;
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  font-size: 16px;
+  font-weight: bold;
+  box-shadow: $shadow-md;
+}
+
+/* 로딩 말풍선 관련 스타일 */
+.loadingMessage {
+  padding: 10px 16px;
+  border-radius: 16px;
+  max-width: 90%;
+  background-color: white;
+  color: $text-main;
+  border-top-left-radius: 4px;
+  display: flex;
+  align-items: center;
+}
+
+.typingDots {
+  display: inline-flex;
+  align-items: center;
+  height: 20px;
+}
+
+.dot {
+  display: inline-block;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background-color: $text-sub;
+  margin: 0 2px;
+  opacity: 0.6;
+  animation: bounce 1.5s infinite;
+
+  &:nth-child(2) {
+    animation-delay: 0.2s;
+  }
+
+  &:nth-child(3) {
+    animation-delay: 0.4s;
+  }
+}
+
+@keyframes bounce {
+  0%,
+  100% {
+    transform: translateY(0);
+    opacity: 0.6;
+  }
+  50% {
+    transform: translateY(-6px);
+    opacity: 1;
+  }
+}
+
+.selectConcertMessage {
+  width: 100%;
+  padding: 16px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 60px;
+  background-color: #f9f9f9;
+  border-radius: $border-radius-md;
+  color: $text-sub;
+  font-weight: $font-weight-medium;
+  border: 1px solid #e0e0e0;
+
+  p {
+    margin: 0;
+  }
+}

@@ -1,0 +1,10 @@
+.write {
+  position: absolute;
+  bottom: $spacing-md;
+  right: $spacing-md;
+  z-index: 50;
+
+  @media (min-width: $breakpoint-md) {
+    right: $spacing-sm;
+  }
+}

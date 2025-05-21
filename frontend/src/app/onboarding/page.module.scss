@@ -1,0 +1,142 @@
+.swiper {
+  width: 100%;
+  height: 70%;
+  :global {
+    // 네비게이션 버튼 스타일
+    .swiper-button-next,
+    .swiper-button-prev {
+      color: #5aabd8; // 화살표 색상// 배경색
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+
+      &:after {
+        font-size: 20px; // 화살표 크기
+      }
+
+      &:hover {
+        color: #a7deff;
+      }
+    }
+
+    // 페이지네이션 도트 스타일
+    .swiper-pagination-bullet {
+      width: 10px;
+      height: 10px;
+      background: #d9d9d9;
+      opacity: 0.5;
+      transition: all 0.3s ease;
+
+      &-active {
+        opacity: 1;
+        background: #5aabd8;
+        width: 30px; // 선택된 도트의 가로 길이
+        border-radius: 5px; // 선택된 도트의 모서리를 약간 둥글게
+      }
+    }
+  }
+}
+
+.swiperSlide {
+  width: 100%;
+  @extend .flexCenter;
+  flex-grow: 1;
+}
+
+.onboardingPage {
+  width: 100%;
+  height: 100%;
+  @extend .flexColumnCenter;
+  position: relative;
+}
+
+.closeButton {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  width: 24px;
+  height: 24px;
+  background-color: rgba(217, 217, 217, 0.5);
+  border-radius: 50%;
+  @extend .flexCenter;
+  cursor: pointer;
+  z-index: 10;
+  font-size: 14px;
+  line-height: 1;
+
+  &:hover {
+    background-color: rgba(217, 217, 217, 0.7);
+  }
+}
+
+.imageContainer {
+  width: 430px;
+  height: 640px;
+  margin: 0 auto;
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  @media (max-width: 480px) {
+    width: 90%; // 화면 너비의 90%
+    height: auto; // 높이는 자동으로 조정
+    aspect-ratio: 430/640; // 원래 비율 유지
+  }
+}
+
+.slideImage {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+.checkboxContainer {
+  @extend .flexCenter;
+  gap: 10px;
+  font-size: 18px;
+
+  .checkbox {
+    width: 16px;
+    height: 16px;
+  }
+}
+
+.infoContainer {
+  @extend .flexColumnCenter;
+  gap: 40px;
+  width: 100%;
+  height: 30%;
+  padding: 40px 36px;
+}
+
+.buttonContainer {
+  @extend .flexColumnCenter;
+  gap: 10px;
+  width: 100%;
+}
+
+.textContainer {
+  @extend .flexColumnCenter;
+  gap: 15px;
+  font-size: 20px;
+  font-weight: 600;
+  color: $text-main;
+}
+
+// 공통 스타일
+.flexCenter {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.flexColumn {
+  display: flex;
+  flex-direction: column;
+}
+
+.flexColumnCenter {
+  @extend .flexColumn;
+  align-items: center;
+}

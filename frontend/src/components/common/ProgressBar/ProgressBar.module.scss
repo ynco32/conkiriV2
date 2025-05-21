@@ -1,0 +1,67 @@
+.circle {
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  background: #e6f0fa;
+  color: #b0b8c1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+  font-size: 16px;
+  margin-right: 4px;
+}
+
+.active {
+  background: #1976ed;
+  color: #fff;
+  border: 2px solid #1976ed;
+}
+
+.container {
+  display: flex;
+  align-items: flex-start;
+}
+
+.line {
+  margin: 0 2px;
+  margin-top: 12px;
+}
+
+.svg {
+  width: 40px;
+  height: 8px;
+  margin-top: 19px;
+}
+
+.lineElement {
+  stroke: #e6f0fa;
+  stroke-width: 2;
+  stroke-dasharray: 4 4;
+}
+
+.stepContainer {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 4px;
+  min-height: 48px;
+  position: relative;
+}
+
+.description {
+  font-size: 14px;
+  color: #666;
+  text-align: left;
+  max-width: 120px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  min-height: 16px;
+  line-height: 16px;
+  position: relative;
+  top: 0;
+  left: 0;
+  transform: none;
+  margin-right: 4px;
+}

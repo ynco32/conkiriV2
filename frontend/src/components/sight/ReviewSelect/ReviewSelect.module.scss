@@ -1,0 +1,57 @@
+.toggleButton {
+  border-radius: $border-radius-full;
+  padding: $spacing-xs $spacing-md;
+  font-size: $font-size-sm;
+  transition: colors 0.2s ease;
+  display: flex; // 추가
+  align-items: center; // 추가
+  justify-content: center; // 추가
+  gap: 8px; // 추가
+}
+
+.selected {
+  background-color: $con-lightblue;
+  border: 1px solid $con-blue;
+  color: $text-main;
+}
+
+.unselected {
+  background-color: #f5f5f5;
+  color: $text-sub; // gray-500 색상값
+
+  &:hover {
+    background-color: #dbdbe1; // gray-100 색상값
+  }
+}
+
+.circle {
+  display: inline-block;
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+.reviewSelectContainer {
+  display: flex;
+  flex-wrap: wrap;
+  gap: $spacing-sm;
+  margin-bottom: $spacing-md;
+}
+
+// 모바일 환경에서의 반응형 스타일
+@media (max-width: $breakpoint-sm) {
+  .reviewSelectContainer {
+    gap: $spacing-xs;
+  }
+
+  .toggleButton {
+    padding: $spacing-xs $spacing-sm;
+    font-size: $font-size-xs;
+  }
+
+  .circle {
+    width: 12px;
+    height: 12px;
+  }
+}

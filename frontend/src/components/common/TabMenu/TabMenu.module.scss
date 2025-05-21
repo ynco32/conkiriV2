@@ -1,0 +1,138 @@
+.tabMenu {
+  position: relative;
+  display: flex;
+  width: fit-content;
+
+  &--fullWidth {
+    width: 100%;
+
+    .menuList {
+      display: flex;
+      width: 100%;
+      justify-content: space-between;
+
+      .menuItem {
+        flex: 1; // 각 항목이 동일한 너비를 차지하도록 설정
+        width: 50%; // 두 개의 탭이므로 50%씩 차지
+      }
+
+      @media screen and (max-width: 359px) {
+        padding: 0px 0;
+      }
+    }
+  }
+
+  // 탭 메뉴 크기
+  &--sm {
+    .menuItem {
+      font-size: 0.9rem;
+      padding: $spacing-lg $spacing-sm;
+      height: 32px;
+    }
+
+    .menuList {
+      padding: 0px 20px;
+    }
+  }
+
+  &--md {
+    .menuItem {
+      font-size: 1rem;
+      height: 40px;
+    }
+
+    .menuList {
+      padding: 0px 10px;
+    }
+  }
+
+  &--lg {
+    .menuItem {
+      font-size: $font-size-lg;
+      padding: $spacing-md $spacing-lg;
+      height: 48px;
+    }
+
+    .menuList {
+      padding: 0;
+    }
+  }
+}
+
+.menuList {
+  display: flex;
+  list-style: none;
+  margin: 0;
+  border-bottom: 1px solid #ddd; // 하단 보더 추가
+}
+
+.menuItem {
+  position: relative;
+  margin: 0;
+  text-align: center;
+  cursor: pointer;
+  transition: all 0.2s ease-in-out;
+  font-weight: $font-weight-normal;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: $spacing-sm;
+
+  &:hover {
+    background-color: rgba($text-sub, 0.05);
+  }
+
+  &--active {
+    font-weight: $font-weight-bold;
+    position: relative; // 상대적 위치 설정 추가
+
+    // 가상 요소로 전체 너비 하단 보더 생성
+    &::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 100%; // 항목 전체 너비
+      height: 3px;
+      background-color: $con-blue;
+    }
+
+    span {
+      display: inline-block;
+      position: relative;
+      // span::after 제거 (항목 전체에 적용되는 가상 요소로 대체)
+    }
+
+    .menuLink {
+      color: $text-main;
+
+      .menuLinkText {
+        display: inline-block;
+        color: $text-sub;
+        border-bottom: none; // 제거 (가상 요소로 대체)
+      }
+    }
+  }
+}
+
+.menuLink {
+  display: flex;
+  flex: 1; // 링크가 항목 전체를 차지하도록 설정
+  align-items: center;
+  justify-content: center;
+  text-decoration: none;
+  color: $text-main;
+  width: 100%; // 너비 100%로 설정
+  height: 100%;
+}
+
+.menuLinkText {
+  display: inline-block;
+}
+
+// 접근성을 위한 키보드 포커스 스타일
+@media (prefers-reduced-motion: no-preference) {
+  .menuLink:focus-visible {
+    transition: box-shadow 0.2s ease-in-out;
+  }
+}

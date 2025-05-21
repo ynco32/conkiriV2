@@ -1,0 +1,10 @@
+.layout {
+  max-width: 430px; // 레이아웃 최대 너비
+  overflow: hidden;
+  margin: 0 auto;
+  width: 100%;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  background-color: #fcfcfc; // background-default
+}

@@ -1,0 +1,95 @@
+export const mockArtists = {
+  artists: [
+    {
+      artistId: 1,
+      artistName: '방탄소년단',
+      photoUrl: 'https://example.com/bts.jpg',
+      isFollowing: false,
+    },
+    {
+      artistId: 2,
+      artistName: '블랙핑크',
+      photoUrl: 'https://example.com/blackpink.jpg',
+      isFollowing: false,
+    },
+    {
+      artistId: 3,
+      artistName: '아이유',
+      photoUrl: 'https://example.com/iu.jpg',
+      isFollowing: false,
+    },
+    {
+      artistId: 4,
+      artistName: '아이유',
+      photoUrl: 'https://example.com/images/iu.jpg',
+      isFollowing: false,
+    },
+    {
+      artistId: 5,
+      artistName: '방탄소년단',
+      photoUrl: 'https://example.com/images/bts.jpg',
+      isFollowing: false,
+    },
+    {
+      artistId: 6,
+      artistName: '블랙핑크',
+      photoUrl: 'https://example.com/images/blackpink.jpg',
+      isFollowing: false,
+    },
+    {
+      artistId: 7,
+      artistName: '뉴진스',
+      photoUrl: 'https://example.com/images/newjeans.jpg',
+      isFollowing: false,
+    },
+    {
+      artistId: 8,
+      artistName: '에스파',
+      photoUrl: 'https://example.com/images/aespa.jpg',
+      isFollowing: false,
+    },
+    {
+      artistId: 9,
+      artistName: '태연',
+      photoUrl: 'https://example.com/images/taeyeon.jpg',
+      isFollowing: false,
+    },
+    {
+      artistId: 10,
+      artistName: '엔시티',
+      photoUrl: 'https://example.com/images/nct.jpg',
+      isFollowing: false,
+    },
+    {
+      artistId: 11,
+      artistName: '세븐틴',
+      photoUrl: 'https://example.com/images/seventeen.jpg',
+      isFollowing: false,
+    },
+    {
+      artistId: 12,
+      artistName: '르세라핌',
+      photoUrl: 'https://example.com/images/lesserafim.jpg',
+      isFollowing: false,
+    },
+    {
+      artistId: 13,
+      artistName: '엑소',
+      photoUrl: 'https://example.com/images/exo.jpg',
+      isFollowing: false,
+    },
+    {
+      artistId: 14,
+      artistName: '빅뱅',
+      photoUrl: 'https://example.com/images/bigbang.jpg',
+      isFollowing: false,
+    },
+    {
+      artistId: 15,
+      artistName: '트와이스',
+      photoUrl: 'https://example.com/images/twice.jpg',
+      isFollowing: false,
+    },
+  ],
+  isLastPage: false,
+};

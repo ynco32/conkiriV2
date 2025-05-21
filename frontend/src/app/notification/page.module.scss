@@ -1,0 +1,134 @@
+.container {
+  margin: 0 auto;
+  padding: $spacing-lg;
+  min-height: 80vh;
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: $spacing-lg;
+  padding-bottom: $spacing-xs;
+  border-bottom: 1px solid $con-gray;
+}
+
+.title {
+  font-size: $font-size-2xl;
+  font-weight: $font-weight-bold;
+  color: $text-main;
+  margin: 0;
+}
+
+.actions {
+  display: flex;
+  gap: $spacing-sm;
+  align-items: center;
+}
+
+.settingsButton {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: transparent;
+  border: none;
+  width: 36px;
+  height: 36px;
+  border-radius: $border-radius-full;
+  color: $text-main;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+
+  &:hover {
+    background-color: rgba(0, 0, 0, 0.05);
+  }
+
+  svg {
+    width: 30px;
+    height: 30px;
+  }
+}
+
+.readAllButton {
+  border-radius: $border-radius-sm;
+  background-color: #fff;
+  color: $text-main;
+  padding: $spacing-xs $spacing-sm;
+  border: none;
+  font-size: $font-size-sm;
+  font-weight: $font-weight-medium;
+  cursor: pointer;
+  transition: background-color 0.2s;
+
+  &:hover {
+    background-color: $con-blue;
+    color: white;
+  }
+
+  &:disabled {
+    background-color: #fff;
+    color: $text-sub;
+  }
+}
+
+.notificationList {
+  display: flex;
+  flex-direction: column;
+  gap: $spacing-md;
+}
+
+.loadingState,
+.errorState,
+.emptyState {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 300px;
+  text-align: center;
+  color: $text-sub;
+}
+
+.loadingState {
+  p {
+    font-size: $font-size-lg;
+  }
+}
+
+.errorState {
+  p {
+    font-size: $font-size-md;
+    margin-bottom: $spacing-md;
+    color: #e53935; // 오류 메시지용 빨간색
+  }
+}
+
+.retryButton {
+  background-color: $con-blue;
+  color: white;
+  border: none;
+  padding: $spacing-xs $spacing-lg;
+  border-radius: $border-radius-sm;
+  font-size: $font-size-sm;
+  font-weight: $font-weight-medium;
+  cursor: pointer;
+  transition: all 0.2s ease;
+
+  &:hover {
+    background-color: darken($con-blue, 10%);
+  }
+}
+
+.emptyState {
+  .emptyMessage {
+    font-size: $font-size-xl;
+    font-weight: $font-weight-medium;
+    margin-bottom: $spacing-sm;
+    color: $text-main;
+  }
+
+  .emptyDescription {
+    font-size: $font-size-md;
+    color: $text-sub;
+  }
+}

@@ -1,0 +1,327 @@
+.pageContainer {
+  display: flex;
+  height: calc(100vh - 56px);
+  flex-direction: column;
+}
+
+.headerContainer {
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  background-color: white;
+}
+
+.contentContainer {
+  flex: 1;
+  overflow-y: auto;
+  padding-left: $spacing-md;
+  padding-right: $spacing-md;
+  padding-bottom: 6rem;
+}
+
+.sectionWrapper {
+  padding-top: $spacing-md;
+  padding-bottom: $spacing-md;
+  display: flex;
+  flex-direction: column;
+  gap: $spacing-xl;
+}
+
+.sectionTitle {
+  font-size: $font-size-lg;
+  margin-bottom: $spacing-sm;
+}
+
+.sectionPaymentTitle {
+  font-size: $font-size-lg;
+  margin-bottom: $spacing-md;
+}
+
+.formGroup {
+  display: flex;
+  flex-direction: column;
+  gap: $spacing-xs;
+  margin-bottom: $spacing-md;
+
+  .formGroup {
+    margin-bottom: $spacing-xs;
+  }
+}
+
+.formLabel {
+  font-size: $font-size-sm;
+  font-weight: $font-weight-medium;
+  color: $text-main;
+  margin-bottom: $spacing-xs;
+}
+
+.formInput {
+  border: 1px solid $con-gray;
+  border-radius: $border-radius-md;
+  padding: $spacing-sm;
+  background-color: #f9f9f9;
+  width: 100%;
+  font-size: $font-size-sm;
+}
+
+.formInputDisabled {
+  @extend .formInput;
+  background-color: #f2f2f2;
+  color: $text-sub;
+}
+
+.phoneGrid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: $spacing-sm;
+  width: 100%;
+}
+
+.summarySection {
+  border-radius: $border-radius-md;
+  background-color: #f9f9f9;
+  padding: $spacing-md;
+  display: flex;
+  flex-direction: column;
+  gap: $spacing-xs;
+}
+
+.summaryRow {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.summaryTotal {
+  @extend .summaryRow;
+  padding-bottom: $spacing-sm;
+  border-bottom: 1px solid $con-gray;
+  margin-bottom: $spacing-sm;
+}
+
+.summaryTotalAmount {
+  font-size: $font-size-xl;
+  font-weight: $font-weight-bold;
+  color: $con-blue;
+}
+
+.summaryDetail {
+  @extend .summaryRow;
+  font-size: $font-size-sm;
+  color: #777;
+  padding: $spacing-xs 0;
+}
+
+.fixedBottom {
+  position: fixed;
+  bottom: 0;
+  left: 50%;
+  z-index: 10;
+  width: 100%;
+  max-width: 430px;
+  transform: translateX(-50%);
+  background-color: white;
+  padding: $spacing-md;
+}
+
+.paymentButton {
+  width: 100%;
+  background-color: $con-blue;
+  padding-top: $spacing-md;
+  padding-bottom: $spacing-md;
+  font-size: $font-size-md;
+  color: white;
+}
+
+/* PaymentMethodGroup 스타일 */
+.methodContainer {
+  display: flex;
+  flex-direction: column;
+  gap: $spacing-sm;
+}
+
+.topMethodsGrid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: $spacing-lg;
+}
+
+.bottomMethodsGrid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: $spacing-lg;
+}
+
+.methodLabel {
+  display: flex;
+  cursor: pointer;
+  align-items: center;
+  gap: $spacing-sm;
+}
+
+.inputWrapper {
+  position: relative;
+}
+
+.radioInput {
+  height: 1.25rem;
+  width: 1.25rem;
+}
+
+/* BankTransferForm 스타일 */
+.bankFormContainer {
+  display: flex;
+  flex-direction: column;
+  gap: $spacing-xs;
+}
+
+.bankSelect {
+  width: 100%;
+  border: 1px solid $con-gray;
+  border-radius: $border-radius-md;
+  padding: $spacing-sm;
+}
+
+.accountInfo {
+  font-size: $font-size-sm;
+}
+
+.receiptLabel {
+  font-size: $font-size-sm;
+  margin-bottom: $spacing-sm;
+}
+
+.receiptOptions {
+  margin-right: -$spacing-lg;
+}
+
+.receiptOption {
+  display: inline-flex;
+  align-items: center;
+  cursor: pointer;
+  margin-right: $spacing-lg;
+  gap: $spacing-sm;
+}
+
+.optionLabel {
+  font-size: $font-size-sm;
+}
+
+.notice {
+  margin-top: $spacing-sm;
+  font-size: $font-size-sm;
+  color: $text-sub;
+}
+
+/* AgreementSection 스타일 */
+.agreementContainer {
+  display: flex;
+  flex-direction: column;
+  gap: $spacing-lg;
+}
+
+.agreementHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.agreementTitle {
+  font-size: $font-size-lg;
+}
+
+.allAgreementLabel {
+  display: flex;
+  align-items: center;
+  gap: $spacing-sm;
+  cursor: pointer;
+}
+
+.checkbox {
+  height: 1.25rem;
+  width: 1.25rem;
+}
+
+.termsContainer {
+  display: flex;
+  flex-direction: column;
+  gap: $spacing-sm;
+}
+
+.termItem {
+  display: flex;
+  align-items: flex-start;
+  gap: $spacing-sm;
+}
+
+.termCheckbox {
+  margin-top: $spacing-xs;
+  height: 1.25rem;
+  width: 1.25rem;
+  cursor: pointer;
+}
+
+.termLabel {
+  font-size: $font-size-sm;
+  cursor: pointer;
+}
+/* Modal 스타일 추가 */
+.modalOverlay {
+  position: fixed;
+  inset: 0;
+  z-index: 50;
+}
+
+.modalBackdrop {
+  position: absolute;
+  inset: 0;
+  background-color: rgba(0, 0, 0, 0.25);
+}
+
+.modalContent {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 100%;
+  max-width: 430px;
+  transform: translate(-50%, -50%);
+  border-radius: $border-radius-lg;
+  background-color: white;
+  padding: $spacing-xl;
+  text-align: center;
+}
+
+.modalTitle {
+  margin-bottom: $spacing-lg;
+  font-size: $font-size-lg;
+  font-weight: $font-weight-medium;
+}
+
+.modalButtonContainer {
+  display: flex;
+  gap: $spacing-sm;
+}
+
+.modalButton {
+  width: 100%;
+  flex: 1;
+  border-radius: $border-radius-lg;
+  padding-top: $spacing-md;
+  padding-bottom: $spacing-md;
+}
+
+.modalCancelButton {
+  @extend .modalButton;
+  border: 1px solid $con-gray;
+}
+
+.modalConfirmButton {
+  @extend .modalButton;
+  background-color: $con-blue;
+  color: white;
+}
+
+.modalDangerButton {
+  @extend .modalConfirmButton;
+  // 배경색 변경이 필요하다면 여기서 추가
+}

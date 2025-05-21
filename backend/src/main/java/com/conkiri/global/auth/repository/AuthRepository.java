@@ -9,7 +9,7 @@ import com.conkiri.global.auth.entity.Auth;
 
 public interface AuthRepository extends JpaRepository<Auth, Long> {
 
-	void deleteByUser_UserId(Long userId);
-
+	void deleteByUser(User user);
 	Optional<Auth> findByUser(User user);
+	boolean existsByUser(User user);
 }

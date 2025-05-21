@@ -1,0 +1,10 @@
+.container {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  background-color: #ffffff;
+  max-width: 430px; // tailwind에서 가져온 레이아웃 최대 너비
+  margin: 0 auto;
+}

@@ -260,4 +260,12 @@ gradle-app.setting
 # Java heap dump
 *.hprof
 
+# Python bytecode files
+__pycache__/
+*.pyc
+
+#env
+.env
+*.env
+
 # End of https://www.toptal.com/developers/gitignore/api/windows,macos,intellij,java,gradle

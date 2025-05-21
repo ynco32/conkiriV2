@@ -1,0 +1,125 @@
+// app/sight/page.module.scss
+.container {
+  display: flex;
+  flex-direction: column;
+  padding: 10px;
+  padding-bottom: 0;
+  height: calc(100dvh - 64px);
+  overflow: hidden;
+}
+
+.search {
+  width: 100%;
+  background-color: white;
+  position: sticky;
+  top: 0;
+  padding: 10px;
+  z-index: 10;
+  overflow: hidden;
+}
+
+.arenaList {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 24px;
+  height: calc(100dvh - 109px); // 상단 검색바 높이 고려하여 조정
+  overflow-y: auto; // 스크롤 가능하도록 설정
+  padding: 10px;
+  padding-bottom: 20px;
+
+  scrollbar-width: none; /* Firefox */
+  ::-webkit-scrollbar {
+    display: none; /* Chrome, Safari, and Opera */
+  }
+}
+
+.noResults {
+  text-align: center;
+  padding: 40px;
+  color: #666;
+}
+.arenaCardSkeleton {
+  display: flex;
+  align-items: flex-start;
+  background-color: white;
+  border-radius: 16px;
+  padding: 16px;
+  box-shadow: 0 2px 8px rgba(106, 160, 205, 0.15);
+  width: 100%;
+  transition: all 0.2s ease;
+
+  &:hover {
+    box-shadow: 0 4px 12px rgba(106, 160, 205, 0.25);
+    transform: translateY(-2px);
+  }
+}
+
+.skeletonImageContainer {
+  position: relative;
+  width: 80px;
+  height: 80px;
+  border-radius: 12px;
+  overflow: hidden;
+  flex-shrink: 0;
+}
+
+.skeletonImage {
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, #e0e0e0 25%, #f0f0f0 50%, #e0e0e0 75%);
+  background-size: 200% 100%;
+  animation: loading 1.5s infinite;
+}
+
+.skeletonContent {
+  margin-left: 16px;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  height: 80px;
+  padding: 4px 0;
+}
+
+.skeletonTitleWrapper {
+  display: flex;
+  flex-direction: column;
+}
+
+.skeletonName {
+  height: 20px;
+  width: 70%;
+  background: linear-gradient(90deg, #e0e0e0 25%, #f0f0f0 50%, #e0e0e0 75%);
+  background-size: 200% 100%;
+  animation: loading 1.5s infinite;
+  border-radius: 4px;
+  margin-bottom: 8px;
+}
+
+.skeletonEnglishName {
+  height: 16px;
+  width: 50%;
+  background: linear-gradient(90deg, #e0e0e0 25%, #f0f0f0 50%, #e0e0e0 75%);
+  background-size: 200% 100%;
+  animation: loading 1.5s infinite;
+  border-radius: 4px;
+}
+
+.skeletonAddress {
+  height: 14px;
+  width: 60%;
+  background: linear-gradient(90deg, #e0e0e0 25%, #f0f0f0 50%, #e0e0e0 75%);
+  background-size: 200% 100%;
+  animation: loading 1.5s infinite;
+  border-radius: 4px;
+  align-self: flex-start;
+}
+
+@keyframes loading {
+  0% {
+    background-position: 200% 0;
+  }
+  100% {
+    background-position: -200% 0;
+  }
+}

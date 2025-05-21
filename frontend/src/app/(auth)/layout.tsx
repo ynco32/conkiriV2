@@ -1,4 +1,4 @@
-import { UserInitializer } from '@/provider/UserInitializer';
+import AuthGuard from '@/components/auth/AuthGuard/AuthGuard';
 
 export default function AuthLayout({
   children,
@@ -6,9 +6,8 @@ export default function AuthLayout({
   children: React.ReactNode;
 }) {
   return (
-    <>
-      <UserInitializer />
-      {children}
-    </>
+    <AuthGuard>
+      <>{children}</>
+    </AuthGuard>
   );
 }

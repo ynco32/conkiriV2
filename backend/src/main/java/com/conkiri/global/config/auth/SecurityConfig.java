@@ -5,6 +5,8 @@ import java.util.Arrays;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
+import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.http.SessionCreationPolicy;
@@ -14,9 +16,12 @@ import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
-import com.conkiri.global.auth.oauth.service.OAuth2UserService;
+import com.conkiri.global.auth.oauth.OAuth2UserService;
+import com.conkiri.global.auth.service.handler.OAuth2FailureHandler;
 import com.conkiri.global.auth.service.handler.OAuth2SuccessHandler;
 import com.conkiri.global.auth.token.JwtAuthenticationFilter;
+import com.conkiri.global.exception.ErrorCode;
+import com.conkiri.global.util.ApiResponseUtil;
 
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
@@ -25,10 +30,14 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 @Configuration
 @EnableWebSecurity
+@EnableMethodSecurity
 @RequiredArgsConstructor
 public class SecurityConfig {
+
+	private final ApiResponseUtil apiResponseUtil;
 	private final OAuth2UserService oAuth2UserService;
 	private final OAuth2SuccessHandler oAuth2SuccessHandler;
+	private final OAuth2FailureHandler oAuth2FailureHandler;
 	private final JwtAuthenticationFilter jwtAuthenticationFilter;
 	@Value("${frontend.url}")
 	private String frontendUrl;
@@ -45,6 +54,11 @@ public class SecurityConfig {
 			//요청 권한 설정
 			.authorizeHttpRequests(auth -> auth
 				.requestMatchers("/api/v1/auth/**", "/api/v1/oauth2/**", "/error").permitAll()
+				.requestMatchers("/api/v1/arena/**", "/api/v1/view/arenas/**").permitAll()
+				.requestMatchers(HttpMethod.GET, "/api/v1/view/reviews/**").permitAll()
+				.requestMatchers(HttpMethod.POST, "/api/v1/concerts/create").permitAll()
+				.requestMatchers(HttpMethod.GET, "/api/v1/concerts/checkExists").permitAll()
+				.requestMatchers("/api/v1/admin/**").hasAuthority("ROLE_ADMIN")
 				.anyRequest().authenticated()
 			)
 			.oauth2Login(oauth2 -> oauth2
@@ -58,33 +72,30 @@ public class SecurityConfig {
 					userInfo.userService(oAuth2UserService)
 				)
 				.successHandler(oAuth2SuccessHandler)
-				.failureHandler((request, response, exception) -> {
-					// OAuth 실패 시 상세 로깅
-					log.error("OAuth2 failure: {}", exception.getMessage());
-					log.info("Original State: {}", request.getSession().getAttribute("OAUTH2_STATE"));
-					log.info("Received State: {}", request.getParameter("state"));
-					log.info(request.getRequestURI());
-					log.info("Code: {}", request.getParameter("code"));
-					log.info("Error: {}", request.getParameter("error"));
-					log.info("Error Description: {}", request.getParameter("error_description"));
-
-					// 인증 코드 유효성 관련 에러 체크
-					if (exception.getMessage().contains("invalid_grant")) {
-						log.error("인증 코드가 만료되었거나 이미 사용됨");
-					}
-					if (request.getParameter("state") == null) {
-						log.error("state 파라미터가 누락됨");
-					}
-					response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
-				})
+				.failureHandler(oAuth2FailureHandler)
 			)
-			//jwt 필터 설정
+			//JWT 필터가 UsernamePasswordAuthenticationFilter 전에 실행되도록 지정, 비번 검증 전에 토큰의 유효성 검증
 			.addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class)
 			// 인증 실패 핸들러 설정
             .exceptionHandling(handling -> handling
 			.authenticationEntryPoint((request, response, authException) -> {
 				// JWT 인증 실패 시 401 반환
-				response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+				apiResponseUtil.writeErrorResponse(
+					response,
+					HttpServletResponse.SC_UNAUTHORIZED,
+					ErrorCode.UNAUTHORIZED_ACCESS.name(),
+					ErrorCode.UNAUTHORIZED_ACCESS.getMessage()
+				);
+			})
+				// 권한 부족 핸들러 (403 에러)
+
+			.accessDeniedHandler((request, response, accessDeniedException) -> {
+				apiResponseUtil.writeErrorResponse(
+					response,
+					HttpServletResponse.SC_FORBIDDEN,
+					ErrorCode.ACCESS_DENIED.name(),
+					ErrorCode.ACCESS_DENIED.getMessage()
+				);
 			})
 		);
 		return http.build();
@@ -93,7 +104,7 @@ public class SecurityConfig {
 	@Bean
 	public CorsConfigurationSource corsConfigurationSource() {
 		CorsConfiguration configuration = new CorsConfiguration();
-		configuration.setAllowedOrigins(Arrays.asList(frontendUrl)); // 프론트엔드 도메인
+		configuration.setAllowedOrigins(Arrays.asList(frontendUrl, "http://localhost:3000")); // 프론트엔드 도메인
 		configuration.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"));
 		configuration.setAllowedHeaders(Arrays.asList("*"));
 		configuration.setAllowCredentials(true);
@@ -104,4 +115,5 @@ public class SecurityConfig {
 		source.registerCorsConfiguration("/**", configuration);
 		return source;
 	}
+
 }

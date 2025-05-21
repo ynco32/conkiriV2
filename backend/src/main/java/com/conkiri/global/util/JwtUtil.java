@@ -1,5 +1,6 @@
 package com.conkiri.global.util;
 
+import java.util.Arrays;
 import java.util.Date;
 
 import javax.crypto.SecretKey;
@@ -8,6 +9,8 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 import com.conkiri.global.auth.dto.TokenDTO;
+import com.conkiri.global.exception.BaseException;
+import com.conkiri.global.exception.ErrorCode;
 
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.ExpiredJwtException;
@@ -16,6 +19,8 @@ import io.jsonwebtoken.MalformedJwtException;
 import io.jsonwebtoken.UnsupportedJwtException;
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
+import jakarta.servlet.http.Cookie;
+import jakarta.servlet.http.HttpServletRequest;
 
 @Component
 public class JwtUtil {
@@ -70,17 +75,39 @@ public class JwtUtil {
 			.getPayload();                 // getBody() 대신 getPayload()
 	}
 
+	public String extractAccessToken(HttpServletRequest request) {
+
+		if (request.getCookies() == null)
+			return null;
+
+		return Arrays.stream(request.getCookies())
+			.filter(cookie -> "access_token".equals(cookie.getName()))
+			.map(Cookie::getValue)
+			.findFirst()
+			.orElse(null);
+	}
+
+	public String extractRefreshToken(HttpServletRequest request) {
+
+		if (request.getCookies() == null)
+			return null;
+
+		return Arrays.stream(request.getCookies())
+			.filter(cookie -> "refresh_token".equals(cookie.getName()))
+			.map(Cookie::getValue)
+			.findFirst()
+			.orElse(null);
+	}
+
 	public boolean validateToken(String token) {
 		try {
 			extractAllClaims(token);
 			return true;
 		} catch (SecurityException | MalformedJwtException |
 				 UnsupportedJwtException | IllegalArgumentException e) {
-			return false;
-			//throw new CustomException(ErrorCode.INVALID_TOKEN);
+			throw new BaseException(ErrorCode.INVALID_TOKEN);
 		} catch (ExpiredJwtException e) {
-			return false;
-			//throw new CustomException(ErrorCode.EXPIRED_TOKEN);
+			throw new BaseException(ErrorCode.EXPIRED_TOKEN);
 		}
 	}
 

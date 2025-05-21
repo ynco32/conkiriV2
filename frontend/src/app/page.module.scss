@@ -1,0 +1,101 @@
+.page {
+  width: 100%;
+  height: 100dvh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  background: radial-gradient(
+    ellipse 70% 40% at center,
+    #c8e8ff 0%,
+    white 50%,
+    white 100%
+  );
+  overflow: hidden;
+  position: relative;
+}
+
+.content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  max-width: 600px;
+  padding: 2rem;
+  position: relative;
+}
+
+.logoContainer {
+  margin-bottom: 1.5rem;
+
+  .logo {
+    height: auto;
+  }
+}
+
+.characterContainer {
+  margin: 2rem 0;
+
+  .character {
+    width: 180px;
+    height: auto;
+    object-fit: contain;
+    animation: floatAnimation 3s infinite ease-in-out;
+  }
+}
+
+.loadingText {
+  font-size: 1.125rem;
+  color: #515151;
+  margin: 1.5rem;
+  font-weight: 600;
+  font-family: 'Pretendard', sans-serif;
+}
+
+.loadingContainer {
+  width: 300px;
+  max-width: 90%;
+  height: 8px;
+  background-color: rgba(233, 236, 239, 0.7);
+  border-radius: 10px;
+  overflow: hidden;
+  margin-bottom: 1rem;
+}
+
+.loadingBar {
+  height: 100%;
+  width: 0;
+  background: linear-gradient(to right, $con-blue, $con-lightblue);
+  border-radius: 10px;
+  transition: width 0.1s ease-out;
+}
+
+// 애니메이션 효과
+@keyframes pulse {
+  0% {
+    opacity: 0.7;
+  }
+  50% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0.7;
+  }
+}
+
+@keyframes floatAnimation {
+  0% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-10px);
+  }
+  100% {
+    transform: translateY(0);
+  }
+}
+
+.loadingText {
+  animation: pulse 1.5s infinite ease-in-out;
+}

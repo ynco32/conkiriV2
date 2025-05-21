@@ -1,0 +1,104 @@
+.concertContainer {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 20px;
+  width: 100%;
+  flex: 1;
+  padding-top: 5px;
+  overflow-y: auto;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+
+  &::-webkit-scrollbar {
+    display: none;
+  }
+}
+
+.concertCard {
+  height: 300px;
+  width: 100%;
+  transition: all 0.3s ease;
+
+  &.selected {
+    border: 3px solid #1976ed;
+    border-radius: 8px;
+  }
+}
+
+.buttonContainer {
+  position: fixed;
+  left: 50%;
+  bottom: 0;
+  width: 100%;
+  max-width: 400px;
+  padding: 0 12px 24px;
+  background: transparent;
+  z-index: 100;
+  transform: translateX(-50%);
+  left: 50%;
+  display: flex;
+  gap: 10px;
+}
+
+.submitBtn {
+  flex: 5;
+  background: #1976ed !important;
+  color: #fff;
+  height: 48px;
+  font-size: 16px !important;
+  font-weight: 700 !important;
+  border: none;
+  border-radius: 12px;
+  padding: 14px 0;
+  cursor: pointer;
+  transition: background 0.2s;
+
+  &.notSelected {
+    background: $con-lightblue;
+    color: #fff;
+  }
+}
+
+.outlineBtn {
+  flex: 5;
+  font-size: 16px;
+  font-weight: 700;
+  border-radius: 12px;
+  padding: 14px 0;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.prevBtn {
+  flex: 2;
+  color: $con-blue;
+  font-size: 16px;
+  font-weight: 700;
+  border-radius: 12px;
+  padding: 14px 0;
+  cursor: pointer;
+  background: $con-lightblue;
+  transition: background 0.2s;
+  // border: 1px solid #4a85d3;
+}
+
+.form {
+  width: 100%;
+  max-width: 400px;
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.loadMore {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  padding: 1rem 0;
+}
+
+.loader {
+  text-align: center;
+  color: #666;
+  font-size: 0.875rem;
+}

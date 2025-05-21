@@ -1,0 +1,102 @@
+.container {
+  display: flex;
+  flex: 1 1 auto;
+  height: 100%;
+  overflow: auto;
+  flex-direction: column;
+  background: $ticketing-bg;
+}
+
+.titleWrapper {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 16rem 1rem 0 1rem;
+}
+
+.title {
+  font-size: 21px;
+  font-weight: 600;
+  line-height: 30px;
+  color: $text-main;
+}
+
+.platformWrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 2rem;
+  padding: 0 $spacing-lg;
+}
+.menuFlex {
+  display: flex;
+  justify-content: center; /* space-between에서 center로 변경 */
+  gap: 12px;
+  width: 100%;
+  max-width: 600px;
+}
+
+.eventWrapper {
+  margin-top: 1rem;
+  width: 100%;
+  max-width: 600px;
+  padding: 0 $spacing-lg;
+}
+
+.eventCard {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  background-color: rgba(255, 255, 255, 0.85);
+  border-radius: $border-radius-md;
+  padding: 1rem;
+  box-shadow: $shadow-sm;
+}
+
+.eventImageContainer {
+  margin-right: 1rem;
+  flex-shrink: 0;
+}
+
+.eventIcon {
+  width: 60px !important;
+  height: 60px !important;
+}
+
+.eventInfo {
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+}
+
+.eventLabel {
+  font-size: $font-size-sm;
+  color: $text-sub;
+  margin-bottom: 0.25rem;
+}
+
+.eventDetails {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+  max-width: 300px;
+  margin-bottom: 0.25rem;
+}
+
+.eventDate {
+  font-size: $font-size-xl;
+  font-weight: 600;
+  color: $text-main;
+}
+
+.eventTime {
+  font-size: $font-size-xl;
+  font-weight: 600;
+  color: $text-main;
+}
+
+.eventStatus {
+  font-size: $font-size-sm;
+  color: $con-blue;
+  font-weight: 500;
+}

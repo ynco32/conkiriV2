@@ -1,0 +1,106 @@
+// 메인 컨테이너
+.container {
+  max-width: 430px;
+  width: 100%;
+  padding: $spacing-md;
+}
+
+// 공연장 지도
+.areaMap {
+  width: 100%;
+}
+
+// 구역 스타일링
+.sectionArea {
+  cursor: pointer;
+}
+
+.sectionPath {
+  transition: all 0.3s;
+
+  &:hover {
+    fill: #e8e8fd; // indigo-100 색상
+  }
+}
+
+.sectionA {
+  fill: #88dbf1;
+}
+
+.sectionB {
+  fill: #a08aff;
+}
+
+.sectionC {
+  fill: #d1bd9f;
+}
+
+.selectedA,
+.selectedB,
+.selectedC {
+  fill: #4f46e5; // indigo-600 색상
+}
+
+// 팝업 관련 스타일
+.popupOverlay {
+  position: fixed;
+  inset: 0;
+  z-index: $z-index-overlay;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: rgba(0, 0, 0, 0.5);
+}
+
+.popupContent {
+  z-index: $z-index-popup;
+  width: 100%;
+  max-width: 300px;
+  border-radius: $border-radius-lg;
+  background-color: white;
+  padding: $spacing-xl;
+}
+
+.popupTitle {
+  text-align: center;
+  font-size: $font-size-xl;
+  font-weight: $font-weight-bold;
+}
+
+.selectedBox {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 60px;
+  margin: $spacing-md;
+  color: $con-blue;
+  font-weight: $font-weight-bold;
+  border-top: 0.1px solid $con-gray;
+  border-bottom: 0.1px solid $con-gray;
+  background-color: #f9f9f9; // gray-50 색상
+  padding: $spacing-sm;
+}
+
+.popupDescription {
+  font-size: $font-size-sm;
+  color: $text-sub;
+  text-align: center;
+}
+
+.buttonContainer {
+  margin-top: $spacing-md;
+  display: flex;
+  justify-content: space-between;
+  justify-content: space-evenly;
+  gap: $spacing-md;
+  border-top: 0.1px solid #dbdbe1; // gray-100 색상
+  padding-top: $spacing-md;
+}
+
+.popupButton {
+  text-align: center;
+  font-size: $font-size-md;
+  font-weight: $font-weight-bold;
+  background-color: transparent;
+  color: $con-blue; // primary-main 색상
+}

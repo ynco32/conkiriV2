@@ -1,243 +1,101 @@
 package com.conkiri.global.exception;
 
-import java.time.LocalDateTime;
+import java.util.Optional;
 
 import org.springframework.http.HttpStatus;
+import org.springframework.http.converter.HttpMessageNotReadableException;
+import org.springframework.validation.BindException;
+import org.springframework.validation.FieldError;
+import org.springframework.web.HttpRequestMethodNotSupportedException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
-import org.springframework.web.method.annotation.HandlerMethodValidationException;
+import org.springframework.web.context.request.RequestContextHolder;
+import org.springframework.web.context.request.ServletRequestAttributes;
+import org.springframework.web.method.annotation.MethodArgumentTypeMismatchException;
 
-import com.conkiri.global.exception.auth.ExpiredTokenException;
-import com.conkiri.global.exception.auth.InvalidTokenException;
-import com.conkiri.global.exception.auth.UnAuthorizedException;
-import com.conkiri.global.exception.concert.ConcertNotFoundException;
-import com.conkiri.global.exception.dto.ExceptionResponse;
-import com.conkiri.global.exception.oauth.OAuthProcessingException;
-import com.conkiri.global.exception.sharing.AlreadyExistScrapSharingException;
-import com.conkiri.global.exception.sharing.FileNotEmptyException;
-import com.conkiri.global.exception.sharing.ScrapSharingNotFoundException;
-import com.conkiri.global.exception.sharing.SharingNotFoundException;
-import com.conkiri.global.exception.sharing.StatusInvalidException;
-import com.conkiri.global.exception.ticketing.AlreadyReservedSeatException;
-import com.conkiri.global.exception.ticketing.DuplicateTicketingException;
-import com.conkiri.global.exception.ticketing.InvalidSeatException;
-import com.conkiri.global.exception.ticketing.InvalidSectionException;
-import com.conkiri.global.exception.ticketing.NotStartedTicketingException;
-import com.conkiri.global.exception.ticketing.RecordNotFoundException;
-import com.conkiri.global.exception.user.AlreadyExistUserException;
-import com.conkiri.global.exception.user.DuplicateNicknameException;
-import com.conkiri.global.exception.user.InvalidNicknameException;
-import com.conkiri.global.exception.user.UserNotFoundException;
-import com.conkiri.global.exception.view.ArenaNotFoundException;
-import com.conkiri.global.exception.view.DuplicateReviewException;
-import com.conkiri.global.exception.view.DuplicateScrapSeatException;
-import com.conkiri.global.exception.view.InvalidStageTypeException;
-import com.conkiri.global.exception.view.ReviewNotFoundException;
-import com.conkiri.global.exception.view.ScrapSeatNotFoundException;
-import com.conkiri.global.exception.view.SeatNotFoundException;
-import com.conkiri.global.exception.view.SectionNotFoundException;
-import com.conkiri.global.exception.view.UnauthorizedAccessException;
+import com.conkiri.global.common.ApiResponse;
+import com.conkiri.global.common.ExceptionResponse;
 
+import jakarta.servlet.http.HttpServletResponse;
+import lombok.extern.slf4j.Slf4j;
+
+@Slf4j
 @RestControllerAdvice
 public class GlobalExceptionHandler {
 
-	@ExceptionHandler(InvalidNicknameException.class)
+	private static final String BAD_REQUEST = "BAD_REQUEST";
+
+	// javax.validation.Valid or @Validated 으로 binding error 발생시 발생
+	// 주로 @RequestBody, @RequestPart 어노테이션에서 발생
 	@ResponseStatus(HttpStatus.BAD_REQUEST)
-	public ExceptionResponse InvalidNicknameHandler(Exception e) {
-		return new ExceptionResponse(e.getMessage(), HttpStatus.BAD_REQUEST, LocalDateTime.now());
-	}
-
-	@ExceptionHandler(DuplicateNicknameException.class)
-	@ResponseStatus(HttpStatus.CONFLICT)
-	public ExceptionResponse DuplicateNicknameHandler(Exception e) {
-		return new ExceptionResponse(e.getMessage(), HttpStatus.CONFLICT, LocalDateTime.now());
-	}
-
-	@ExceptionHandler(OAuthProcessingException.class)
-	@ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
-	public ExceptionResponse OAuthProcessingHandler(Exception e) {
-		return new ExceptionResponse(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR, LocalDateTime.now());
-	}
-
-	@ExceptionHandler(UnAuthorizedException.class)
-	@ResponseStatus(HttpStatus.UNAUTHORIZED)
-	public ExceptionResponse UnAuthorizedHandler(Exception e) {
-		return new ExceptionResponse(e.getMessage(), HttpStatus.UNAUTHORIZED, LocalDateTime.now());
-	}
-
-	@ExceptionHandler(InvalidTokenException.class)
-	@ResponseStatus(HttpStatus.UNAUTHORIZED)
-	public ExceptionResponse InvalidTokenHandler(Exception e) {
-		return new ExceptionResponse(e.getMessage(), HttpStatus.UNAUTHORIZED, LocalDateTime.now());
-	}
-
-	@ExceptionHandler(ExpiredTokenException.class)
-	@ResponseStatus(HttpStatus.UNAUTHORIZED)
-	public ExceptionResponse ExpiredTokenHandler(Exception e) {
-		return new ExceptionResponse(e.getMessage(), HttpStatus.UNAUTHORIZED, LocalDateTime.now());
-	}
-
-	@ExceptionHandler(AlreadyExistUserException.class)
-	@ResponseStatus(HttpStatus.BAD_REQUEST)
-	public ExceptionResponse alreadyExistUserHandler(Exception e) {
-		return new ExceptionResponse(e.getMessage(), HttpStatus.BAD_REQUEST, LocalDateTime.now());
-	}
-
-	@ExceptionHandler(UserNotFoundException.class)
-	@ResponseStatus(HttpStatus.BAD_REQUEST)
-	public ExceptionResponse userNotFoundHandler(Exception e) {
-		return new ExceptionResponse(e.getMessage(), HttpStatus.BAD_REQUEST, LocalDateTime.now());
-	}
-
-	@ExceptionHandler(ConcertNotFoundException.class)
-	@ResponseStatus(HttpStatus.BAD_REQUEST)
-	public ExceptionResponse concertNotFoundHandler(Exception e) {
-		return new ExceptionResponse(e.getMessage(), HttpStatus.BAD_REQUEST, LocalDateTime.now());
-	}
-
-	@ExceptionHandler(SharingNotFoundException.class)
-	@ResponseStatus(HttpStatus.BAD_REQUEST)
-	public ExceptionResponse sharingNotFoundHandler(Exception e) {
-		return new ExceptionResponse(e.getMessage(), HttpStatus.BAD_REQUEST, LocalDateTime.now());
-	}
-
-	@ExceptionHandler(StatusInvalidException.class)
-	@ResponseStatus(HttpStatus.BAD_REQUEST)
-	public ExceptionResponse statusInvalidHandler(Exception e) {
-		return new ExceptionResponse(e.getMessage(), HttpStatus.BAD_REQUEST, LocalDateTime.now());
-	}
-
-	@ExceptionHandler(ArenaNotFoundException.class)
-	@ResponseStatus(HttpStatus.BAD_REQUEST)
-	public ExceptionResponse arenaNotFoundHandler(Exception e) {
-		return new ExceptionResponse(e.getMessage(), HttpStatus.BAD_REQUEST, LocalDateTime.now());
-	}
-
-	@ExceptionHandler(SectionNotFoundException.class)
-	@ResponseStatus(HttpStatus.BAD_REQUEST)
-	public ExceptionResponse sectionNotFoundHandler(Exception e) {
-		return new ExceptionResponse(e.getMessage(), HttpStatus.BAD_REQUEST, LocalDateTime.now());
-	}
-
-	@ExceptionHandler(SeatNotFoundException.class)
-	@ResponseStatus(HttpStatus.BAD_REQUEST)
-	public ExceptionResponse seatNotFoundHandler(Exception e) {
-		return new ExceptionResponse(e.getMessage(), HttpStatus.BAD_REQUEST, LocalDateTime.now());
-	}
-
-	@ExceptionHandler(ScrapSharingNotFoundException.class)
-	@ResponseStatus(HttpStatus.BAD_REQUEST)
-	public ExceptionResponse scrapSharingNotFoundHandler(Exception e) {
-		return new ExceptionResponse(e.getMessage(), HttpStatus.BAD_REQUEST, LocalDateTime.now());
-	}
-
-	@ExceptionHandler(AlreadyExistScrapSharingException.class)
-	@ResponseStatus(HttpStatus.BAD_REQUEST)
-	public ExceptionResponse alreadyExistScrapSharingHandler(Exception e) {
-		return new ExceptionResponse(e.getMessage(), HttpStatus.BAD_REQUEST, LocalDateTime.now());
-	}
-
-	@ExceptionHandler(DuplicateScrapSeatException.class)
-	@ResponseStatus(HttpStatus.BAD_REQUEST)
-	public ExceptionResponse duplicateScrapSeatExceptionHandler(Exception e) {
-		return new ExceptionResponse(e.getMessage(), HttpStatus.BAD_REQUEST, LocalDateTime.now());
-	}
-
-	@ExceptionHandler(ScrapSeatNotFoundException.class)
-	@ResponseStatus(HttpStatus.BAD_REQUEST)
-	public ExceptionResponse scrapSeatNotFoundExceptionHandler(Exception e) {
-		return new ExceptionResponse(e.getMessage(), HttpStatus.BAD_REQUEST, LocalDateTime.now());
-	}
-
-	@ExceptionHandler(DuplicateReviewException.class)
-	@ResponseStatus(HttpStatus.CONFLICT)
-	public ExceptionResponse duplicateReviewExceptionHandler(Exception e) {
-		return new ExceptionResponse(e.getMessage(), HttpStatus.CONFLICT, LocalDateTime.now());
-	}
-
-	@ExceptionHandler(ReviewNotFoundException.class)
-	@ResponseStatus(HttpStatus.BAD_REQUEST)
-	public ExceptionResponse reviewNotFoundExceptionHandler(Exception e) {
-		return new ExceptionResponse(e.getMessage(), HttpStatus.BAD_REQUEST, LocalDateTime.now());
-	}
-
-	@ExceptionHandler(UnauthorizedAccessException.class)
-	@ResponseStatus(HttpStatus.UNAUTHORIZED)
-	public ExceptionResponse unauthorizedAccessExceptionHandler(Exception e) {
-		return new ExceptionResponse(e.getMessage(), HttpStatus.UNAUTHORIZED, LocalDateTime.now());
-	}
-
-	@ExceptionHandler(InvalidStageTypeException.class)
-	@ResponseStatus(HttpStatus.BAD_REQUEST)
-	public ExceptionResponse invalidStageTypeExceptionHandler(Exception e) {
-		return new ExceptionResponse(e.getMessage(), HttpStatus.BAD_REQUEST, LocalDateTime.now());
-	}
-
-	@ExceptionHandler(HandlerMethodValidationException.class)
-	@ResponseStatus(HttpStatus.BAD_REQUEST)
-	public ExceptionResponse handleValidationException(HandlerMethodValidationException e) {
-		String errorMessage = e.getAllValidationResults()
-			.stream()
-			.findFirst()
-			.flatMap(result -> result.getResolvableErrors()
-				.stream()
-				.findFirst()
-				.map(error -> error.getDefaultMessage()))
-			.orElse("Validation error occurred");
-		return new ExceptionResponse(errorMessage, HttpStatus.BAD_REQUEST, LocalDateTime.now());
-	}
-
 	@ExceptionHandler(MethodArgumentNotValidException.class)
-	@ResponseStatus(HttpStatus.BAD_REQUEST)
-	public ExceptionResponse handleValidationExceptions(MethodArgumentNotValidException ex) {
-		String errorMessage = ex.getBindingResult()
-			.getFieldError()
-			.getDefaultMessage();
+	public ApiResponse<Void> handleMethodArgumentNotValidException(MethodArgumentNotValidException e) {
 
-		return new ExceptionResponse(errorMessage, HttpStatus.BAD_REQUEST, LocalDateTime.now());
+		log.warn("요청 바디 검증 실패: {}", e.getMessage());
+		String defaultMessage = Optional.ofNullable(e.getBindingResult().getFieldError())
+			.map(FieldError::getDefaultMessage)
+			.orElse("요청 데이터가 유효하지 않습니다.");
+
+		ExceptionResponse exceptionResponse = new ExceptionResponse(HttpStatus.BAD_REQUEST.value(), BAD_REQUEST, defaultMessage);
+		return ApiResponse.fail(exceptionResponse);
 	}
 
-	@ExceptionHandler(FileNotEmptyException.class)
+	// @ModelAttribute 으로 binding error 발생시 BindException 발생
 	@ResponseStatus(HttpStatus.BAD_REQUEST)
-	public ExceptionResponse fileNotEmptyExceptionHandler(Exception e) {
-		return new ExceptionResponse(e.getMessage(), HttpStatus.BAD_REQUEST, LocalDateTime.now());
+	@ExceptionHandler(BindException.class)
+	public ApiResponse<Void> handleBindException(BindException e) {
+
+		log.warn("요청 파라미터 바인딩 실패: {}", e.getMessage());
+		String defaultMessage = Optional.ofNullable(e.getBindingResult().getFieldError())
+			.map(FieldError::getDefaultMessage)
+			.orElse("요청 데이터가 유효하지 않습니다.");
+
+		ExceptionResponse exceptionResponse = new ExceptionResponse(HttpStatus.BAD_REQUEST.value(), BAD_REQUEST, defaultMessage);
+		return ApiResponse.fail(exceptionResponse);
 	}
 
-	@ExceptionHandler(AlreadyReservedSeatException.class)
-	@ResponseStatus(HttpStatus.CONFLICT)
-	public ExceptionResponse alreadyReservedSeatExceptionHandler(Exception e) {
-		return new ExceptionResponse(e.getMessage(), HttpStatus.CONFLICT, LocalDateTime.now());
+	// enum type 일치하지 않아 binding 못할 경우 발생
+	@ResponseStatus(HttpStatus.BAD_REQUEST)
+	@ExceptionHandler(MethodArgumentTypeMismatchException.class)
+	public ApiResponse<Void> handleMethodArgumentTypeMismatchException(MethodArgumentTypeMismatchException e) {
+		log.warn("요청 파라미터 타입 불일치. 파라미터명: {}, 오류: {}", e.getName(), e.getMessage());
+		ExceptionResponse exceptionResponse = new ExceptionResponse(HttpStatus.BAD_REQUEST.value(), BAD_REQUEST, "요청 파라미터 타입이 올바르지 않습니다.");
+		return ApiResponse.fail(exceptionResponse);
 	}
 
-	@ExceptionHandler(DuplicateTicketingException.class)
-	@ResponseStatus(HttpStatus.BAD_REQUEST)
-	public ExceptionResponse duplicateTicketingExceptionHandler(Exception e) {
-		return new ExceptionResponse(e.getMessage(), HttpStatus.BAD_REQUEST, LocalDateTime.now());
+	// 지원하지 않은 HTTP method 호출 할 경우 발생
+	@ResponseStatus(HttpStatus.METHOD_NOT_ALLOWED)
+	@ExceptionHandler(HttpRequestMethodNotSupportedException.class)
+	public ApiResponse<Void> handleHttpRequestMethodNotSupportedException(HttpRequestMethodNotSupportedException e) {
+		log.warn("지원하지 않는 HTTP 메서드 호출: {}. 오류: {}", e.getMethod(), e.getMessage());
+		ExceptionResponse exceptionResponse = new ExceptionResponse(HttpStatus.METHOD_NOT_ALLOWED.value(), "METHOD_NOT_ALLOWED", "지원하지 않는 HTTP 메서드입니다.");
+		return ApiResponse.fail(exceptionResponse);
 	}
 
-	@ExceptionHandler(NotStartedTicketingException.class)
+	// request 값을 읽을 수 없을 때 발생
 	@ResponseStatus(HttpStatus.BAD_REQUEST)
-	public ExceptionResponse notStartedTicketingExceptionHandler(Exception e) {
-		return new ExceptionResponse(e.getMessage(), HttpStatus.BAD_REQUEST, LocalDateTime.now());
+	@ExceptionHandler(HttpMessageNotReadableException.class)
+	public ApiResponse<Void> handleHttpMessageNotReadableException(HttpMessageNotReadableException e) {
+		log.warn("HTTP 메시지를 읽는 도중 오류 발생: {}", e.getMessage());
+		ExceptionResponse exceptionResponse = new ExceptionResponse(HttpStatus.BAD_REQUEST.value(), BAD_REQUEST,  "요청 바디가 올바르지 않습니다.");
+		return ApiResponse.fail(exceptionResponse);
 	}
 
-	@ExceptionHandler(InvalidSectionException.class)
-	@ResponseStatus(HttpStatus.BAD_REQUEST)
-	public ExceptionResponse invalidSectionExceptionHandler(Exception e) {
-		return new ExceptionResponse(e.getMessage(), HttpStatus.BAD_REQUEST, LocalDateTime.now());
-	}
+	// 비즈니스 로직 에러
+	@ExceptionHandler(BaseException.class)
+	public ApiResponse<Void> handleBaseException(BaseException e) {
+		log.error("비즈니스 로직 처리 중 오류 발생. 에러 코드: {}, 메시지: {}", e.getErrorCode(), e.getMessage());
+		ErrorCode errorCode = e.getErrorCode();
 
-	@ExceptionHandler(InvalidSeatException.class)
-	@ResponseStatus(HttpStatus.BAD_REQUEST)
-	public ExceptionResponse invalidSeatExceptionHandler(Exception e) {
-		return new ExceptionResponse(e.getMessage(), HttpStatus.BAD_REQUEST, LocalDateTime.now());
-	}
+		ServletRequestAttributes attributes = (ServletRequestAttributes) RequestContextHolder.getRequestAttributes();
+		HttpServletResponse response = attributes != null ? attributes.getResponse() : null;
+		if (response != null) {
+			response.setStatus(errorCode.getHttpStatus().value());
+		}
 
-	@ExceptionHandler(RecordNotFoundException.class)
-	@ResponseStatus(HttpStatus.BAD_REQUEST)
-	public ExceptionResponse recordNotFoundExceptionHandler(Exception e) {
-		return new ExceptionResponse(e.getMessage(), HttpStatus.BAD_REQUEST, LocalDateTime.now());
+		ExceptionResponse exceptionResponse = new ExceptionResponse(errorCode.getHttpStatus().value(), errorCode.name(), errorCode.getMessage());
+		return ApiResponse.fail(exceptionResponse);
 	}
 }

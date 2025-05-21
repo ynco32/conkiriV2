@@ -1,0 +1,59 @@
+.tag {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 8px 16px;
+  border-radius: $border-radius-full;
+  border: none;
+  font-size: $font-size-xs;
+  font-weight: $font-weight-medium;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  box-shadow: $shadow-sm;
+  flex: 0 1 auto; /* 내용 크기에 맞게 조정하되 여백은 균일하게 분포 */
+  min-width: 0; /* 내용이 넘칠 때 줄어들 수 있도록 설정 */
+
+  &:hover {
+    opacity: 0.9;
+  }
+}
+
+.content {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px; // 아이콘과 텍스트 사이의 간격
+}
+
+.active {
+  background-color: #d7f2ff;
+  color: $text-main;
+}
+
+.default {
+  background-color: white;
+  color: $text-main;
+}
+
+.disabled {
+  background-color: #f4f4f4;
+  color: $text-sub;
+  cursor: not-allowed;
+
+  &:hover {
+    opacity: 1;
+  }
+}
+
+.icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.text {
+  display: inline-block;
+  white-space: nowrap; /* 텍스트가 줄바꿈되지 않도록 설정 */
+  overflow: hidden; /* 넘치는 텍스트 숨김 */
+  text-overflow: ellipsis; /* 넘치는 텍스트를 ...으로 표시 */
+}

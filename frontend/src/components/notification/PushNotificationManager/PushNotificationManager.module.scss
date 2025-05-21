@@ -1,0 +1,210 @@
+// src/components/notification/PushNotificationManager.module.scss
+
+.push-notification-manager {
+  margin: 1rem 0;
+  width: 100%;
+
+  .notification-permission-denied {
+    background-color: rgba(255, 0, 0, 0.1);
+    border-radius: $border-radius-md;
+    padding: $spacing-md;
+    margin-bottom: $spacing-md;
+
+    p {
+      color: #d32f2f;
+      font-size: $font-size-sm;
+      margin: 0;
+      line-height: $base-line-height;
+    }
+  }
+
+  .notification-status-granted {
+    background-color: rgba($con-blue, 0.1);
+    border-radius: $border-radius-md;
+    padding: $spacing-md;
+    margin-bottom: $spacing-md;
+
+    p {
+      color: $con-blue;
+      font-size: $font-size-sm;
+      margin: 0;
+      line-height: $base-line-height;
+    }
+  }
+
+  .request-notification-btn {
+    background-color: $con-blue;
+    color: white;
+    border: none;
+    border-radius: $border-radius-md;
+    padding: $spacing-sm $spacing-md;
+    font-size: $font-size-sm;
+    font-weight: $font-weight-medium;
+    cursor: pointer;
+    transition: background-color 0.3s, transform 0.2s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    max-width: 300px;
+
+    &:hover {
+      background-color: darken($con-blue, 5%);
+      transform: translateY(-1px);
+    }
+
+    &:active {
+      transform: translateY(0);
+    }
+
+    // 선택적으로 아이콘 추가
+    &::before {
+      content: '';
+      display: inline-block;
+      width: 16px;
+      height: 16px;
+      margin-right: 8px;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='white'%3E%3Cpath d='M12 22C13.1 22 14 21.1 14 20H10C10 21.1 10.9 22 12 22ZM18 16V11C18 7.93 16.36 5.36 13.5 4.68V4C13.5 3.17 12.83 2.5 12 2.5C11.17 2.5 10.5 3.17 10.5 4V4.68C7.63 5.36 6 7.92 6 11V16L4 18V19H20V18L18 16Z'/%3E%3C/svg%3E");
+      background-size: contain;
+      background-repeat: no-repeat;
+      background-position: center;
+    }
+  }
+
+  .notification-popup {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    max-width: 350px;
+    background-color: white;
+    border-radius: $border-radius-md;
+    box-shadow: $shadow-con;
+    padding: $spacing-md;
+    z-index: 1000;
+    animation: slideIn 0.3s ease-in-out;
+
+    h3 {
+      font-size: $font-size-lg;
+      color: $text-main;
+      margin-bottom: $spacing-xs;
+      font-weight: $font-weight-bold;
+    }
+
+    p {
+      font-size: $font-size-md;
+      color: $text-sub;
+      margin: 0;
+    }
+  }
+}
+
+// 모바일 반응형 스타일
+@media (max-width: $breakpoint-md) {
+  .push-notification-manager {
+    .notification-popup {
+      max-width: calc(100% - 40px);
+      left: 20px;
+      right: 20px;
+    }
+
+    .request-notification-btn {
+      max-width: 100%;
+    }
+  }
+}
+
+// 알림 애니메이션
+@keyframes slideIn {
+  from {
+    transform: translateX(100%);
+    opacity: 0;
+  }
+  to {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+
+// 어두운 테마 지원 (선택 사항)
+@media (prefers-color-scheme: dark) {
+  .push-notification-manager {
+    .notification-permission-denied {
+      background-color: rgba(255, 0, 0, 0.2);
+
+      p {
+        color: #ff6b6b;
+      }
+    }
+
+    .notification-status-granted {
+      background-color: rgba($con-blue, 0.2);
+    }
+
+    .notification-popup {
+      background-color: #2a2a2a;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+
+      h3 {
+        color: white;
+      }
+
+      p {
+        color: #cccccc;
+      }
+    }
+  }
+}
+
+// src/components/notification/PushNotificationManager.module.scss
+// 기존 스타일에 다음 내용 추가
+
+.notification-controls {
+  display: flex;
+  flex-direction: column;
+  gap: $spacing-sm;
+
+  .disable-notification-btn {
+    background-color: white;
+    color: $text-main;
+    border: 1px solid $con-gray;
+    border-radius: $border-radius-md;
+    padding: $spacing-sm $spacing-md;
+    font-size: $font-size-sm;
+    font-weight: $font-weight-medium;
+    cursor: pointer;
+    transition: background-color 0.3s, border-color 0.3s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    max-width: 300px;
+
+    &:hover {
+      background-color: #f5f5f5;
+      border-color: darken($con-gray, 10%);
+    }
+
+    &:disabled {
+      opacity: 0.6;
+      cursor: not-allowed;
+    }
+  }
+
+  .settings-note {
+    font-size: $font-size-xs;
+    color: $text-sub;
+    margin-top: $spacing-xs;
+  }
+}
+
+.browser-settings-link {
+  display: inline-block;
+  margin-top: $spacing-sm;
+  font-size: $font-size-xs;
+  color: $con-blue;
+  text-decoration: underline;
+
+  &:hover {
+    color: darken($con-blue, 10%);
+  }
+}

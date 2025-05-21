@@ -1,0 +1,120 @@
+.overlayContainer {
+  pointer-events: auto;
+}
+
+.overlayContent {
+  position: relative;
+  min-width: 200px;
+  max-width: 280px;
+  background-color: white;
+  border-radius: 8px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+  padding: 12px;
+  z-index: 10;
+
+  &:after {
+    content: '';
+    position: absolute;
+    bottom: -8px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 0;
+    height: 0;
+    border-left: 8px solid transparent;
+    border-right: 8px solid transparent;
+    border-top: 8px solid white;
+  }
+}
+
+.badge {
+  display: inline-block;
+  padding: 4px 8px;
+  border-radius: 4px;
+  font-size: 12px;
+  font-weight: 600;
+  color: white;
+  margin-bottom: 8px;
+}
+
+// 카테고리별 뱃지 색상
+.badgeToilet {
+  background-color: #4986e8;
+}
+
+.badgeConvenience {
+  background-color: #34c759;
+}
+
+.badgeStorage {
+  background-color: #fee101;
+}
+
+.badgeTicket {
+  background-color: #e85353;
+}
+
+.detailContent {
+  margin-bottom: 12px;
+
+  h3 {
+    font-size: 16px;
+    font-weight: 600;
+    margin: 0 0 8px 0;
+  }
+}
+
+.detailInfo {
+  font-size: 14px;
+  color: #555;
+
+  p {
+    margin: 4px 0;
+  }
+}
+
+.distanceInfo {
+  display: flex;
+  align-items: center;
+  font-size: 13px;
+  color: #777;
+  margin-top: 8px;
+  border-top: 1px solid #eee;
+  padding-top: 8px;
+}
+
+.walkIcon {
+  display: inline-block;
+  width: 16px;
+  height: 16px;
+  background-image: url('/svgs/main/ic_walk.svg');
+  background-size: contain;
+  background-repeat: no-repeat;
+  margin-right: 6px;
+  // 실제 아이콘 이미지가 없을 경우 대체
+  background-color: #999;
+  border-radius: 50%;
+  margin-right: 6px;
+}
+
+.closeButton {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background-color: #f0f0f0;
+  border: none;
+  color: #555;
+  font-size: 16px;
+  line-height: 1;
+  cursor: pointer;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 0;
+
+  &:hover {
+    background-color: #e0e0e0;
+  }
+}

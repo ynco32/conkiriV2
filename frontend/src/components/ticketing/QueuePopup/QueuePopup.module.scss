@@ -1,0 +1,96 @@
+.backdrop {
+  position: fixed;
+  inset: 0;
+  bottom: 0;
+  z-index: $z-index-overlay;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: rgba(0, 0, 0, 0.5);
+}
+
+.popup {
+  position: relative;
+  width: 20rem; // 80px * 4 = 320px (w-80)
+  border-radius: $border-radius-lg;
+  background-color: white;
+  padding: $spacing-lg;
+  text-align: center;
+}
+
+.header {
+  display: flex;
+  justify-content: center;
+}
+
+.title {
+  padding: $spacing-md $spacing-md;
+  text-align: center;
+  font-size: $font-size-md;
+  font-weight: $font-weight-medium;
+}
+
+.closeButton {
+  border-radius: $border-radius-full;
+  padding: 0.25rem; // p-1
+  transition: background-color 0.2s;
+  background: none;
+  &:hover {
+    background-color: #f3f4f6; // bg-gray-100
+  }
+}
+
+.icon {
+  height: 1.25rem; // h-5
+  width: 1.25rem; // w-5
+}
+
+.content {
+  padding-bottom: 1.25rem; // pb-5
+
+  p {
+    margin-bottom: $spacing-xs;
+  }
+}
+
+.queueNumber {
+  font-size: $font-size-xl;
+  font-weight: $font-weight-bold;
+  color: #00c73c;
+}
+
+.footer {
+  text-align: left;
+  font-size: $font-size-xs;
+}
+
+.warning {
+  color: $text-sub;
+  margin-bottom: $spacing-xs;
+}
+
+// 로딩 애니메이션 스타일 추가
+.loadingSpinner {
+  width: 3rem;
+  height: 3rem;
+  border: 0.25rem solid $con-gray;
+  border-top: 0.25rem solid $con-blue;
+  border-radius: 50%;
+  margin: 1rem auto;
+  animation: spin 1s linear infinite;
+}
+
+.loadingText {
+  font-size: $font-size-md;
+  color: $text-main;
+  margin-top: $spacing-md;
+}
+
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}

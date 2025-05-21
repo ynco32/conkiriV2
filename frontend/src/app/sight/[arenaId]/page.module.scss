@@ -1,0 +1,220 @@
+.container {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  width: 100%;
+}
+
+.sections {
+  width: 100%;
+}
+
+.sectionMap {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+}
+
+.svgOuterContainer {
+  position: relative;
+  width: 100%; // 100% 너비 사용
+  margin: 0 auto;
+  max-width: 100%; // 최대 너비를 제한하지 않음
+}
+
+.transformWrapper {
+  width: 100%;
+  height: 100%;
+}
+
+.transformContent {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+}
+
+.interactiveSvg {
+  width: 100%; // 너비 100%
+  height: auto;
+  min-height: 50vh; // 최소 높이 설정
+  max-height: none; // 최대 높이 제한 없앰
+
+  g[id*='section'] {
+    cursor: pointer;
+    transition: opacity 0.2s ease;
+
+    &:hover {
+      opacity: 0.7;
+    }
+
+    path {
+      pointer-events: auto;
+    }
+  }
+}
+
+.zoomControls {
+  position: absolute;
+  top: 15px;
+  right: 15px;
+  z-index: 100;
+}
+
+.resetZoomButton {
+  display: flex;
+  align-items: center;
+  background-color: $con-blue;
+  color: white;
+  border: none;
+  border-radius: $border-radius-md;
+  padding: $spacing-xs $spacing-md;
+  font-size: $font-size-sm;
+  font-weight: $font-weight-medium;
+  box-shadow: $shadow-md;
+  opacity: 0.9;
+  cursor: pointer;
+  transition: opacity 0.2s ease;
+
+  &:hover {
+    opacity: 1;
+  }
+}
+
+.resetZoomIcon {
+  margin-right: $spacing-xs;
+  font-size: $font-size-md;
+}
+
+.card {
+  background-color: white;
+  border-radius: $border-radius-lg;
+  padding: $spacing-lg;
+  box-shadow: $shadow-con;
+  margin-top: $spacing-lg;
+  width: 100%;
+  max-width: 90%; // 카드도 더 넓게 표시
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  // gap: $spacing-xs;
+}
+
+.boldMessage {
+  margin-bottom: $spacing-xs;
+  color: $con-blue;
+  font-size: $font-size-md;
+  font-weight: $font-weight-bold;
+  // line-height: 1.3;
+}
+.subMessageContainer {
+  margin: $spacing-sm 0;
+}
+
+.subMessage {
+  margin-bottom: $spacing-xs;
+  color: $text-main;
+  line-height: 1.2;
+  font-size: $font-size-md;
+  font-weight: $font-weight-medium;
+}
+
+.message {
+  margin-top: $spacing-xs;
+  color: $text-sub;
+  font-size: $font-size-sm;
+  line-height: 1.2;
+}
+
+.defaultMap {
+  width: 100%;
+  height: 300px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: $con-gray;
+  border-radius: $border-radius-md;
+  color: $text-main;
+  font-size: $font-size-lg;
+  text-align: center;
+}
+
+/* 스켈레톤 애니메이션 */
+@keyframes pulse {
+  0% {
+    opacity: 0.6;
+  }
+  50% {
+    opacity: 0.8;
+  }
+  100% {
+    opacity: 0.6;
+  }
+}
+
+/* 스켈레톤 구역표 스타일 */
+.skeletonMap {
+  position: relative;
+  background-color: #f5f7fa;
+  border-radius: $border-radius-lg;
+  min-height: 50vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  animation: pulse 1.5s infinite ease-in-out;
+}
+
+.skeletonSections {
+  width: 80%;
+  height: 80%;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 10px;
+}
+
+.skeletonSection {
+  width: calc(25% - 10px);
+  height: 60px;
+  background-color: rgba(0, 0, 0, 0.05);
+  border-radius: 8px;
+  animation: pulse 1.5s infinite ease-in-out;
+
+  &:nth-child(odd) {
+    width: calc(30% - 10px);
+  }
+
+  &:nth-child(3n) {
+    width: calc(20% - 10px);
+  }
+}
+
+.skeletonCard {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  padding: $spacing-lg;
+}
+
+.skeletonText {
+  height: 16px;
+  border-radius: 4px;
+  animation: pulse 1.5s infinite ease-in-out;
+  background-color: #f0f0f0;
+
+  &:nth-child(1) {
+    width: 70%;
+    align-self: center;
+  }
+
+  &:nth-child(2) {
+    width: 60%;
+    align-self: center;
+  }
+
+  &:nth-child(3) {
+    width: 80%;
+    align-self: center;
+  }
+}

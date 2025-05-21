@@ -8,12 +8,14 @@ spring:
         - db-local
         - cloud
         - redis
+        - chatbot
       dev:
         - oauth
         - db-dev
         - cloud
         - redis
-    include: oauth, db, cloud, redis
+        - chatbot
+    include: oauth, db, cloud, redis, chatbot
 
 logging:
   config: classpath:logback-spring.xml

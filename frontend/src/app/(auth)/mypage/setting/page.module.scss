@@ -1,0 +1,328 @@
+.container {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 32px 0;
+}
+
+.profileSection {
+  display: flex;
+  width: 100%;
+  flex-direction: column;
+  align-items: center;
+  margin-bottom: 32px;
+}
+
+.profileImageContainer {
+  position: relative;
+  width: 120px;
+  height: 120px;
+  margin-bottom: 8px;
+}
+
+.profileImageWrapper {
+  width: 100%;
+  height: 100%;
+  position: relative;
+  border-radius: 50%;
+  overflow: hidden;
+  background: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+}
+
+.cameraIconWrapper {
+  position: absolute;
+  color: $con-blue;
+  right: 2px;
+  bottom: 2px;
+  width: 32px;
+  height: 32px;
+  z-index: 10;
+  border-radius: 50%;
+  background: $con-lightblue;
+
+  .cameraIcon {
+    cursor: pointer;
+  }
+}
+
+.profileName {
+  font-size: 1.25rem;
+  font-weight: 700;
+  margin-bottom: 8px;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  flex-wrap: wrap;
+  padding: 0 45px;
+  margin-top: 20px;
+}
+
+.writeIcon {
+  width: 1.25rem;
+  height: 1.25rem;
+  cursor: pointer;
+}
+
+.nicknameEditContainer {
+  display: flex;
+  width: 100%;
+  margin-bottom: 4px;
+  gap: 5px;
+}
+
+.nicknameInput {
+  flex: 3;
+  padding: 8px 12px;
+  font-size: 1rem;
+  border: 1px solid #ccc;
+  border-radius: 10px;
+  outline: none;
+  transition: border-color 0.2s;
+
+  &:focus {
+    border-color: $con-blue;
+  }
+}
+
+.inputError {
+  border-color: #ff3b30;
+}
+
+.nicknameButton {
+  flex: 1;
+  background-color: $con-blue;
+  color: white;
+  border: none;
+  min-width: 52px;
+  border-radius: 10px;
+  font-size: 0.875rem;
+  cursor: pointer;
+  transition: background-color 0.2s;
+
+  &:hover {
+    background-color: darken($con-blue, 10%);
+  }
+
+  &:disabled {
+    background-color: #ccc;
+    cursor: not-allowed;
+  }
+}
+
+.errorMessage {
+  color: #ff3b30;
+  font-size: 0.875rem;
+  margin-top: 4px;
+  text-align: center;
+  width: 100%;
+}
+
+.successMessage {
+  color: #34c759;
+  font-size: 0.875rem;
+  margin-top: 4px;
+  text-align: center;
+  width: 100%;
+}
+
+.menuSection {
+  width: 100%;
+  max-width: 340px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.menuItem {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: 1rem;
+  padding: 16px 20px;
+  border-radius: 12px;
+  background: none;
+  color: $con-blue;
+  border: 1px solid $con-blue;
+  cursor: pointer;
+  transition: background 0.2s;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.04);
+
+  &:hover {
+    background: $con-lightblue;
+  }
+}
+
+.imageSelectContainer {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 12px;
+  grid-auto-rows: 1fr;
+}
+
+.modalOverlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+.modalContent {
+  background: white;
+  padding: 20px;
+  border-radius: 12px;
+  width: 90%;
+  max-width: 400px;
+  max-height: 80vh;
+  overflow-y: auto;
+}
+
+.modalHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 16px;
+
+  h3 {
+    margin: 0;
+  }
+}
+
+.closeButton {
+  background: none;
+  border: none;
+  font-size: 24px;
+  cursor: pointer;
+  color: #666;
+}
+
+.imageItem {
+  cursor: pointer;
+  border-radius: 10%;
+  width: 100%;
+  height: 0;
+  padding-bottom: 100%;
+  position: relative;
+  overflow: hidden;
+  transition: transform 0.2s;
+  border: 1px solid $con-blue;
+  box-sizing: border-box;
+
+  &:hover {
+    transform: scale(1.05);
+  }
+}
+
+.selectedImage {
+  border: 3px solid $con-blue;
+  box-sizing: border-box;
+  box-shadow: 0 0 8px rgba(0, 0, 0, 0.2);
+}
+
+.profileImageOption {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+.buttonContainer {
+  margin-top: 20px;
+  display: flex;
+  justify-content: center;
+}
+
+.confirmButton {
+  background-color: $con-blue;
+  color: white;
+  border: none;
+  padding: 12px 0;
+  width: 100%;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.2s;
+
+  &:hover {
+    background-color: darken($con-blue, 10%);
+  }
+
+  &:disabled {
+    background-color: #ccc;
+    cursor: not-allowed;
+  }
+}
+
+// 기존 스타일 뒤에 추가
+
+/* 스켈레톤 애니메이션 */
+@keyframes pulse {
+  0% {
+    opacity: 0.6;
+  }
+  50% {
+    opacity: 0.8;
+  }
+  100% {
+    opacity: 0.6;
+  }
+}
+
+/* 스켈레톤 UI 공통 스타일 */
+.skeleton {
+  background-color: #f0f0f0;
+  animation: pulse 1.5s infinite ease-in-out;
+}
+
+/* 프로필 이미지 스켈레톤 */
+.profileImageWrapper.skeleton {
+  background-color: #f0f0f0;
+  border: none;
+  box-shadow: none;
+}
+
+/* 카메라 아이콘 스켈레톤 */
+.skeletonIcon {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background-color: #f0f0f0;
+  animation: pulse 1.5s infinite ease-in-out;
+}
+
+/* 프로필 이름 스켈레톤 */
+.skeletonName {
+  width: 100px;
+  height: 24px;
+  border-radius: 4px;
+  background-color: #f0f0f0;
+  animation: pulse 1.5s infinite ease-in-out;
+}
+
+/* 메뉴 아이템 스켈레톤 */
+.skeletonMenuItem {
+  background-color: #f0f0f0 !important;
+  border: none !important;
+  color: transparent !important;
+  box-shadow: none !important;
+  animation: pulse 1.5s infinite ease-in-out;
+
+  &:hover {
+    background-color: #f0f0f0 !important;
+    transform: none !important;
+  }
+}

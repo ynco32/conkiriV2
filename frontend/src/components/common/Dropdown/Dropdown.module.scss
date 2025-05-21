@@ -1,0 +1,185 @@
+.dropdown {
+  position: relative;
+  width: 100%; // 기본 드롭다운은 100% 너비 유지
+}
+
+.trigger {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  border: 1px solid $con-gray;
+  background-color: white;
+  border-radius: $border-radius-md;
+  text-align: left;
+  cursor: pointer;
+  color: $text-main;
+  transition: all 0.2s ease;
+
+  &:hover {
+    border-color: $con-blue;
+  }
+
+  &:focus {
+    outline: none;
+    border-color: $con-blue;
+    box-shadow: $shadow-con;
+  }
+}
+
+// 기본 사이즈
+.default {
+  .trigger {
+    padding: 12px 16px;
+    font-size: $font-size-sm;
+    height: 48px;
+  }
+
+  .options {
+    font-size: $font-size-sm;
+  }
+
+  .option {
+    padding: 12px 16px;
+  }
+}
+
+// 작은 사이즈
+.small {
+  width: auto;
+  max-width: 80px;
+  box-shadow: $shadow-con;
+  border-radius: $border-radius-full;
+
+  .trigger {
+    padding: 8px 12px;
+    font-size: $font-size-xs;
+    border-radius: $border-radius-full;
+    border: none;
+    height: 26px;
+
+    &:hover {
+      border: 1px solid $con-blue;
+    }
+  }
+
+  .options {
+    font-size: $font-size-xs;
+    border-radius: $border-radius-lg;
+  }
+
+  .option {
+    padding: 8px 12px;
+  }
+}
+
+.selectedText {
+  flex-grow: 1;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.arrow {
+  margin-left: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.options {
+  position: absolute;
+  top: calc(100% + 4px);
+  left: 0;
+  right: 0;
+  z-index: 10;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  background-color: white;
+  border: 1px solid $con-gray;
+  border-radius: $border-radius-md;
+  box-shadow: $shadow-md;
+  max-height: 200px;
+  overflow-y: auto;
+}
+
+.option {
+  cursor: pointer;
+
+  &:hover {
+    background-color: rgba($con-blue, 0.05);
+  }
+
+  &.selected {
+    background-color: rgba($con-blue, 0.1);
+    color: $con-blue;
+    font-weight: 500;
+  }
+}
+.disabled {
+  opacity: 0.7;
+  cursor: not-allowed;
+
+  .trigger {
+    cursor: not-allowed;
+    pointer-events: none;
+  }
+}
+.selects {
+  display: flex;
+  gap: $spacing-md;
+  justify-content: flex-start;
+  padding: $spacing-md $spacing-sm $spacing-md 0;
+  align-self: flex-start;
+}
+
+/* 스켈레톤 로딩 스타일 추가 */
+.skeletonDropdown {
+  position: relative;
+  background-color: white;
+  border-radius: $border-radius-full;
+  box-shadow: $shadow-con;
+  animation: pulse 1.5s infinite;
+
+  &.small {
+    width: 80px;
+    height: 26px;
+  }
+}
+
+.skeletonTrigger {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  height: 100%;
+  padding: 8px 12px;
+  border-radius: $border-radius-full;
+}
+
+.skeletonText {
+  width: 70%;
+  height: 10px;
+  background: rgba(0, 0, 0, 0.1);
+  border-radius: 3px;
+}
+
+.skeletonArrow {
+  width: 10px;
+  height: 10px;
+  background: rgba(0, 0, 0, 0.1);
+  border-radius: 50%;
+}
+
+@keyframes pulse {
+  0% {
+    opacity: 0.6;
+  }
+  50% {
+    opacity: 0.8;
+  }
+  100% {
+    opacity: 0.6;
+  }
+}

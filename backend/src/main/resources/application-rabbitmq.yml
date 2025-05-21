@@ -1,0 +1,45 @@
+
+---
+spring:
+  config:
+    activate:
+      on-profile: "rabbitmq-local"
+
+  rabbitmq:
+    host: localhost
+    port: 5672
+    username: guest
+    password: guest
+    publisher-confirm-type: correlated  # Publisher Confirms 활성화
+    publisher-returns: true             # Return 메시지 활성화
+
+    # 메시지 전송 실패 시 재시도
+    template:
+      retry:
+        enabled: true
+        initial-interval: 3000
+        multiplier: 2
+        max-attempts: 3
+        max-interval: 10000
+
+---
+spring:
+  config:
+    activate:
+      on-profile: "rabbitmq-dev"
+
+  rabbitmq:
+    host: ${RABBITMQ_HOST}
+    port: ${RABBITMQ_PORT}
+    username: ${RABBITMQ_USERNAME}
+    password: ${RABBITMQ_PASSWORD}
+    publisher-confirm-type: correlated
+    publisher-returns: true
+
+    template:
+      retry:
+        enabled: true
+        initial-interval: 3000
+        multiplier: 2
+        max-attempts: 3
+        max-interval: 10000

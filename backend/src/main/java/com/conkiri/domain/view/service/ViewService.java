@@ -1,46 +1,31 @@
 package com.conkiri.domain.view.service;
 
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.StringUtils;
 import org.springframework.web.multipart.MultipartFile;
 
-import com.conkiri.domain.base.entity.Arena;
 import com.conkiri.domain.base.entity.Concert;
-import com.conkiri.domain.base.entity.Seat;
-import com.conkiri.domain.base.entity.Section;
-import com.conkiri.domain.base.entity.StageType;
 import com.conkiri.domain.base.repository.ArenaRepository;
 import com.conkiri.domain.base.repository.ConcertRepository;
-import com.conkiri.domain.base.repository.SeatRepository;
-import com.conkiri.domain.base.repository.SectionRepository;
-import com.conkiri.domain.base.service.ArenaReadService;
-import com.conkiri.domain.base.service.ConcertReadService;
 import com.conkiri.domain.user.entity.User;
-import com.conkiri.domain.user.repository.UserRepository;
-import com.conkiri.domain.user.service.UserReadService;
 import com.conkiri.domain.view.dto.request.ReviewRequestDTO;
-import com.conkiri.domain.view.dto.response.ArenaResponseDTO;
+import com.conkiri.domain.view.dto.response.ConcertDTO;
 import com.conkiri.domain.view.dto.response.ReviewDetailResponseDTO;
 import com.conkiri.domain.view.dto.response.ReviewResponseDTO;
-import com.conkiri.domain.view.dto.response.SeatDetailResponseDTO;
-import com.conkiri.domain.view.dto.response.SeatResponseDTO;
-import com.conkiri.domain.view.dto.response.SectionDetailResponseDTO;
 import com.conkiri.domain.view.dto.response.SectionResponseDTO;
-import com.conkiri.domain.view.dto.response.ViewConcertResponseDTO;
 import com.conkiri.domain.view.entity.Review;
-import com.conkiri.domain.view.entity.ScrapSeat;
+import com.conkiri.domain.view.entity.ReviewPhoto;
+import com.conkiri.domain.view.entity.Seat;
+import com.conkiri.domain.view.repository.ReviewPhotoRepository;
 import com.conkiri.domain.view.repository.ReviewRepository;
-import com.conkiri.domain.view.repository.ScrapSeatRepository;
-import com.conkiri.global.exception.view.DuplicateReviewException;
-import com.conkiri.global.exception.view.DuplicateScrapSeatException;
-import com.conkiri.global.exception.view.ReviewNotFoundException;
-import com.conkiri.global.exception.view.ScrapSeatNotFoundException;
-import com.conkiri.global.exception.view.SeatNotFoundException;
-import com.conkiri.global.exception.view.SectionNotFoundException;
-import com.conkiri.global.exception.view.UnauthorizedAccessException;
+import com.conkiri.domain.view.repository.SeatRepository;
+import com.conkiri.global.exception.BaseException;
+import com.conkiri.global.exception.ErrorCode;
 import com.conkiri.global.s3.S3Service;
 
 import lombok.RequiredArgsConstructor;
@@ -50,240 +35,188 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class ViewService {
 
-	private final ArenaRepository arenaRepository;
-	private final SectionRepository sectionRepository;
-	private final ReviewRepository reviewRepository;
-	private final SeatRepository seatRepository;
-	private final ScrapSeatRepository scrapSeatRepository;
 	private final ConcertRepository concertRepository;
-	private final UserReadService userReadService;
-
-	private final ArenaReadService arenaReadService;
-	private final ConcertReadService concertReadService;
+	private final SeatRepository seatRepository;
+	private final ReviewRepository reviewRepository;
+	private final ReviewPhotoRepository reviewPhotoRepository;
+	private final ArenaRepository arenaRepository;
 	private final S3Service s3Service;
-	private final UserRepository userRepository;
 
-	public ArenaResponseDTO getArenas() {
+	// 후기 작성
+	public Long createReview(ReviewRequestDTO dto, List<MultipartFile> files, User user) {
+		validatePhotoCount(getFileCount(files));
 
-		List<Arena> arenas = arenaRepository.findAll();
-		return ArenaResponseDTO.from(arenas);
+		Concert concert = getConcert(dto.concertId());
+		Seat seat = getSeat(dto, concert);
+
+		Review review = Review.of(dto, user, concert, seat);
+		reviewRepository.save(review);
+
+		saveReviewPhotos(files, review);
+
+		return review.getReviewId();
 	}
 
-	public SectionResponseDTO getSections(Long arenaId, Integer stageType, Long userId) {
+	// 후기 단건(수정할 후기) 조회
+	public ReviewDetailResponseDTO getAReview(Long reviewId) {
+		Review review = getReview(reviewId);
+		List<String> photoUrls = reviewPhotoRepository.findAllByReview(review)
+			.stream()
+			.map(ReviewPhoto::getPhotoUrl)
+			.toList();
 
-		Arena arena = arenaReadService.findArenaByAreaIdOrElseThrow(arenaId);
-		User user = userReadService.findUserByIdOrElseThrow(userId);
-		StageType selectedType = StageType.fromValue(stageType);
-
-		List<Section> sections = sectionRepository.findByArena(arena);
-
-		return SectionResponseDTO.from(sections.stream()
-			.map(section -> {
-				boolean isScrapped = scrapSeatRepository.existsByUserAndSeat_SectionAndStageType(user, section, selectedType);
-				return SectionDetailResponseDTO.of(section, stageType, isScrapped);
-			})
-			.collect(Collectors.toList()));
+		return ReviewDetailResponseDTO.of(review, photoUrls);
 	}
 
-	public SeatResponseDTO getSeats(Long arenaId, Integer stageType, Long sectionNumber, Long userId) {
+	// 후기 수정
+	public Long updateReview(Long reviewId, ReviewRequestDTO dto, List<MultipartFile> newFiles, User user) {
+		Review review = getReview(reviewId);
+		validateReviewOwner(review, user);
 
-		Arena arena = arenaReadService.findArenaByAreaIdOrElseThrow(arenaId);
-		Section section = findSectionByArenaAndSectionNumberOrElseThrow(arena, sectionNumber);
-		User user = userReadService.findUserByIdOrElseThrow(userId);
-		StageType selectedType = StageType.fromValue(stageType);
+		Concert concert = getConcert(dto.concertId());
+		Seat seat = getSeat(dto, concert);
 
-		List<Seat> seats = seatRepository.findBySection(section);
+		List<String> keepUrls = getKeepUrls(dto);
+		int totalPhotoCount = keepUrls.size() + getFileCount(newFiles);
+		validatePhotoCount(totalPhotoCount);
 
-		return SeatResponseDTO.from(seats.stream()
-			.map(seat -> {
-				boolean isScrapped = scrapSeatRepository.existsByUserAndSeatAndStageType(user, seat, selectedType);
-				Long reviewCount = (stageType == 0)
-					? reviewRepository.countBySeat(seat)
-					: reviewRepository.countBySeatAndStageType(seat, selectedType);
-				return SeatDetailResponseDTO.of(seat, section.getSectionNumber(), isScrapped, reviewCount);
-			})
-			.collect(Collectors.toList()));
+		updateReviewPhotos(review, keepUrls, newFiles);
+		review.update(dto, seat, concert);
+
+		return review.getReviewId();
 	}
 
-	public void createScrapSeat(Long seatId, Integer stageType, Long userId) {
+	// 후기 삭제
+	public Void deleteReview(Long reviewId, User user) {
+		Review review = getReview(reviewId);
+		validateReviewOwner(review, user);
+		List<ReviewPhoto> reviewPhotos = reviewPhotoRepository.findAllByReview(review);
 
-		Seat seat = findSeatBySeatIdOrElseThrow(seatId);
-		StageType selectedType = StageType.fromValue(stageType);
-		User user = userReadService.findUserByIdOrElseThrow(userId);
+		deletePhotos(reviewPhotos);
+		reviewRepository.delete(review);
 
-		if (scrapSeatRepository.existsByUserAndSeatAndStageType(user, seat, selectedType)) {
-			throw new DuplicateScrapSeatException();
-		}
-
-		ScrapSeat scrapSeat = ScrapSeat.of(user, seat, selectedType);
-		scrapSeatRepository.save(scrapSeat);
+		return null;
 	}
 
-	public void deleteScrapSeat(Long seatId, Integer stageType, Long userId) {
+	// (선택한 공연장의) 구역 정보 조회
+	public List<SectionResponseDTO> getSections(Long arenaId) {
+		if (!arenaRepository.existsById(arenaId))
+			throw new BaseException(ErrorCode.ARENA_NOT_FOUND);
 
-		Seat seat = findSeatBySeatIdOrElseThrow(seatId);
-		StageType selectedType = StageType.fromValue(stageType);
-		User user = userReadService.findUserByIdOrElseThrow(userId);
-
-		ScrapSeat scrapSeat = scrapSeatRepository.findByUserAndSeatAndStageType(user, seat, selectedType)
-			.orElseThrow(ScrapSeatNotFoundException::new);
-
-		scrapSeatRepository.delete(scrapSeat);
+		return seatRepository.findDistinctSectionsByArenaId(arenaId);
 	}
 
-	public ReviewResponseDTO getReviews(Long arenaId, Integer stageType, Long sectionNumber, Long seatId) {
+	// (선택한 구역의) 모든 후기 조회
+	public ReviewResponseDTO getReviewsOfSection(Long arenaId, String section) {
+		List<Review> reviews = reviewRepository.findAllByArenaIdAndSection(arenaId, section);
 
-		Arena arena = arenaReadService.findArenaByAreaIdOrElseThrow(arenaId);
-		Section section = findSectionByArenaAndSectionNumberOrElseThrow(arena, sectionNumber);
-
-		if (seatId != null) {
-			Seat seat = findSeatBySeatIdOrElseThrow(seatId);
-			return getReviewsBySeat(seat, stageType);
-		}
-		return getReviewsBySection(section, stageType);
+		return getReviews(reviews);
 	}
 
-	public ReviewResponseDTO getReviewsBySection(Section section, Integer stageType) {
+	// 가수로 콘서트 검색
+	public List<ConcertDTO> getConcerts(String searchWord) {
+		List<Concert> concerts = concertRepository.findConcertsByArtist(searchWord);
 
-		List<Seat> seats = seatRepository.findBySection(section);
-		List<Review> reviews = reviewRepository.findBySeatIn(seats);
-
-		if (stageType != 0) { // '전체'가 아닐 경우 stageType으로 필터링
-			StageType selectedType = StageType.fromValue(stageType);
-			reviews = reviews.stream()
-				.filter(review -> review.getStageType() == selectedType)
-				.collect(Collectors.toList());
-		}
-		return ReviewResponseDTO.from(reviews);
+		return concerts.stream()
+			.map(ConcertDTO::from)
+			.toList();
 	}
 
-	public ReviewResponseDTO getReviewsBySeat(Seat seat, Integer stageType) {
+	// ========== 이하 공통 메서드 ==========
 
-		List<Review> reviews = reviewRepository.findBySeat(seat);
-
-		if (stageType != 0) {
-			StageType selectedType = StageType.fromValue(stageType);
-			reviews = reviews.stream()
-				.filter(review -> review.getStageType() == selectedType)
-				.collect(Collectors.toList());
-		}
-		return ReviewResponseDTO.from(reviews);
+	private int getFileCount(List<MultipartFile> files) {
+		return files == null ? 0 : (int) files.stream().filter(f -> f != null && !f.isEmpty()).count();
 	}
 
-	public ViewConcertResponseDTO getConcerts(String artist) {
-
-		List<Concert> concerts = concertRepository.findByArtistContaining(artist);
-		return ViewConcertResponseDTO.from(concerts);
+	private void validatePhotoCount(int count) {
+		if (count == 0) throw new BaseException(ErrorCode.FILE_NOT_EMPTY);
+		if (count > 3) throw new BaseException(ErrorCode.MAX_FILE_COUNT_EXCEEDED);
 	}
 
-	@Transactional
-	public void createReview(ReviewRequestDTO reviewRequestDTO, MultipartFile file, Long userId) {
-
-		User user = userReadService.findUserByIdOrElseThrow(userId);
-		Concert concert = concertReadService.findConcertByIdOrElseThrow(reviewRequestDTO.getConcertId());
-		Arena arena = concert.getArena();
-		Section section = findSectionByArenaAndSectionNumberOrElseThrow(arena, reviewRequestDTO.getSectionNumber());
-		String photoUrl = s3Service.uploadImage(file, "reviews");
-
-		Seat seat = findSeatByRowAndColumnAndSectionOrElseThrow(
-			reviewRequestDTO.getRowLine(),
-			reviewRequestDTO.getColumnLine(),
-			section
-		);
-
-		if(reviewRepository.existsByUserAndSeatAndConcert(user, seat, concert)) {
-			throw new DuplicateReviewException();
-		}
-
-		reviewRepository.save(Review.of(reviewRequestDTO, photoUrl, user, seat, concert));
-		user.incrementReviewCount();
+	private Concert getConcert(Long concertId) {
+		return concertRepository.findById(concertId)
+			.orElseThrow(() -> new BaseException(ErrorCode.CONCERT_NOT_FOUND));
 	}
 
-	public ReviewDetailResponseDTO getReview(Long reviewId, Long userId) {
-
-		Review review = findReviewByReviewIdOrElseThrow(reviewId);
-
-		if(!review.getUser().getUserId().equals(userId)) {
-			throw new UnauthorizedAccessException();
-		}
-
-		return ReviewDetailResponseDTO.from(review);
+	private Seat getSeat(ReviewRequestDTO dto, Concert concert) {
+		return seatRepository
+			.findSeatBySectionAndRowLineAndColumnLineAndArena_ArenaId(dto.section(), dto.rowLine(), dto.columnLine(), concert.getArena().getArenaId())
+			.orElseThrow(() -> new BaseException(ErrorCode.SEAT_NOT_FOUND));
 	}
 
-	@Transactional
-	public void updateReview(Long reviewId, ReviewRequestDTO reviewRequestDTO, MultipartFile file, Long userId) {
-
-		Review review = findReviewByReviewIdOrElseThrow(reviewId);
-		User user = userReadService.findUserByIdOrElseThrow(userId);
-		Concert concert = concertReadService.findConcertByIdOrElseThrow(reviewRequestDTO.getConcertId());
-		Arena arena = concert.getArena();
-		Section section = findSectionByArenaAndSectionNumberOrElseThrow(arena, reviewRequestDTO.getSectionNumber());
-
-		// 작성자 본인 여부 확인
-		if(!review.getUser().getUserId().equals(userId)) {
-			throw new UnauthorizedAccessException();
-		}
-
-		Seat seat = findSeatByRowAndColumnAndSectionOrElseThrow(
-			reviewRequestDTO.getRowLine(),
-			reviewRequestDTO.getColumnLine(),
-			section
-		);
-
-		if (reviewRepository.existsByUserAndSeatAndConcertAndReviewIdNot(user, seat, concert, reviewId)) {
-			throw new DuplicateReviewException();
-		}
-
-		String oldPhotoUrl = review.getPhotoUrl();
-		String newPhotoUrl = s3Service.uploadImage(file, "reviews");
-
-		review.update(reviewRequestDTO, newPhotoUrl, seat, concert);
-
-		if (oldPhotoUrl != null) {
-			s3Service.deleteImage(oldPhotoUrl);
-		}
+	private Review getReview(Long reviewId) {
+		return reviewRepository.findByReviewId(reviewId)
+			.orElseThrow(() -> new BaseException(ErrorCode.REVIEW_NOT_FOUND));
 	}
 
-	@Transactional
-	public void deleteReview(Long reviewId, Long userId) {
-
-		Review review = findReviewByReviewIdOrElseThrow(reviewId);
-		User user = userReadService.findUserByIdOrElseThrow(userId);
-
-		if(!review.getUser().getUserId().equals(userId)) {
-			throw new UnauthorizedAccessException();
-		}
-
-		String photoUrl = review.getPhotoUrl();
-		Seat seat = review.getSeat();
-
-		reviewRepository.deleteById(reviewId);
-		user.decrementReviewCount();
-
-		if (photoUrl != null) {
-			s3Service.deleteImage(photoUrl);
-		}
+	private void validateReviewOwner(Review review, User user) {
+		if (!review.getUser().getUserId().equals(user.getUserId()))
+			throw new BaseException(ErrorCode.UNAUTHORIZED_ACCESS);
 	}
 
-	// ---------- 내부 메서드 ----------
-
-	private Section findSectionByArenaAndSectionNumberOrElseThrow(Arena arena, Long sectionNumber) {
-		return sectionRepository.findSectionByArenaAndSectionNumber(arena, sectionNumber)
-			.orElseThrow(SectionNotFoundException::new);
+	private List<String> getKeepUrls(ReviewRequestDTO dto) {
+		return dto.existingPhotoUrls() == null ? List.of() : dto.existingPhotoUrls().stream()
+			.filter(StringUtils::hasText)
+			.toList();
 	}
 
-	private Seat findSeatByRowAndColumnAndSectionOrElseThrow(Long rowLine, Long columnLine, Section section) {
-		return seatRepository.findByRowLineAndColumnLineAndSection(rowLine, columnLine, section)
-			.orElseThrow(SeatNotFoundException::new);
+	private void saveReviewPhotos(List<MultipartFile> files, Review review) {
+		if (files == null || files.isEmpty()) return;
+		List<ReviewPhoto> photos = files.stream()
+			.filter(f -> f != null && !f.isEmpty())
+			.map(file -> createReviewPhoto(file, review))
+			.toList();
+
+		reviewPhotoRepository.saveAll(photos);
 	}
 
-	private Seat findSeatBySeatIdOrElseThrow(Long seatId) {
-		return seatRepository.findById(seatId)
-			.orElseThrow(SeatNotFoundException::new);
+	private void updateReviewPhotos(Review review, List<String> keepUrls, List<MultipartFile> newFiles) {
+		List<ReviewPhoto> existingPhotos = reviewPhotoRepository.findAllByReview(review);
+		List<ReviewPhoto> photosToDelete = existingPhotos.stream()
+			.filter(photo -> keepUrls.stream().noneMatch(url -> url.trim().equals(photo.getPhotoUrl().trim())))
+			.toList();
+
+		List<ReviewPhoto> photosToAdd = (newFiles == null ? List.<MultipartFile>of() : newFiles).stream()
+			.filter(f -> f != null && !f.isEmpty())
+			.map(file -> createReviewPhoto(file, review))
+			.toList();
+
+		deletePhotos(photosToDelete);
+
+		reviewPhotoRepository.saveAll(photosToAdd);
 	}
 
-	private Review findReviewByReviewIdOrElseThrow(Long reviewId) {
-		return reviewRepository.findReviewByReviewId(reviewId)
-			.orElseThrow(ReviewNotFoundException::new);
+	private void deletePhotos(List<ReviewPhoto> photos) {
+		List<String> photoUrls = photos.stream()
+			.map(ReviewPhoto::getPhotoUrl)
+			.toList();
+
+		reviewPhotoRepository.deleteAll(photos);
+
+		for (String url : photoUrls)
+			s3Service.deleteImage(url);
+	}
+
+	private ReviewPhoto createReviewPhoto(MultipartFile file, Review review) {
+		String dirName = "reviews";
+		String url = s3Service.uploadImage(file, dirName);
+
+		return ReviewPhoto.of(review, url);
+	}
+
+	public ReviewResponseDTO getReviews(List<Review> reviews) {
+		List<Long> reviewIds = reviews.stream()
+			.map(Review::getReviewId)
+			.toList();
+
+		List<ReviewPhoto> allPhotos = reviewPhotoRepository.findAllByReviewIdIn(reviewIds);
+
+		Map<Long, List<String>> reviewPhotoMap = allPhotos.stream()
+			.collect(Collectors.groupingBy(
+				rp -> rp.getReview().getReviewId(),
+				Collectors.mapping(ReviewPhoto::getPhotoUrl, Collectors.toList())
+			));
+
+		return ReviewResponseDTO.of(reviews, reviewPhotoMap);
 	}
 }

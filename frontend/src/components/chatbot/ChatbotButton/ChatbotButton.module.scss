@@ -1,0 +1,98 @@
+.chatbotButton {
+  position: absolute;
+  bottom: 25px;
+  right: 12px;
+  border: none;
+  background: none;
+  cursor: pointer;
+  z-index: 10;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  filter: drop-shadow(0px 2px 8px rgba(0, 0, 0, 0.1));
+
+  .buttonContent {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    position: relative;
+  }
+
+  .speechBubble {
+    background-color: $con-blue;
+    color: white;
+    padding: 8px 16px;
+    border-radius: 16px;
+    font-size: 16px;
+    white-space: pre-line;
+    margin-left: 10px;
+    position: relative;
+    bottom: 30px;
+    box-shadow: $shadow-md;
+
+    // 말풍선 강조 애니메이션
+    animation: pulseBubble 2s ease-in-out infinite;
+
+    &:after {
+      content: '';
+      position: absolute;
+      right: -8px;
+      bottom: -1px;
+      rotate: 25deg;
+      width: 0;
+      height: 0;
+      border-left: 14px solid $con-blue;
+      border-top: 6px solid transparent;
+      border-bottom: 6px solid transparent;
+    }
+  }
+
+  .avatarContainer {
+    width: 90px;
+    height: 90px;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+
+    // 아바타 흔들림 애니메이션
+    animation: wiggle 3s ease-in-out infinite;
+  }
+  .avatar {
+    transform: scaleX(-1);
+  }
+}
+
+// 버튼 전체가 살짝 떠오르는 애니메이션
+@keyframes floatButton {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-6px);
+  }
+}
+
+// 말풍선이 살짝 확대/축소되는 애니메이션
+@keyframes pulseBubble {
+  0%,
+  100% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.05);
+  }
+}
+
+// 아바타가 좌우로 살짝 흔들리는 애니메이션
+@keyframes wiggle {
+  0%,
+  100% {
+    transform: rotate(-3deg);
+  }
+  50% {
+    transform: rotate(10deg);
+  }
+}

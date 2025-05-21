@@ -2,19 +2,21 @@ package com.conkiri.global.auth.service;
 
 import java.time.LocalDateTime;
 
-import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.ResponseCookie;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.conkiri.domain.user.entity.User;
 import com.conkiri.domain.user.service.UserReadService;
+import com.conkiri.global.auth.dto.LoginDTO;
 import com.conkiri.global.auth.dto.TokenDTO;
 import com.conkiri.global.auth.entity.Auth;
 import com.conkiri.global.auth.repository.AuthRepository;
-import com.conkiri.global.exception.auth.InvalidTokenException;
+import com.conkiri.global.exception.BaseException;
+import com.conkiri.global.exception.ErrorCode;
 import com.conkiri.global.util.JwtUtil;
 
-import jakarta.servlet.http.Cookie;
+import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 
@@ -27,71 +29,95 @@ public class AuthService {
 	private final AuthRepository authRepository;
 	private final UserReadService userReadService;
 
-	@Value("${server.domain}")
-	private String serverDomain;
+	public LoginDTO loginStatus(HttpServletRequest request, String nickName) {
 
-	public void refreshToken(String refreshToken, HttpServletResponse response) {
+		String accessToken = (String) request.getAttribute("access_token");
+		if (accessToken == null)
+			accessToken = jwtUtil.extractAccessToken(request);
+		
+		jwtUtil.validateToken(accessToken);
+		return (nickName == null) ? new LoginDTO(true, false): new LoginDTO(true, true);
+	}
+
+	public String refreshToken(HttpServletRequest request, HttpServletResponse response) {
+
+		String refreshToken = jwtUtil.extractRefreshToken(request);
 		if (!jwtUtil.validateToken(refreshToken)) {
-			throw new InvalidTokenException();
+			throw new BaseException(ErrorCode.INVALID_TOKEN);
 		}
 
 		String email = jwtUtil.getEmailFromToken(refreshToken);
 		User user = userReadService.findUserByEmailOrElseThrow(email);
 		Auth savedAuth = authRepository.findByUser(user)
-			.orElseThrow(() -> new InvalidTokenException());
+			.orElseThrow(() -> new BaseException(ErrorCode.INVALID_TOKEN));
 
 		if (!savedAuth.getRefreshToken().equals(refreshToken)) {
-			throw new InvalidTokenException();
+			throw new BaseException(ErrorCode.INVALID_TOKEN);
 		}
 
 		TokenDTO newTokens = jwtUtil.generateTokens(email);
-		saveRefreshToken(user, newTokens.getRefreshToken());
-		addRefreshTokenCookie(response, newTokens.getRefreshToken());
-		addAccessTokenCookie(response, newTokens.getAccessToken());
+		updateRefreshToken(newTokens.refreshToken(), savedAuth);
+		addRefreshTokenCookie(response, newTokens.refreshToken());
+		addAccessTokenCookie(response, newTokens.accessToken());
+		return newTokens.accessToken();
 	}
 
-	public void saveRefreshToken(User user, String refreshToken) {
-
-		Auth token = authRepository.findByUser(user)
-			.map(existingToken -> {
-				existingToken.updateToken(
-					refreshToken,
-					LocalDateTime.now().plusDays(14)
-				);
-				return existingToken;
-			})
-			.orElseGet(() -> Auth.builder()
-				.user(user)
-				.refreshToken(refreshToken)
-				.provider("KAKAO")  // 기본값 설정
-				.providerId(user.getEmail())  // 임시 providerId
-				.expiryDate(LocalDateTime.now().plusDays(14))
-				.build());
-
-		authRepository.save(token);
+	public void updateRefreshToken(String refreshToken, Auth auth) {
+		auth.updateToken(refreshToken, LocalDateTime.now().plusDays(14));
+		authRepository.save(auth);
 	}
 
 	public void addAccessTokenCookie(HttpServletResponse response, String accessToken) {
-		Cookie cookie = new Cookie("access_token", accessToken);
-		cookie.setSecure(false);
-		cookie.setPath("/");
-		cookie.setDomain(serverDomain);
-		cookie.setMaxAge(10800); // 3시간
-		response.addCookie(cookie);
+		ResponseCookie cookie = ResponseCookie.from("access_token", accessToken)
+			.httpOnly(true) // JavaScript 접근 차단
+			.secure(true)   // HTTPS에서만 사용
+			.sameSite("None") // SameSite=None 설정
+			.path("/")      // 전체 경로에서 유효
+			.maxAge(2592000)  // 9시간 유지
+			.build();
+
+		addCookieToResponse(cookie, response);
 	}
 
 	public void addRefreshTokenCookie(HttpServletResponse response, String refreshToken) {
-		Cookie cookie = new Cookie("refresh_token", refreshToken);
-		cookie.setHttpOnly(false);
-		cookie.setSecure(false);
-		cookie.setPath("/");
-		cookie.setMaxAge(14 * 24 * 60 * 60); // 14일
-		cookie.setDomain(serverDomain); // 도메인 설정 추가
-		response.addCookie(cookie);
+		ResponseCookie cookie = ResponseCookie.from("refresh_token", refreshToken)
+			.httpOnly(true) // JavaScript 접근 차단
+			.secure(true)   // HTTPS에서만 사용
+			.sameSite("None") // SameSite=None 설정
+			.path("/")      // 전체 경로에서 유효
+			.maxAge(1209600)  // 14일 유지
+			.build();
+
+
+		addCookieToResponse(cookie, response);
 	}
 
 	@Transactional
-	public void logout(Long userId) {
-		authRepository.deleteByUser_UserId(userId);
+	public void logout(User user, HttpServletResponse response) {
+		deleteAuthIfExists(user);
+		deleteCookie("access_token", response);
+		deleteCookie("refresh_token", response);
+	}
+
+	private void deleteAuthIfExists(User user) {
+		if (authRepository.existsByUser(user)) {
+			authRepository.deleteByUser(user);
+		}
+	}
+
+	private void deleteCookie(String name, HttpServletResponse response) {
+		ResponseCookie cookie = ResponseCookie.from(name, "")
+			.httpOnly(true)
+			.secure(true)
+			.sameSite("None")
+			.path("/")
+			.maxAge(0)
+			.build();
+
+		addCookieToResponse(cookie, response);
+	}
+
+	private void addCookieToResponse(ResponseCookie cookie, HttpServletResponse response) {
+		response.addHeader("Set-Cookie", cookie.toString());
 	}
 }

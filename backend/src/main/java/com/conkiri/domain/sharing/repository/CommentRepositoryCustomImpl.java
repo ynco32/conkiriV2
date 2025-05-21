@@ -41,7 +41,7 @@ public class CommentRepositoryCustomImpl implements CommentRepositoryCustom {
 			.selectFrom(comment)
 			.where(conditions)
 			.orderBy(comment.commentId.asc())
-			.limit(pageable.getPageSize() + 1)
+			.limit(pageable.getPageSize() + 1L)
 			.fetch();
 
 		boolean hasNext = results.size() > pageable.getPageSize();

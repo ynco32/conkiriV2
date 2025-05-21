@@ -1,0 +1,204 @@
+.profileContainer {
+  margin-bottom: clamp(10px, 2vh, $spacing-md);
+  width: 100%;
+  flex: 0 0 auto;
+}
+
+.profileWrapper {
+  position: relative;
+  width: 100%;
+  height: clamp(150px, 30vh, 250px);
+  min-height: 150px;
+  max-height: 250px;
+  border-radius: $border-radius-lg;
+  overflow: hidden;
+  cursor: pointer;
+  background-color: #c2e9ff;
+
+  &:hover {
+    box-shadow: 2px 2px 20px 0px rgba(34, 129, 198, 0.25);
+  }
+}
+
+/* 배경 이미지 컨테이너 */
+.backgroundImageContainer {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  opacity: 0.7; /* 배경 이미지의 투명도 조절 */
+  z-index: 0; /* 가장 아래 레이어 */
+}
+
+.backgroundImage {
+  object-fit: cover;
+  width: 100%;
+  height: 100%;
+}
+
+.backgroundContainer {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 1; /* 배경 이미지 위에 SVG 배치 */
+  display: flex;
+  align-items: flex-end;
+}
+
+.backgroundSvg {
+  width: 90%;
+  height: 90%;
+  position: absolute;
+  bottom: 10%;
+  left: 5%;
+}
+
+.contentContainer {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  z-index: 2; /* 모든 배경 위에 콘텐츠 배치 */
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  padding: 0;
+}
+
+.characterImageContainer {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 2;
+}
+
+.characterImage {
+  object-fit: contain;
+  max-height: 100%;
+  max-width: 100%;
+  transform: scale(clamp(1.2, 1.2 + 0.2 * (100vh - 600px) / 300, 1.5));
+}
+
+.nicknameSection {
+  width: 100%;
+  text-align: left;
+  position: absolute;
+  bottom: 16px;
+  left: 16px;
+  z-index: 3;
+}
+
+.nickname {
+  font-size: clamp($font-size-sm, 2.5vmin, $font-size-md);
+  font-weight: $font-weight-bold;
+  color: #2c3e50;
+}
+
+.userName {
+  color: $con-blue;
+}
+
+/* 스켈레톤 애니메이션 */
+@keyframes pulse {
+  0% {
+    opacity: 0.6;
+  }
+  50% {
+    opacity: 0.8;
+  }
+  100% {
+    opacity: 0.6;
+  }
+}
+
+/* 스켈레톤 UI 스타일 */
+.skeletonContainer {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  z-index: 2;
+}
+
+.skeletonCharacter {
+  position: absolute;
+  width: 160px;
+  height: 160px;
+  border-radius: 50%;
+  background-color: rgba(255, 255, 255, 0.3);
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  animation: pulse 1.5s infinite ease-in-out;
+}
+
+.skeletonNicknameSection {
+  position: absolute;
+  bottom: 12px;
+  left: 16px;
+  width: 100%;
+  z-index: 3;
+}
+
+.skeletonNickname {
+  width: 80px;
+  height: 18px;
+  background-color: rgba(255, 255, 255, 0.3);
+  border-radius: 4px;
+  animation: pulse 1.5s infinite ease-in-out;
+}
+
+@media (min-height: 800px) {
+  .profileWrapper {
+    height: calc(25vh + 20px);
+  }
+}
+
+@media (max-height: 700px) {
+  .profileWrapper {
+    height: calc(28vh + 20px);
+  }
+}
+
+@media (max-height: 600px) {
+  .profileWrapper {
+    height: calc(30vh + 20px);
+    min-height: 130px;
+  }
+
+  .nicknameSection,
+  .skeletonNicknameSection {
+    bottom: 8px;
+    left: 12px;
+  }
+
+  .nickname {
+    font-size: $font-size-sm;
+  }
+
+  .skeletonNickname {
+    height: 14px;
+  }
+}
+
+.loginSection {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+// 로그인 메시지 스타일
+.loginMessage {
+  font-size: clamp($font-size-sm, 2.5vmin, $font-size-md);
+  font-weight: $font-weight-bold;
+  color: #2c3e50;
+  display: inline-block;
+}

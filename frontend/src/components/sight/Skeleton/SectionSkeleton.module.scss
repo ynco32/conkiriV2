@@ -1,0 +1,77 @@
+.skeleton {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+  animation: pulse 1.5s infinite ease-in-out;
+}
+
+.miniMapSkeleton {
+  width: 100%;
+  height: 120px;
+  background-color: $con-gray;
+  border-radius: $border-radius-md;
+  margin-bottom: $spacing-lg;
+}
+
+.seatMapSkeleton {
+  width: 100%;
+  margin: $spacing-md 0;
+}
+
+.scrollHintSkeleton {
+  height: 20px;
+  width: 80%;
+  margin: 0 auto $spacing-md auto;
+  background-color: $con-gray;
+  border-radius: $border-radius-sm;
+}
+
+.seatGridSkeleton {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  padding: $spacing-md;
+  background-color: rgba(221, 221, 221, 0.3);
+  border-radius: $border-radius-md;
+}
+
+.rowSkeleton {
+  display: flex;
+  gap: 4px;
+  height: 25px;
+}
+
+.seatSkeleton {
+  width: 25px;
+  height: 25px;
+  background-color: $con-gray;
+  border-radius: $border-radius-sm;
+}
+
+.buttonsSkeleton {
+  display: flex;
+  gap: $spacing-md;
+  margin-top: $spacing-xl;
+  justify-content: center;
+  width: 100%;
+}
+
+.buttonSkeleton {
+  height: 40px;
+  width: 120px;
+  background-color: $con-gray;
+  border-radius: $border-radius-sm;
+}
+
+@keyframes pulse {
+  0% {
+    opacity: 0.6;
+  }
+  50% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0.6;
+  }
+}

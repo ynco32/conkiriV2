@@ -2,8 +2,6 @@ package com.conkiri.global.auth.entity;
 
 import java.time.LocalDateTime;
 
-import org.hibernate.annotations.ColumnDefault;
-
 import com.conkiri.domain.user.entity.User;
 
 import jakarta.persistence.Column;
@@ -15,15 +13,11 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.OneToOne;
 import lombok.AccessLevel;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-@Builder
 @Entity
 @Getter
-@AllArgsConstructor
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Auth {
 
@@ -43,11 +37,22 @@ public class Auth {
 	private User user;
 
 	@Column(nullable = false, length = 20)
-	@ColumnDefault("'KAKAO'")
 	private String provider;
 
 	@Column(name = "provider_id", nullable = false)
 	private String providerId;
+
+	private Auth(String refreshToken, LocalDateTime expiryDate, User user, String provider, String providerId) {
+		this.refreshToken = refreshToken;
+		this.expiryDate = expiryDate;
+		this.user = user;
+		this.provider = provider;
+		this.providerId = providerId;
+	}
+
+	public static Auth of(String refreshToken, LocalDateTime expiryDate, User user, String provider, String providerId) {
+		return new Auth(refreshToken, expiryDate, user, provider, providerId);
+	}
 
 	public void updateToken(String refreshToken, LocalDateTime expiryDate) {
 		this.refreshToken = refreshToken;

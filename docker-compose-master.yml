@@ -1,0 +1,210 @@
+version: "3.8"
+
+services:
+  backend-master:
+    container_name: backend-master-new
+    # container_name: backend-master
+    build: ./backend
+    ports:
+      - "8080:8080"
+    environment:
+      - SPRING_PROFILES_ACTIVE=master
+      - TZ=Asia/Seoul
+      - KAKAO_CLIENT_ID=${KAKAO_CLIENT_ID}
+      - KAKAO_CLIENT_SECRET=${KAKAO_CLIENT_SECRET}
+      - KAKAO_REDIRECT_URI=${KAKAO_REDIRECT_URI}
+      - JWT_SECRET_KEY=${JWT_SECRET_KEY}
+      - DB_URL=${DB_URL}
+      - DB_USERNAME=${DB_USERNAME}
+      - DB_PASSWORD=${DB_PASSWORD}
+      - FRONTEND_URL=${FRONTEND_URL}
+      - AWS_ACCESS_KEY=${AWS_ACCESS_KEY}
+      - AWS_SECRET_KEY=${AWS_SECRET_KEY}
+      - AWS_REGION=${AWS_REGION}
+      - S3_BUCKET=${S3_BUCKET}
+      - REDIS_HOST=${REDIS_HOST}
+      - RABBITMQ_HOST=rabbitmq
+      - RABBITMQ_PORT=5672
+      - RABBITMQ_USERNAME=${RABBITMQ_USERNAME}
+      - RABBITMQ_PASSWORD=${RABBITMQ_PASSWORD}
+      - FIREBASE_PROJECT_ID=${FIREBASE_PROJECT_ID}
+      - FIREBASE_CLIENT_EMAIL=${FIREBASE_CLIENT_EMAIL}
+      - FIREBASE_PRIVATE_KEY=${FIREBASE_PRIVATE_KEY}
+      - FIREBASE_CLIENT_ID=${FIREBASE_CLIENT_ID}
+      - FIREBASE_PRIVATE_KEY_ID=${FIREBASE_PRIVATE_KEY_ID}
+      - CHATBOT_PYTHON_URL=${CHATBOT_PYTHON_URL}
+    depends_on:
+      mysql:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+      rabbitmq:
+        condition: service_healthy
+    networks:
+      app-network:
+        aliases:
+          # - backend-dev
+          - backend-dev-new
+        # - backend-dev-new
+
+  # 콘서트 크롤러 서비스 추가
+  concert-crawler-master:
+    container_name: concert-crawler-master
+    build:
+      context: ./python/concert_crawler
+    environment:
+      - OPENAI_API_KEY=${OPENAI_API_KEY}
+      - AWS_ACCESS_KEY=${AWS_ACCESS_KEY}
+      - AWS_SECRET_KEY=${AWS_SECRET_KEY}
+      - S3_REGION=${AWS_REGION}
+      - API_BASE_URL=${NEXT_PUBLIC_API_URL}
+      - TZ=Asia/Seoul
+    volumes:
+      - ./python/concert_crawler/temp_images:/app/temp_images
+    restart: on-failure:1
+    networks:
+      app-network:
+        aliases:
+          - concert-crawler-master
+
+  rag-master:
+    container_name: rag-master
+    build:
+      context: ./python/rag
+    environment:
+      - OPENAI_API_KEY=${OPENAI_API_KEY}
+      - PINECONE_API_KEY=${PINECONE_API_KEY}
+      - PINECONE_ENVIRONMENT=${PINECONE_ENVIRONMENT}
+      - AWS_ACCESS_KEY=${AWS_ACCESS_KEY}
+      - AWS_SECRET_KEY=${AWS_SECRET_KEY}
+      - S3_REGION=${AWS_REGION}
+      - DB_HOST=mysql-master
+      - DB_PORT=3306
+      - DB_USER=${DB_USERNAME}
+      - DB_PASSWORD=${DB_PASSWORD}
+      - DB_NAME=conkiri
+      - API_BASE_URL=${NEXT_PUBLIC_API_URL}
+      - TZ=Asia/Seoul
+    ports:
+      - "8000:8000"
+    networks:
+      app-network:
+        aliases:
+          - rag-master
+
+  frontend-master:
+    container_name: frontend-master-new
+    # container_name: frontend-master
+    build:
+      context: ./frontend
+      args:
+        - NEXT_PUBLIC_KAKAO_MAP_API_KEY=${NEXT_PUBLIC_KAKAO_MAP_API_KEY}
+        - NEXT_PUBLIC_API_URL=${NEXT_PUBLIC_API_URL}
+        - NEXT_PUBLIC_SKT_API_KEY=${NEXT_PUBLIC_SKT_API_KEY}
+        - NEXT_PUBLIC_SKT_API_URL=${NEXT_PUBLIC_SKT_API_URL}
+        - NEXT_PUBLIC_FIREBASE_API_KEY=${NEXT_PUBLIC_FIREBASE_API_KEY}
+        - NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN=${NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN}
+        - NEXT_PUBLIC_FIREBASE_PROJECT_ID=${NEXT_PUBLIC_FIREBASE_PROJECT_ID}
+        - NEXT_PUBLIC_FIREBASE_STORAGE_BUCKET=${NEXT_PUBLIC_FIREBASE_STORAGE_BUCKET}
+        - NEXT_PUBLIC_FIREBASE_MESSAGING_SENDER_ID=${NEXT_PUBLIC_FIREBASE_MESSAGING_SENDER_ID}
+        - NEXT_PUBLIC_FIREBASE_APP_ID=${NEXT_PUBLIC_FIREBASE_APP_ID}
+        - NEXT_PUBLIC_FIREBASE_VAPID_KEY=${NEXT_PUBLIC_FIREBASE_VAPID_KEY}
+    ports:
+      - "3000:3000"
+    environment:
+      - NODE_ENV=production
+      - NEXT_PUBLIC_KAKAO_MAP_API_KEY=${NEXT_PUBLIC_KAKAO_MAP_API_KEY}
+      - NEXT_PUBLIC_API_URL=${NEXT_PUBLIC_API_URL}
+      - NEXT_PUBLIC_SKT_API_KEY=${NEXT_PUBLIC_SKT_API_KEY}
+      - NEXT_PUBLIC_SKT_API_URL=${NEXT_PUBLIC_SKT_API_URL}
+      - NEXT_PUBLIC_FIREBASE_API_KEY=${NEXT_PUBLIC_FIREBASE_API_KEY}
+      - NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN=${NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN}
+      - NEXT_PUBLIC_FIREBASE_PROJECT_ID=${NEXT_PUBLIC_FIREBASE_PROJECT_ID}
+      - NEXT_PUBLIC_FIREBASE_STORAGE_BUCKET=${NEXT_PUBLIC_FIREBASE_STORAGE_BUCKET}
+      - NEXT_PUBLIC_FIREBASE_MESSAGING_SENDER_ID=${NEXT_PUBLIC_FIREBASE_MESSAGING_SENDER_ID}
+      - NEXT_PUBLIC_FIREBASE_APP_ID=${NEXT_PUBLIC_FIREBASE_APP_ID}
+      - NEXT_PUBLIC_FIREBASE_VAPID_KEY=${NEXT_PUBLIC_FIREBASE_VAPID_KEY}
+    depends_on:
+      - backend-master
+    networks:
+      app-network:
+        aliases:
+          # - frontend-master
+          - frontend-master-new
+        # - frontend-master-new
+
+  mysql:
+    container_name: mysql-master
+    image: mysql:8.0.36
+    healthcheck:
+      test:
+        [
+          "CMD",
+          "mysql",
+          "--user=${MYSQL_USER}",
+          "--password=${MYSQL_PASSWORD}",
+          "-e",
+          "SELECT 1",
+        ]
+      interval: 5s
+      timeout: 3s
+      retries: 2
+      start_period: 10s
+    environment:
+      - MYSQL_ROOT_PASSWORD=${MYSQL_ROOT_PASSWORD}
+      - MYSQL_DATABASE=conkiri
+      - MYSQL_USER=${MYSQL_USER}
+      - MYSQL_PASSWORD=${MYSQL_PASSWORD}
+      - TZ=Asia/Seoul
+    ports:
+      - "13306:3306"
+    volumes:
+      - mysql_data_master:/var/lib/mysql
+    networks:
+      - app-network
+
+  redis:
+    container_name: redis-master
+    image: redis:latest
+    ports:
+      - "6380:6379"
+    command: ["redis-server", "--appendonly", "no", "--replicaof", "no", "one"]
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 5s
+      timeout: 3s
+      retries: 2
+      start_period: 10s
+    networks:
+      - app-network
+
+  rabbitmq:
+    container_name: rabbitmq-master
+    image: rabbitmq:3-management
+    ports:
+      - "5673:5672"
+      - "15673:15672"
+    environment:
+      - RABBITMQ_DEFAULT_USER=${RABBITMQ_USERNAME}
+      - RABBITMQ_DEFAULT_PASS=${RABBITMQ_PASSWORD}
+      - TZ=Asia/Seoul
+    volumes:
+      - rabbitmq_data_master:/var/lib/rabbitmq
+      - rabbitmq_logs_master:/var/log/rabbitmq
+    healthcheck:
+      test: ["CMD", "rabbitmq-diagnostics", "check_port_connectivity"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 30s
+    networks:
+      - app-network
+
+volumes:
+  mysql_data_master:
+  rabbitmq_data_master:
+  rabbitmq_logs_master:
+
+networks:
+  app-network:
+    external: true

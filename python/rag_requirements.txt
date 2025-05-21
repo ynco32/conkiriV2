@@ -1,0 +1,30 @@
+# 웹 서버 & API
+fastapi==0.115.12
+uvicorn==0.34.2
+
+# 자연어 처리 & AI
+langchain==0.3.25
+langchain-openai==0.3.17
+langchain-pinecone==0.2.6
+openai==1.77.0
+
+# 벡터 데이터베이스
+pinecone==6.0.2
+
+# 데이터베이스
+mysql-connector-python==9.3.0
+
+# 웹 스크래핑 & 크롤링
+beautifulsoup4==4.13.4
+selenium==4.31.0
+
+# 이미지 처리
+pillow==11.2.1
+opencv-python==4.11.0.86
+
+# AWS 서비스
+boto3==1.38.11
+
+# 유틸리티
+python-dotenv==1.1.0
+requests==2.32.3

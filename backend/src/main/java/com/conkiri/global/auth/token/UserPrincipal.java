@@ -5,6 +5,7 @@ import java.util.Collections;
 import java.util.Map;
 
 import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.oauth2.core.user.OAuth2User;
 
 import com.conkiri.domain.user.entity.User;
@@ -29,7 +30,7 @@ public class UserPrincipal implements OAuth2User {
 	public UserPrincipal(OAuth2User oauth2User, User user) {
 		this.oauth2User = oauth2User;
 		this.user = user;
-		this.authorities = oauth2User.getAuthorities();
+		this.authorities = Collections.singletonList(new SimpleGrantedAuthority(user.getRole()));;
 	}
 
 	@Override

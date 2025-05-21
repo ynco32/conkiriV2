@@ -1,0 +1,79 @@
+// 색상 변수
+
+// Brand Colors
+$con-blue: #4986e8;
+$con-lightblue: #a7deff;
+$con-gray: #dddddd;
+
+// Gradation
+$ticketing-bg: radial-gradient(
+  300px 300px at 50% 50%,
+  #dbeefd 0%,
+  #eef7fe 51.9%,
+  #fff 100%
+);
+
+$linear-bg: linear-gradient(
+  180deg,
+  #ffffff 0%,
+  #ffffff 60%,
+  #dbeefd 85%,
+  #bae4fd 100%
+);
+// Text Colors
+$text-main: #515151;
+$text-sub: #949494;
+
+// Typography
+$font-pretendard: 'Pretendard', -apple-system, BlinkMacSystemFont, sans-serif;
+$base-font-family: $font-pretendard;
+$base-font-size: 16px;
+$base-line-height: 1.5;
+
+// 폰트 크기 변수
+$font-size-3xs: 8px;
+$font-size-2xs: 10px;
+$font-size-xs: 12px;
+$font-size-sm: 14px;
+$font-size-md: 16px;
+$font-size-lg: 18px;
+$font-size-xl: 20px;
+$font-size-2xl: 24px;
+$font-size-3xl: 30px;
+$font-size-4xl: 36px;
+
+// 타이포그래피
+$font-family-base: $base-font-family;
+$font-size-base: 1rem;
+$font-weight-normal: 400;
+$font-weight-medium: 500;
+$font-weight-bold: 700;
+
+// 스페이싱
+$spacing-xs: 0.25rem;
+$spacing-sm: 0.5rem;
+$spacing-md: 1rem;
+$spacing-lg: 1.5rem;
+$spacing-xl: 2rem;
+$spacing-xxl: 3rem;
+
+// 브레이크포인트
+$breakpoint-sm: 576px;
+$breakpoint-md: 768px;
+$breakpoint-lg: 992px;
+$breakpoint-xl: 1200px;
+
+// 그림자
+$shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.12);
+$shadow-md: 0 4px 6px rgba(0, 0, 0, 0.1);
+$shadow-lg: 0 10px 15px rgba(0, 0, 0, 0.1);
+$shadow-con: 3px 3px 20px 0px rgba(106, 160, 205, 0.25);
+
+// 테두리 반경
+$border-radius-sm: 4px;
+$border-radius-md: 8px;
+$border-radius-lg: 12px;
+$border-radius-full: 9999px;
+
+$z-index-overlay: 101;
+$z-index-popup: 50;

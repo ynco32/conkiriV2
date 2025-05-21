@@ -1,0 +1,29 @@
+.seat {
+  width: 12px;
+  height: 12px;
+  margin: 2px;
+  display: inline-block;
+  border-radius: 1px;
+  cursor: pointer;
+
+  &.empty {
+    // 빈 좌석
+    background-color: transparent;
+    cursor: default;
+  }
+
+  &.default {
+    // 기본 상태
+    background-color: rgb(225, 229, 234);
+  }
+
+  &.reviewed {
+    // 리뷰 있음 (연한 파란색)
+    background-color: rgb(167, 222, 255);
+  }
+
+  &.selected {
+    // 선택됨 (진한 파란색)
+    background-color: rgb(73, 134, 232);
+  }
+}

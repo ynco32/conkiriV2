@@ -1,6 +1,7 @@
 package com.conkiri.domain.sharing.entity;
 
-import com.conkiri.global.exception.sharing.StatusInvalidException;
+import com.conkiri.global.exception.BaseException;
+import com.conkiri.global.exception.ErrorCode;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -19,7 +20,7 @@ public enum Status {
 		try {
 			return Status.valueOf(status);
 		} catch (IllegalArgumentException e) {
-			throw new StatusInvalidException();
+			throw new BaseException(ErrorCode.STATUS_INVALID);
 		}
 	}
 }

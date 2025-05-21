@@ -1,0 +1,40 @@
+.container {
+  display: flex;
+  width: 100%;
+  flex-direction: column;
+  align-items: center;
+  padding-top: $spacing-xxl;
+}
+
+.loadingContainer {
+  display: flex;
+  height: 16rem; // 64px * 4 = 256px ~ 16rem
+  width: 100%;
+  align-items: center;
+  justify-content: center;
+}
+
+.stageContainer {
+  margin-bottom: $spacing-xl * 2; // 32px
+  width: 8rem; // 128px
+}
+
+.stageShadow {
+  filter: drop-shadow(0 1px 3px rgba(0, 0, 0, 0.1));
+}
+
+.stageText {
+  font-size: $font-size-sm;
+  font-weight: $font-weight-bold;
+}
+
+.seatsContainer {
+  display: flex;
+  width: 100%;
+  justify-content: center;
+  overflow: auto;
+}
+
+.seatsMap {
+  max-width: 100%;
+}

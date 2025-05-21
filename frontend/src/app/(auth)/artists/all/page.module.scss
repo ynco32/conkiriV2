@@ -1,0 +1,155 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  min-height: 100vh;
+  background: radial-gradient(circle, #dbeefd 0%, #ffffff 80%);
+  padding: 0 24px;
+  overflow: hidden;
+}
+
+.progressBar {
+  margin-bottom: 10px;
+}
+
+.content {
+  width: 100%;
+  height: calc(100vh - 64px);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding-top: 10px;
+  row-gap: 15px;
+  overflow: hidden;
+}
+
+.titleContainer {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+.title {
+  font-size: 22px;
+  font-weight: 700;
+  margin-bottom: 8px;
+  color: #222;
+}
+
+.desc {
+  font-size: 14px;
+  font-weight: 600;
+  color: #1976ed;
+  margin-bottom: 10px;
+}
+
+.form {
+  width: 100%;
+  max-width: 400px;
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.artistContainer {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 40px 12px;
+  width: 100%;
+  max-width: 400px;
+  margin: 0 auto;
+  margin-top: 20px;
+  overflow-y: auto;
+  max-height: calc(100vh - 250px);
+  scrollbar-width: none; /* Firefox */
+  -ms-overflow-style: none; /* IE and Edge */
+  &::-webkit-scrollbar {
+    display: none; /* Chrome, Safari, Opera */
+  }
+}
+
+.artistItem {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  cursor: pointer;
+  position: relative;
+}
+
+.artistImage {
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+  background: #fff;
+  border: 2px solid #e0e0e0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  margin-bottom: 9px;
+  position: relative;
+}
+
+.artistItem.selected .artistImage {
+  border: 2px solid $con-blue;
+}
+
+.checkmark {
+  position: absolute;
+  top: 6px;
+  right: 6px;
+  width: 24px;
+  height: 24px;
+  z-index: 200;
+  background: $con-blue;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #fff;
+  font-size: 16px;
+}
+
+.artistName {
+  font-size: 14px;
+  color: #222;
+  text-align: center;
+}
+
+.buttonContainer {
+  position: fixed;
+  left: 0;
+  bottom: 0;
+  width: 100%;
+  max-width: 400px;
+  padding: 0 24px 24px 24px;
+  background: transparent;
+  z-index: 100;
+  transform: translateX(-50%);
+  left: 50%;
+  transition: transform 0.3s ease-in-out;
+  transform: translate(-50%, 100%);
+
+  &.visible {
+    transform: translate(-50%, 0);
+  }
+}
+
+.submitBtn {
+  width: 100%;
+  background: #1976ed;
+  color: #fff;
+  font-size: 16px;
+  font-weight: 700;
+  border: none;
+  border-radius: 12px;
+  padding: 14px 0;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.submitBtn:disabled {
+  background: #e6f0fa;
+  color: #b0b8c1;
+  cursor: not-allowed;
+}

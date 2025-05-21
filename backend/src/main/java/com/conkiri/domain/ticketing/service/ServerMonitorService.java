@@ -4,7 +4,7 @@ import java.lang.management.ManagementFactory;
 
 import org.springframework.stereotype.Component;
 
-import com.conkiri.domain.ticketing.dto.ServerMetricsDTO;
+import com.conkiri.domain.ticketing.dto.response.ServerMetricsDTO;
 import com.sun.management.OperatingSystemMXBean;
 
 import lombok.RequiredArgsConstructor;
@@ -25,7 +25,6 @@ public class ServerMonitorService {
 		double memoryLoad = getMemoryLoad(osBean);
 
 		ServerMetricsDTO metrics = ServerMetricsDTO.of(cpuLoad, memoryLoad);
-		logServerMetrics(metrics);
 		return metrics;
 	}
 
@@ -40,22 +39,14 @@ public class ServerMonitorService {
 		return (totalMemory - freeMemory) / totalMemory;
 	}
 
-	private void logServerMetrics(ServerMetricsDTO metrics) {
-
-		// log.info("Server Load - CPU: {}, Memory: {}, Total: {}",
-		// 	String.format("%.2f", metrics.cpuLoad()),
-		// 	String.format("%.2f", metrics.memoryLoad()),
-		// 	String.format("%.2f", metrics.totalLoad()));
-	}
-
 	public int calculateBatchSize(ServerMetricsDTO metrics) {
 
 		if (metrics.totalLoad() > HIGH_LOAD_THRESHOLD) {
-			return 1;  // 높은 부하
+			return 5;  // 높은 부하
 		}
 		if (metrics.totalLoad() > MEDIUM_LOAD_THRESHOLD) {
-			return 1; // 중간 부하
+			return 10; // 중간 부하
 		}
-		return 2;    // 낮은 부하
+		return 15;    // 낮은 부하
 	}
 }

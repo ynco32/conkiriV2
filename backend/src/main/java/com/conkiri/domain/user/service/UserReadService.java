@@ -5,7 +5,8 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.conkiri.domain.user.entity.User;
 import com.conkiri.domain.user.repository.UserRepository;
-import com.conkiri.global.exception.user.UserNotFoundException;
+import com.conkiri.global.exception.BaseException;
+import com.conkiri.global.exception.ErrorCode;
 
 import lombok.RequiredArgsConstructor;
 
@@ -19,12 +20,12 @@ public class UserReadService {
 	public User findUserByEmailOrElseThrow(String email) {
 
 		return userRepository.findByEmail(email)
-			.orElseThrow(UserNotFoundException::new);
+			.orElseThrow(() -> new BaseException(ErrorCode.USER_NOT_FOUND));
 	}
 
 	public User findUserByIdOrElseThrow(Long userId) {
 
 		return userRepository.findById(userId)
-			.orElseThrow(UserNotFoundException::new);
+			.orElseThrow(() -> new BaseException(ErrorCode.USER_NOT_FOUND));
 	}
 }

@@ -1,0 +1,153 @@
+.header {
+  margin-bottom: $spacing-md;
+  display: flex;
+  width: 100%;
+  align-items: flex-end; // 하단 정렬로 변경
+  // padding: 0 $spacing-md;
+}
+
+.profileWrapper {
+  display: flex;
+  width: 100%;
+  align-items: flex-end; // 하단 정렬로 변경
+  gap: $spacing-sm;
+}
+
+.profileImage {
+  width: 60px;
+  height: 60px;
+  border-radius: $border-radius-full;
+  object-fit: cover;
+}
+
+.infoContainer {
+  display: flex;
+  flex-grow: 1;
+  flex-direction: column;
+  width: 100%;
+  justify-content: flex-end; // 하단 정렬
+}
+
+.topRow {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  margin-bottom: $spacing-xs;
+}
+
+.nickName {
+  font-size: $font-size-sm;
+  font-weight: $font-weight-bold;
+  color: $text-main;
+  text-align: left;
+  margin-right: auto;
+  margin-top: 0; // 상단 여백 제거
+}
+
+.seatBadge {
+  background-color: $con-blue;
+  color: white;
+  border-radius: $border-radius-sm;
+  padding: 4px 6px;
+  font-size: $font-size-xs;
+  margin-left: auto;
+}
+
+.bottomRow {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  flex-wrap: nowrap;
+}
+
+.concertTitle {
+  font-size: $font-size-xs;
+  color: $text-sub;
+  display: -webkit-box;
+  -webkit-line-clamp: 2; // 2줄로 제한
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  line-height: 1.4;
+  max-height: 2.8em; // line-height * 줄 수
+  width: calc(100% - 20px); // 메뉴 버튼 공간 확보
+  word-break: keep-all; // 한글 단어 단위로 줄바꿈
+  word-wrap: break-word; // 영문 단어 길이 제한
+}
+
+.menuContainer {
+  position: relative;
+  flex-shrink: 0; // 컨테이너 크기 고정
+  align-self: center; // 중앙 정렬로 수정
+}
+
+.menuButton {
+  padding: 4px;
+  background: transparent;
+  border: none; // 테두리 제거
+  border-radius: $border-radius-full;
+  cursor: pointer; // 커서 포인터로 변경
+
+  &:hover {
+    background-color: rgba(0, 0, 0, 0.05);
+  }
+}
+
+.menuIcon {
+  color: $text-main;
+  width: 24px;
+  height: 24px;
+}
+
+.dropdownMenu {
+  position: absolute;
+  right: 0;
+  top: 32px;
+  z-index: 10;
+  min-width: 100px;
+  background-color: white;
+  border-radius: $border-radius-md;
+  box-shadow: $shadow-md;
+  padding: 4px 0;
+  border: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+.menuItem {
+  display: block;
+  width: 100%;
+  padding: 8px 16px;
+  text-align: left;
+  font-size: $font-size-sm;
+  color: $text-main;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+
+  &:hover {
+    background-color: rgba(0, 0, 0, 0.05);
+  }
+}
+
+.dotIcon {
+  color: $text-main;
+  width: 16px;
+  height: 16px;
+}
+
+.deleteButton {
+  display: block;
+  width: 100%;
+  padding: 8px 16px;
+  text-align: left;
+  font-size: $font-size-sm;
+  color: #e53e3e; // 빨간색 (삭제 버튼)
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  transition: background-color 0.2s;
+
+  &:hover {
+    background-color: rgba(0, 0, 0, 0.05);
+  }
+}

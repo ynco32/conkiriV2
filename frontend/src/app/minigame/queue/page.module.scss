@@ -1,0 +1,155 @@
+.posterSection {
+  display: flex;
+  background-color: #f7f7f8;
+}
+
+.poster {
+  margin: $spacing-md;
+}
+
+.posterInfo {
+  padding: $spacing-lg $spacing-md;
+  flex: 1;
+}
+
+.badgeContainer {
+  display: flex;
+  gap: 0.25rem;
+  margin-bottom: $spacing-sm;
+}
+
+.exclusiveBadge {
+  display: inline-block;
+  border-radius: 0.125rem;
+  padding: 0.125rem 0.75rem;
+  font-size: $font-size-xs;
+  font-weight: $font-weight-medium;
+  background-color: #00c73c;
+  color: white;
+}
+
+.verifiedBadge {
+  display: inline-block;
+  border-radius: 0.125rem;
+  padding: 0.125rem 0.75rem;
+  font-size: $font-size-xs;
+  font-weight: $font-weight-medium;
+  background-color: #ff4b93;
+  color: white;
+}
+
+.titleSection {
+  margin: $spacing-sm 0;
+}
+
+.concertTitle {
+  margin-bottom: 1.25rem;
+  font-size: 21px;
+  font-weight: 700;
+  line-height: 30px;
+}
+
+.concertCategory {
+  font-size: $font-size-xs;
+  line-height: 18px;
+}
+
+.performanceInfo {
+  padding: 1.5rem $spacing-md;
+}
+
+.infoRow {
+  margin: $spacing-sm 0;
+  display: flex;
+  align-items: flex-start;
+}
+
+.infoLabel {
+  width: 6rem;
+  min-width: 6rem;
+  margin-right: 1.25rem;
+  color: #6c6e84; // text-gray-500
+}
+
+.infoValue {
+  flex: 1;
+}
+
+.tabs {
+  display: flex;
+  gap: 1.5rem;
+  padding: $spacing-sm $spacing-md;
+}
+
+.tabActive {
+  color: #00c73c;
+}
+
+.tabInactive {
+  color: #6c6e84; // text-gray-500
+}
+
+.priceSection {
+  border-top: 1px solid #dbdbe1; // border-gray-100
+  border-bottom: 1px solid #dbdbe1;
+  background-color: #f7f7f8; // bg-gray-50
+}
+
+.priceHeader {
+  margin: 0.75rem $spacing-md;
+}
+
+.priceTitle {
+  padding: $spacing-sm 0;
+  font-size: 18px;
+  font-weight: 500;
+  line-height: 26px;
+}
+
+.priceNote {
+  margin-bottom: $spacing-sm;
+  white-space: pre-wrap;
+  line-height: 1;
+}
+
+.seatLegend {
+  display: flex;
+  justify-content: center;
+  gap: 2.25rem;
+  background-color: white;
+  padding: $spacing-md;
+}
+
+.seatColorVip {
+  background-color: #bea886;
+  margin-right: $spacing-sm;
+  display: inline-block;
+  height: 1rem;
+  width: 1rem;
+}
+
+.seatColorGeneral {
+  background-color: #9076ff;
+  margin-right: $spacing-sm;
+  display: inline-block;
+  height: 1rem;
+  width: 1rem;
+}
+
+.fixedButton {
+  position: fixed;
+  max-width: 430px;
+  bottom: 0;
+  width: 100%;
+  border-radius: 0;
+  padding: $spacing-md 0;
+  text-align: center;
+  background-color: #5667c9;
+  color: white;
+  border: none;
+
+  &.disabled {
+    background-color: #a2a4b3;
+    cursor: not-allowed;
+  }
+}

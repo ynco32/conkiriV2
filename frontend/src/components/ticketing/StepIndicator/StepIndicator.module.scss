@@ -1,0 +1,42 @@
+.container {
+  display: flex;
+  justify-content: space-between;
+  border-bottom: 1px solid $con-gray;
+  background-color: white;
+  padding: $spacing-md $spacing-md;
+  font-size: $font-size-sm;
+}
+
+.stepGroup {
+  display: flex;
+  align-items: center;
+}
+
+.stepCircle {
+  height: 1.5rem;
+  width: 1.5rem;
+  border-radius: $border-radius-full;
+  background-color: $con-gray;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: $font-size-xs;
+  color: white;
+
+  &.active {
+    background-color: $con-blue;
+  }
+}
+
+.stepText {
+  margin-left: $spacing-sm;
+  color: $text-sub;
+
+  &.activeText {
+    color: $con-blue;
+  }
+}
+
+.separator {
+  margin: 0 $spacing-sm;
+}

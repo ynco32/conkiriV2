@@ -1,0 +1,6 @@
+spring:
+  data:
+    redis:
+      host: ${REDIS_HOST}
+  jackson:
+    time-zone: Asia/Seoul

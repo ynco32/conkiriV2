@@ -5,7 +5,8 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.conkiri.domain.base.entity.Arena;
 import com.conkiri.domain.base.repository.ArenaRepository;
-import com.conkiri.global.exception.view.ArenaNotFoundException;
+import com.conkiri.global.exception.BaseException;
+import com.conkiri.global.exception.ErrorCode;
 
 import lombok.RequiredArgsConstructor;
 
@@ -17,7 +18,8 @@ public class ArenaReadService {
 	private final ArenaRepository arenaRepository;
 
 	public Arena findArenaByAreaIdOrElseThrow(Long arenaId) {
+
 		return arenaRepository.findArenaByArenaId(arenaId)
-			.orElseThrow(ArenaNotFoundException::new);
+			.orElseThrow(() -> new BaseException(ErrorCode.ARENA_NOT_FOUND));
 	}
 }

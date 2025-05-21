@@ -1,0 +1,111 @@
+// src/components/layout/Header/SideBar.module.scss
+
+.backdrop {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw; // 화면 전체 너비
+  height: 100vh; // 화면 전체 높이
+  background-color: rgba(0, 0, 0, 0.5);
+  z-index: 200;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.3s ease, visibility 0.3s ease;
+
+  &.open {
+    opacity: 1;
+    visibility: visible;
+  }
+}
+
+.sidebar {
+  position: fixed;
+  top: 0;
+  width: 280px; // 사이드바 너비
+  height: 100%;
+  background-color: white;
+  box-shadow: $shadow-lg;
+  padding: $spacing-md;
+  overflow-y: auto;
+  z-index: 201;
+  transition: transform 0.3s ease;
+  right: 0; // 항상 오른쪽에 붙여서 시작
+  transform: translateX(100%); // 초기에는 오른쪽으로 완전히 밀어둠
+
+  &.open {
+    transform: translateX(0); // 열릴 때는 제자리로
+  }
+
+  // 컨테이너가 430px보다 큰 화면에서는 컨테이너 내부에 위치하도록 조정
+  @media screen and (min-width: $breakpoint-sm) {
+    // 컨테이너 밖에서 안으로 들어오는 위치 계산
+    max-width: 430px;
+    margin: 0 auto;
+    left: auto;
+    right: calc(50% - 215px); // (화면 절반 - 컨테이너 절반)
+  }
+}
+
+.menuHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-bottom: $spacing-md;
+  border-bottom: 1px solid $con-gray;
+  margin-bottom: $spacing-lg;
+}
+
+.menuTitle {
+  font-size: $font-size-lg;
+  font-weight: $font-weight-bold;
+  color: $text-main;
+  margin: 0;
+}
+
+.closeButton {
+  background: none;
+  border: none;
+  font-size: $font-size-2xl;
+  cursor: pointer;
+  color: $text-sub;
+  padding: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  border-radius: $border-radius-full;
+  transition: background-color 0.2s ease;
+
+  &:hover {
+    background-color: $con-gray;
+  }
+}
+
+.menuItems {
+  ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+
+    li {
+      margin-bottom: $spacing-md;
+
+      a {
+        display: block;
+        text-decoration: none;
+        color: $text-main;
+        font-size: $font-size-md;
+        padding: $spacing-sm $spacing-md;
+        border-radius: $border-radius-md;
+        transition: all 0.2s ease;
+
+        &:hover,
+        &:focus {
+          color: $con-blue;
+          background-color: rgba($con-lightblue, 0.1);
+        }
+      }
+    }
+  }
+}

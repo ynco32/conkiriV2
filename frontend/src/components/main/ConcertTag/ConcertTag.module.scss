@@ -1,0 +1,31 @@
+// src/components/main/ConcertTag/ConcertTag.module.scss
+.concertTag {
+  position: absolute; // fixed에서 absolute로 변경
+  right: 0;
+  top: 120px; // 프로필 아래 적절한 위치에 배치
+  background-color: $con-blue;
+  border-radius: 12px 0 0 12px;
+  padding: 12px 8px;
+  text-decoration: none;
+  box-shadow: -2px 2px 8px rgba(0, 0, 0, 0.15);
+  z-index: 10;
+  transition: all 0.3s ease;
+
+  &:hover {
+    padding-right: 16px;
+    background-color: #3a71d1;
+  }
+
+  .tagContent {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    color: white;
+    font-weight: 500;
+    font-size: 12px;
+
+    span {
+      margin-top: 8px;
+    }
+  }
+}

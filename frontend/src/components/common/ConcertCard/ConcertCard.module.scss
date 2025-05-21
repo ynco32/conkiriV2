@@ -1,0 +1,121 @@
+.card {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  max-width: 264px; // 기본 최대 너비 (width prop으로 재정의 가능)
+  border-radius: $border-radius-lg;
+  overflow: hidden;
+  background-color: white;
+  box-shadow: 0 2px 8px rgba(106, 160, 205, 0.4);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  cursor: pointer;
+
+  &:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 4px 12px rgba(106, 160, 205, 0.2);
+  }
+
+  &:active {
+    transform: translateY(-2px);
+    box-shadow: 0 3px 10px rgba(106, 160, 205, 0.5);
+  }
+}
+
+.posterContainer {
+  position: relative;
+  width: 100%;
+  height: 0;
+  padding-bottom: 133.33%; // 기본 1:1 비율 (컴포넌트에서 동적 설정 가능)
+  overflow: hidden;
+}
+
+.overlayButton {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  background-color: rgba(0, 0, 0, 0.3);
+  z-index: 1;
+}
+
+.overlayText {
+  font-size: 14px;
+  font-weight: 600;
+  line-height: 1.2;
+  color: white;
+  text-align: center;
+  margin-bottom: 10px;
+}
+
+.selectButton {
+  padding: 8px 16px;
+  background-color: #1976ed;
+  color: white;
+  border: none;
+  border-radius: 20px;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+
+  &:hover {
+    background-color: #1565c0;
+    transform: scale(1.05);
+  }
+
+  &.notifiedButton {
+    background-color: #807e7e;
+
+    &:hover {
+      background-color: #6b6b6b;
+    }
+  }
+}
+
+.poster {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.3s ease;
+
+  .card:hover & {
+    transform: scale(1.05);
+  }
+}
+
+.content {
+  padding: 11px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.title {
+  font-size: $font-size-md;
+  font-weight: $font-weight-bold;
+  color: $text-main;
+  margin: 0;
+  line-height: 1.3;
+  // 2줄로 제한하고 넘치면 ...으로 표시 (크로스 브라우저 호환성)
+  display: -webkit-box;
+  -webkit-line-clamp: 1;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  line-clamp: 2;
+  word-break: break-all;
+}
+
+.date {
+  font-size: $font-size-xs;
+  color: $text-sub;
+  margin: 0;
+}

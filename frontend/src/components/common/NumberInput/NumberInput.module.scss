@@ -1,0 +1,39 @@
+.numberInputContainer {
+  display: flex;
+  align-items: center;
+  gap: $spacing-xs;
+}
+
+.numberInput {
+  width: 3rem;
+  border-radius: $border-radius-md;
+  background-color: #cbdeea80;
+  padding: $spacing-sm;
+  text-align: center;
+  appearance: textfield;
+  color: $text-main;
+  font-family: $font-pretendard;
+  font-weight: $font-weight-medium;
+
+  &::-webkit-inner-spin-button,
+  &::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+  }
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  &:focus {
+    outline: none;
+    box-shadow: 0 0 0 2px $con-blue;
+  }
+}
+
+.label {
+  font-size: $font-size-xs;
+  color: $text-main;
+  font-family: $font-pretendard;
+  font-weight: $font-weight-medium;
+}

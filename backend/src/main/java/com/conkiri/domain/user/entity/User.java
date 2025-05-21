@@ -6,16 +6,12 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import lombok.AccessLevel;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-@Builder
 @Entity
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-@AllArgsConstructor(access = AccessLevel.PRIVATE)
 public class User {
 
 	@Id
@@ -32,41 +28,51 @@ public class User {
 	@Column(name = "user_name", length = 100)
 	private String userName;
 
-	@Column(name = "review_count")
-	private Integer reviewCount;
+	@Column(name = "role", length = 20)
+	private String role;
 
-	@Column(name = "level", length = 100)
-	private String level = "1";
+	@Column(name = "fcm_token", length = 300)
+	private String fcmToken;
 
-	@Column(name = "tier", length = 100)
-	private String tier;
+	@Column(name = "notification_enabled", nullable = false)
+	private boolean notificationEnabled;
 
-	@Column(name = "profile_url")
-	private String profileUrl;
+	@Column(name = "profile_number")
+	private Integer profileNumber;
+
+	@Column(name = "anonym", length = 100)
+	private String anonym;
+
+	private User(String email, String userName, String nickname) {
+		this.email = email;
+		this.userName = userName;
+		this.nickname = nickname;
+		this.role = "ROLE_USER";
+		this.notificationEnabled = false;
+		this.profileNumber = 1;
+	}
+
+	public static User of(String email, String userName, String nickname) {
+		return new User(email, userName, nickname);
+	}
 
 	public void updateNickname(String nickname) {
 		this.nickname = nickname;
 	}
 
-	public void incrementReviewCount() {
-		this.reviewCount++;
-		updateViewLevel();
+	public void updateAnonym(String anonym) {
+		this.anonym = anonym;
 	}
 
-	public void decrementReviewCount() {
-		this.reviewCount--;
-		updateViewLevel();
+	public void updateFcmToken(String fcmToken) {
+		this.fcmToken = fcmToken;
 	}
 
-	private void updateViewLevel() {
-		if (reviewCount >= 30) {
-			this.level = "4";
-		} else if (reviewCount >= 20) {
-			this.level = "3";
-		} else if (reviewCount >= 10) {
-			this.level = "2";
-		} else {
-			this.level = "1";
-		}
+	public void updateNotificationStatus() {
+		this.notificationEnabled = !this.notificationEnabled;
+	}
+
+	public void updateProfileNumber(Integer profileNumber) {
+		this.profileNumber = profileNumber;
 	}
 }

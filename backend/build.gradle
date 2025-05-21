@@ -2,6 +2,7 @@ plugins {
 	id 'java'
 	id 'org.springframework.boot' version '3.3.7'
 	id 'io.spring.dependency-management' version '1.1.7'
+	id "org.sonarqube" version "6.1.0.5360"
 }
 
 group = 'com'
@@ -16,6 +17,9 @@ java {
 configurations {
 	compileOnly {
 		extendsFrom annotationProcessor
+	}
+	querydsl {
+		extendsFrom compileClasspath
 	}
 }
 
@@ -58,11 +62,31 @@ dependencies {
 	//Redis
 	implementation 'org.springframework.boot:spring-boot-starter-data-redis'
 
+	// RabbitMQ
+	implementation 'org.springframework.boot:spring-boot-starter-amqp'
+
+	// Firebase Admin SDK (FCM)
+	implementation 'com.google.firebase:firebase-admin:9.2.0'
+
 	//Logstash
 	implementation 'net.logstash.logback:logstash-logback-encoder:7.4'
 
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
 	testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
+}
+
+def querydslDir = "$buildDir/generated/querydsl"
+
+tasks.withType(JavaCompile) {
+	options.getGeneratedSourceOutputDirectory().set(file(querydslDir))
+}
+
+sourceSets {
+	main.java.srcDirs += [ querydslDir ]
+}
+
+clean {
+	delete file(querydslDir)
 }
 
 tasks.named('test') {

@@ -13,11 +13,6 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public class TestController {
 
-	@GetMapping("/test")
-	public String test() {
-		return "test";
-	}
-
 	@GetMapping("/")
 	public String getAccessToken(HttpServletRequest request) {
 		Cookie[] cookies = request.getCookies();

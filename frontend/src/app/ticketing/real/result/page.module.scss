@@ -1,0 +1,188 @@
+// 메인 레이아웃
+.container {
+  position: relative;
+  height: 100%;
+  width: 100%;
+  overflow: hidden;
+  background: $ticketing-bg;
+}
+
+.content {
+  position: relative;
+  z-index: 10;
+  display: flex;
+  height: 100%;
+  flex-direction: column;
+  align-items: center;
+  padding: $spacing-md;
+  max-width: 500px;
+  margin: 0 auto;
+}
+
+.card {
+  width: 100%;
+  border-radius: 1.5rem;
+  background-color: rgba(255, 255, 255, 0.7);
+  padding: $spacing-lg;
+  box-shadow: $shadow-con;
+  margin-top: $spacing-xl;
+}
+
+// 헤더 및 타이틀
+.header {
+  text-align: center;
+  margin-bottom: $spacing-lg;
+}
+
+.title {
+  margin-bottom: $spacing-md;
+  text-align: center;
+  font-size: $font-size-2xl;
+  font-weight: $font-weight-bold;
+  color: $con-blue;
+}
+
+.imageContainer {
+  margin-bottom: $spacing-md;
+  display: flex;
+  justify-content: center;
+}
+
+// 티켓 정보
+.ticketInfo {
+  margin-bottom: $spacing-xl;
+  text-align: center;
+}
+
+.concertName {
+  font-size: $font-size-xl;
+  font-weight: $font-weight-bold;
+  color: $text-main;
+  margin-bottom: $spacing-sm;
+}
+
+.platformInfo,
+.dateInfo {
+  font-size: $font-size-md;
+  color: $text-main;
+  margin-bottom: $spacing-xs;
+}
+
+.seatInfo {
+  font-size: $font-size-lg;
+  font-weight: $font-weight-medium;
+  color: $con-blue;
+  margin-top: $spacing-md;
+}
+
+// 버튼 컨테이너
+.buttonsContainer {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: $spacing-md;
+  margin-bottom: $spacing-lg;
+}
+
+.actionButton {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: $spacing-xs;
+  border-radius: $border-radius-lg;
+  background-color: white;
+  padding: $spacing-md;
+  color: $text-main;
+  box-shadow: $shadow-sm;
+  transition: all 0.2s ease;
+
+  &:hover {
+    box-shadow: $shadow-md;
+    transform: translateY(-2px);
+  }
+
+  &:disabled {
+    background-color: $con-gray;
+    color: $text-sub;
+    cursor: not-allowed;
+    transform: none;
+  }
+}
+
+.buttonText {
+  font-size: $font-size-sm;
+  font-weight: $font-weight-medium;
+}
+
+.footer {
+  margin-top: $spacing-md;
+  text-align: center;
+  font-size: $font-size-xs;
+  color: $text-sub;
+}
+
+// 모달 스타일
+.modalContainer {
+  position: fixed;
+  inset: 0;
+  z-index: 50;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: rgba(0, 0, 0, 0.5);
+}
+
+.modalContent {
+  position: relative;
+  width: 90%;
+  max-width: 400px;
+  background: white;
+  border-radius: $border-radius-lg;
+  box-shadow: $shadow-lg;
+  overflow: hidden;
+}
+
+.modalInner {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: $spacing-xl;
+}
+
+.contentArea {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: $spacing-xl 0;
+}
+
+.messageContainer {
+  text-align: center;
+  margin-bottom: $spacing-lg;
+
+  div {
+    font-size: $font-size-lg;
+    font-weight: $font-weight-medium;
+    color: $text-main;
+    margin-bottom: $spacing-xs;
+
+    &:last-child {
+      color: $con-blue;
+    }
+  }
+}
+
+.modalButton {
+  width: 100%;
+  border-radius: $border-radius-md;
+  padding: $spacing-md 0;
+  background-color: $con-blue;
+  color: white;
+  font-weight: $font-weight-medium;
+  transition: background-color 0.2s ease;
+
+  &:hover {
+    background-color: darken($con-blue, 10%);
+  }
+}

@@ -1,6 +1,8 @@
 package com.conkiri.domain.view.controller;
 
-import org.springframework.http.HttpStatus;
+import java.util.List;
+
+import org.springframework.http.MediaType;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -10,19 +12,17 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RequestPart;
-import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.conkiri.domain.view.dto.request.ReviewRequestDTO;
-import com.conkiri.domain.view.dto.response.ArenaResponseDTO;
+import com.conkiri.domain.view.dto.response.ConcertDTO;
 import com.conkiri.domain.view.dto.response.ReviewDetailResponseDTO;
 import com.conkiri.domain.view.dto.response.ReviewResponseDTO;
-import com.conkiri.domain.view.dto.response.SeatResponseDTO;
 import com.conkiri.domain.view.dto.response.SectionResponseDTO;
-import com.conkiri.domain.view.dto.response.ViewConcertResponseDTO;
 import com.conkiri.domain.view.service.ViewService;
 import com.conkiri.global.auth.token.UserPrincipal;
+import com.conkiri.global.common.ApiResponse;
 
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -34,98 +34,66 @@ public class ViewController {
 
 	private final ViewService viewService;
 
-	// 공연장 목록 조회 API
-	@GetMapping("/arenas")
-	public ArenaResponseDTO getArenas() {
-		return viewService.getArenas();
-	}
-
-	// 무대 유형에 따른 구역 정보 조회 API
-	@GetMapping("/arenas/{arenaId}/sections")
-	public SectionResponseDTO getSections(
-		@PathVariable Long arenaId,
-		@RequestParam(name = "stageType") Integer stageType,
-		@AuthenticationPrincipal UserPrincipal userPrincipal) {
-		return viewService.getSections(arenaId, stageType, userPrincipal.getUserId());
-	}
-
-	// 선택한 구역의 좌석 정보 조회 API
-	@GetMapping("/arenas/{arenaId}")
-	public SeatResponseDTO getSeats(
-		@PathVariable Long arenaId,
-		@RequestParam(name = "stageType") Integer stageType,
-		@RequestParam(name = "section") Long sectionNumber,
-		@AuthenticationPrincipal UserPrincipal userPrincipal) {
-		return viewService.getSeats(arenaId, stageType, sectionNumber, userPrincipal.getUserId());
-	}
-
-	// 좌석 스크랩 등록 API
-	@PostMapping("/scraps/{seatId}")
-	public void createScrapSeat(
-		@PathVariable Long seatId,
-		@RequestParam(name = "stageType") Integer stageType,
-		@AuthenticationPrincipal UserPrincipal userPrincipal) {
-		viewService.createScrapSeat(seatId, stageType, userPrincipal.getUserId());
-	}
-
-	// 좌석 스크랩 해제 API
-	@DeleteMapping("/scraps/{seatId}")
-	public void deleteScrapSeat(
-		@PathVariable Long seatId,
-		@RequestParam(name = "stageType") Integer stageType,
-		@AuthenticationPrincipal UserPrincipal userPrincipal) {
-		viewService.deleteScrapSeat(seatId, stageType, userPrincipal.getUserId());
-	}
-
-	// 해당 영역의 전체 후기 조회 API (구역 / 좌석)
-	@GetMapping("/arenas/{arenaId}/reviews")
-	public ReviewResponseDTO getReviews(
-		@PathVariable Long arenaId,
-		@RequestParam(name = "stageType") Integer stageType,
-		@RequestParam(name = "section") Long sectionNumber,
-		@RequestParam(name = "seatId", required = false) Long seatId) {
-		return viewService.getReviews(arenaId, stageType, sectionNumber, seatId);
-	}
-
-	// 가수로 검색된 공연 전체 조회 API
-	@GetMapping("/concerts")
-	public ViewConcertResponseDTO getConcerts(@RequestParam(name = "artist") String artist) {
-		return viewService.getConcerts(artist);
-	}
-
-	// 후기 작성 API
-	@PostMapping("/reviews")
-	@ResponseStatus(HttpStatus.CREATED)
-	public void createReview(
+	// 후기 작성
+	@PostMapping(value = "/reviews", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+	public ApiResponse<Long> createReview(
 		@Valid @RequestPart ReviewRequestDTO reviewRequestDTO,
-		@RequestPart("file") MultipartFile file,
+		@RequestPart List<MultipartFile> files,
 		@AuthenticationPrincipal UserPrincipal userPrincipal) {
-		viewService.createReview(reviewRequestDTO, file, userPrincipal.getUserId());
+
+		return ApiResponse.success(viewService.createReview(reviewRequestDTO, files, userPrincipal.getUser()));
 	}
 
-	// 수정할 후기 조회 API
+	// 단일 후기 조회 / 수정할 후기 조회
 	@GetMapping("/reviews/{reviewId}")
-	public ReviewDetailResponseDTO getReview(
-		@PathVariable Long reviewId,
-		@AuthenticationPrincipal UserPrincipal userPrincipal) {
-		return viewService.getReview(reviewId, userPrincipal.getUserId());
+	public ApiResponse<ReviewDetailResponseDTO> getAReview(
+		@PathVariable("reviewId") Long reviewId) {
+
+		return ApiResponse.success(viewService.getAReview(reviewId));
 	}
 
-	// 후기 수정 API
-	@PutMapping("/reviews/{reviewId}")
-	public void updateReview(
-		@PathVariable Long reviewId,
+	// 후기 수정
+	@PutMapping(value = "/reviews/{reviewId}", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+	public ApiResponse<Long> updateReview(
+		@PathVariable("reviewId") Long reviewId,
 		@Valid @RequestPart ReviewRequestDTO reviewRequestDTO,
-		@RequestPart("file") MultipartFile file,
+		@RequestPart List<MultipartFile> files,
 		@AuthenticationPrincipal UserPrincipal userPrincipal) {
-		viewService.updateReview(reviewId, reviewRequestDTO, file, userPrincipal.getUserId());
+
+		return ApiResponse.success(viewService.updateReview(reviewId, reviewRequestDTO, files, userPrincipal.getUser()));
 	}
 
-	// 후기 삭제 API
+	// 후기 삭제
 	@DeleteMapping("/reviews/{reviewId}")
-	public void deleteReview(
-		@PathVariable Long reviewId,
+	public ApiResponse<Void> deleteReview(
+		@PathVariable("reviewId") Long reviewId,
 		@AuthenticationPrincipal UserPrincipal userPrincipal) {
-		viewService.deleteReview(reviewId, userPrincipal.getUserId());
+
+		return ApiResponse.success(viewService.deleteReview(reviewId, userPrincipal.getUser()));
+	}
+
+	// (선택한 공연장의) 구역 정보 조회
+	@GetMapping("/arenas/{arenaId}/sections")
+	public ApiResponse<List<SectionResponseDTO>> getSections(
+		@PathVariable("arenaId") Long arenaId) {
+
+		return ApiResponse.success(viewService.getSections(arenaId));
+	}
+
+	// (선택한 구역의) 모든 후기 조회
+	@GetMapping("/arenas/{arenaId}/sections/{section}/reviews")
+	public ApiResponse<ReviewResponseDTO> getReviews(
+		@PathVariable("arenaId") Long arenaId,
+		@PathVariable("section") String section) {
+
+		return ApiResponse.success(viewService.getReviewsOfSection(arenaId, section));
+	}
+
+	// 가수로 콘서트 검색
+	@GetMapping("/concerts")
+	public ApiResponse<List<ConcertDTO>> getConcerts(
+		@RequestParam(value = "searchWord") String searchWord) {
+
+		return ApiResponse.success(viewService.getConcerts(searchWord));
 	}
 }

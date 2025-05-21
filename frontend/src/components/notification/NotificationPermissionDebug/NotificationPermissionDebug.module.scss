@@ -1,0 +1,255 @@
+.firebaseDebug {
+  padding: $spacing-md;
+  background-color: white;
+  border-radius: $border-radius-md;
+  box-shadow: $shadow-sm;
+  margin-bottom: $spacing-lg;
+
+  h3 {
+    font-size: $font-size-lg;
+    font-weight: $font-weight-medium;
+    color: $text-main;
+    margin-bottom: $spacing-md;
+  }
+
+  .statusPanel,
+  .controlPanel,
+  .messagePanel {
+    margin-bottom: $spacing-lg;
+  }
+
+  .statusGrid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: $spacing-sm;
+    margin-bottom: $spacing-md;
+
+    @media (max-width: $breakpoint-md) {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  .statusItem {
+    display: flex;
+    align-items: center;
+    padding: $spacing-sm;
+    background-color: #f5f5f5;
+    border-radius: $border-radius-sm;
+  }
+
+  .statusLabel {
+    font-weight: $font-weight-medium;
+    flex: 0 0 40%;
+    color: $text-main;
+  }
+
+  .statusValue {
+    flex: 1;
+    padding: $spacing-xs $spacing-sm;
+    border-radius: $border-radius-sm;
+    font-size: $font-size-sm;
+    text-align: center;
+
+    &.statusGranted {
+      background-color: #e6f7e6;
+      color: #2d862d;
+    }
+
+    &.statusDenied {
+      background-color: #ffebee;
+      color: #c62828;
+    }
+
+    &.statusDefault {
+      background-color: #fff8e1;
+      color: #ff8f00;
+    }
+  }
+
+  .tokenSection {
+    margin-top: $spacing-md;
+
+    summary {
+      cursor: pointer;
+      color: $con-blue;
+      font-weight: $font-weight-medium;
+      margin-bottom: $spacing-sm;
+    }
+
+    .tokenContainer {
+      position: relative;
+      background-color: #f5f5f5;
+      padding: $spacing-sm;
+      border-radius: $border-radius-sm;
+      font-family: monospace;
+      font-size: $font-size-xs;
+      word-break: break-all;
+    }
+
+    .tokenValue {
+      padding-right: 60px; // 복사 버튼 공간
+    }
+
+    .copyButton {
+      position: absolute;
+      top: $spacing-xs;
+      right: $spacing-xs;
+      padding: $spacing-xs $spacing-sm;
+      background-color: $con-blue;
+      color: white;
+      border: none;
+      border-radius: $border-radius-sm;
+      font-size: $font-size-xs;
+      cursor: pointer;
+
+      &:hover {
+        background-color: darken($con-blue, 10%);
+      }
+    }
+  }
+
+  .controlsGrid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: $spacing-md;
+    margin-bottom: $spacing-lg;
+
+    @media (max-width: $breakpoint-md) {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  .controlItem {
+    display: flex;
+    align-items: center;
+
+    .controlButton {
+      flex: 1;
+      padding: $spacing-sm;
+      background-color: $con-blue;
+      color: white;
+      border: none;
+      border-radius: $border-radius-sm;
+      font-weight: $font-weight-medium;
+      cursor: pointer;
+      transition: background-color 0.2s;
+
+      &:hover:not(:disabled) {
+        background-color: darken($con-blue, 10%);
+      }
+
+      &:disabled {
+        background-color: $con-gray;
+        color: $text-sub;
+        cursor: not-allowed;
+      }
+    }
+
+    .statusIndicator {
+      margin-left: $spacing-sm;
+      font-size: $font-size-lg;
+    }
+  }
+
+  .testNotification {
+    margin-top: $spacing-md;
+
+    .notificationInput {
+      display: flex;
+      gap: $spacing-sm;
+
+      .messageInput {
+        flex: 1;
+        padding: $spacing-sm;
+        border: 1px solid $con-gray;
+        border-radius: $border-radius-sm;
+        font-size: $font-size-md;
+
+        &:focus {
+          border-color: $con-blue;
+          outline: none;
+        }
+      }
+
+      .sendButton {
+        padding: $spacing-sm $spacing-md;
+        background-color: $con-blue;
+        color: white;
+        border: none;
+        border-radius: $border-radius-sm;
+        font-weight: $font-weight-medium;
+        cursor: pointer;
+
+        &:hover:not(:disabled) {
+          background-color: darken($con-blue, 10%);
+        }
+
+        &:disabled {
+          background-color: $con-gray;
+          color: $text-sub;
+          cursor: not-allowed;
+        }
+      }
+    }
+  }
+
+  .messagePanel {
+    .messageList {
+      max-height: 300px;
+      overflow-y: auto;
+      background-color: #f5f5f5;
+      border-radius: $border-radius-sm;
+      padding: $spacing-sm;
+    }
+
+    .messageItem {
+      margin-bottom: $spacing-sm;
+      padding-bottom: $spacing-sm;
+      border-bottom: 1px solid $con-gray;
+
+      &:last-child {
+        margin-bottom: 0;
+        padding-bottom: 0;
+        border-bottom: none;
+      }
+    }
+
+    .messageTime {
+      font-size: $font-size-xs;
+      color: $text-sub;
+      margin-bottom: $spacing-xs;
+    }
+
+    .messageContent {
+      background-color: white;
+      padding: $spacing-sm;
+      border-radius: $border-radius-sm;
+      font-family: monospace;
+      font-size: $font-size-xs;
+      margin: 0;
+      overflow-x: auto;
+    }
+  }
+
+  .permissionGuide {
+    margin-top: $spacing-md;
+    padding: $spacing-md;
+    background-color: #fff8e1;
+    border-left: 4px solid #ff8f00;
+    border-radius: $border-radius-sm;
+
+    h3 {
+      color: #e65100;
+      margin-bottom: $spacing-sm;
+    }
+
+    ol {
+      margin-left: $spacing-lg;
+      margin-bottom: $spacing-md;
+    }
+
+    li {
+      margin-bottom: $spacing-xs;
+    }
+  }
+}

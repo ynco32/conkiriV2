@@ -1,0 +1,40 @@
+.container {
+  display: flex;
+  flex: 1 1 auto;
+  height: 100%;
+  overflow: auto;
+  flex-direction: column;
+  background: $ticketing-bg;
+}
+
+.titleWrapper {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 6rem 1rem 0 1rem;
+}
+
+.title {
+  font-size: 21px;
+  font-weight: 600;
+  line-height: 30px;
+  color: $text-main;
+}
+
+.menuWrapper {
+  margin-top: 2rem;
+  display: flex;
+  justify-content: center;
+}
+
+.menuGrid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 0.75rem; // gap-3는 0.75rem에 해당 (tailwind의 gap-3)
+  padding: 0.75rem; // p-3는 0.75rem에 해당 (tailwind의 p-3)
+}
+.centerCard {
+  grid-column: 1 / span 2;
+  display: flex;
+  justify-content: center;
+}

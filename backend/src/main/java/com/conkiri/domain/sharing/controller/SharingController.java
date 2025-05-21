@@ -1,7 +1,5 @@
 package com.conkiri.domain.sharing.controller;
 
-import java.time.LocalDateTime;
-
 import org.springframework.http.HttpStatus;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -28,6 +26,7 @@ import com.conkiri.domain.sharing.dto.response.SharingDetailResponseDTO;
 import com.conkiri.domain.sharing.dto.response.SharingResponseDTO;
 import com.conkiri.domain.sharing.service.SharingService;
 import com.conkiri.global.auth.token.UserPrincipal;
+import com.conkiri.global.common.ApiResponse;
 
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -45,13 +44,12 @@ public class SharingController {
 	 */
 	@PostMapping
 	@ResponseStatus(HttpStatus.CREATED)
-	public Long writeSharing(
+	public ApiResponse<Long> writeSharing(
 		@Valid @RequestPart SharingRequestDTO sharingRequestDTO,
 		@RequestPart MultipartFile file,
 		@AuthenticationPrincipal UserPrincipal userPrincipal) {
-		System.out.println("요청이 왔을 때 시간 : " + sharingRequestDTO.getStartTime());
-		System.out.println("시스템 현재 시간 : " + LocalDateTime.now());
-		return sharingService.writeSharing(sharingRequestDTO, userPrincipal.getUserId(), file);
+
+		return ApiResponse.success(sharingService.writeSharing(sharingRequestDTO, userPrincipal.getUser(), file));
 	}
 
 	/**
@@ -59,10 +57,12 @@ public class SharingController {
 	 * @param sharingId
 	 */
 	@DeleteMapping("/{sharingId}")
-	public void deleteSharing(
+	public ApiResponse<Void> deleteSharing(
 		@PathVariable("sharingId") Long sharingId,
 		@AuthenticationPrincipal UserPrincipal userPrincipal) {
+
 		sharingService.deleteSharing(sharingId, userPrincipal.getUserId());
+		return ApiResponse.ofSuccess();
 	}
 
 	/**
@@ -71,12 +71,14 @@ public class SharingController {
 	 * @param sharingUpdateRequestDTO
 	 */
 	@PutMapping("/{sharingId}")
-	public void updateSharing(
+	public ApiResponse<Void> updateSharing(
 		@PathVariable("sharingId") Long sharingId,
 		@Valid @RequestPart SharingUpdateRequestDTO sharingUpdateRequestDTO,
 		@RequestPart MultipartFile file,
 		@AuthenticationPrincipal UserPrincipal userPrincipal) {
+
 		sharingService.updateSharing(sharingId, sharingUpdateRequestDTO, file, userPrincipal.getUserId());
+		return ApiResponse.ofSuccess();
 	}
 
 	/**
@@ -85,11 +87,13 @@ public class SharingController {
 	 * @param sharingStatusUpdateRequestDTO
 	 */
 	@PatchMapping("/{sharingId}/status")
-	public void updateSharingStatus(
+	public ApiResponse<Void> updateSharingStatus(
 		@PathVariable("sharingId") Long sharingId,
 		@Valid @RequestBody SharingStatusUpdateRequestDTO sharingStatusUpdateRequestDTO,
 		@AuthenticationPrincipal UserPrincipal userPrincipal) {
-		sharingService.updateSharingStatus(sharingId, sharingStatusUpdateRequestDTO.getStatus(), userPrincipal.getUserId());
+
+		sharingService.updateSharingStatus(sharingId, sharingStatusUpdateRequestDTO.status(), userPrincipal.getUserId());
+		return ApiResponse.ofSuccess();
 	}
 
 	/**
@@ -99,10 +103,11 @@ public class SharingController {
 	 * @return
 	 */
 	@GetMapping("/{concertId}")
-	public SharingResponseDTO getSharingList(
+	public ApiResponse<SharingResponseDTO> getSharingList(
 		@PathVariable("concertId") Long concertId,
 		@RequestParam(value = "last", required = false) Long lastSharingId) {
-		return sharingService.getSharingList(concertId, lastSharingId);
+
+		return ApiResponse.success(sharingService.getSharingList(concertId, lastSharingId));
 	}
 
 	/**
@@ -111,8 +116,10 @@ public class SharingController {
 	 * @return
 	 */
 	@GetMapping("/detail/{sharingId}")
-	public SharingDetailResponseDTO getSharing(@PathVariable("sharingId") Long sharingId) {
-		return sharingService.getSharing(sharingId);
+	public ApiResponse<SharingDetailResponseDTO> getSharing(
+		@PathVariable("sharingId") Long sharingId) {
+
+		return ApiResponse.success(sharingService.getSharing(sharingId));
 	}
 
 	/**
@@ -122,10 +129,11 @@ public class SharingController {
 	 * @return
 	 */
 	@GetMapping("/{sharingId}/comment")
-	public CommentResponseDTO getSharingCommentList(
+	public ApiResponse<CommentResponseDTO> getSharingCommentList(
 		@PathVariable("sharingId") Long sharingId,
 		@RequestParam(value = "last", required = false) Long lastCommentId) {
-		return sharingService.getSharingCommentList(sharingId, lastCommentId);
+
+		return ApiResponse.success(sharingService.getSharingCommentList(sharingId, lastCommentId));
 	}
 
 	/**
@@ -135,10 +143,12 @@ public class SharingController {
 	 */
 	@PostMapping("/{sharingId}/scrap")
 	@ResponseStatus(HttpStatus.CREATED)
-	public void scrapSharing(
+	public ApiResponse<Void> scrapSharing(
 		@PathVariable("sharingId") Long sharingId,
 		@AuthenticationPrincipal UserPrincipal userPrincipal) {
-		sharingService.scrapSharing(sharingId, userPrincipal.getUserId());
+
+		sharingService.scrapSharing(sharingId, userPrincipal.getUser());
+		return ApiResponse.ofSuccess();
 	}
 
 	/**
@@ -147,10 +157,12 @@ public class SharingController {
 	 * @param userPrincipal
 	 */
 	@DeleteMapping("/{sharingId}/scrap")
-	public void cancelScrapSharing(
+	public ApiResponse<Void> cancelScrapSharing(
 		@PathVariable("sharingId") Long sharingId,
 		@AuthenticationPrincipal UserPrincipal userPrincipal) {
-		sharingService.cancelScrapSharing(sharingId, userPrincipal.getUserId());
+
+		sharingService.cancelScrapSharing(sharingId, userPrincipal.getUser());
+		return ApiResponse.ofSuccess();
 	}
 
 	/**
@@ -159,10 +171,12 @@ public class SharingController {
 	 */
 	@PostMapping("/comment")
 	@ResponseStatus(HttpStatus.CREATED)
-	public void writeComment(
+	public ApiResponse<Void> writeComment(
 		@Valid @RequestBody CommentRequestDTO commentRequestDTO,
 		@AuthenticationPrincipal UserPrincipal userPrincipal) {
-		sharingService.writeComment(commentRequestDTO, userPrincipal.getUserId());
+
+		sharingService.writeComment(commentRequestDTO, userPrincipal.getUser());
+		return ApiResponse.ofSuccess();
 	}
 
 	/**
@@ -171,11 +185,13 @@ public class SharingController {
 	 * @param commentUpdateRequestDTO
 	 */
 	@PutMapping("/comment/{commentId}")
-	public void updateComment(
+	public ApiResponse<Void> updateComment(
 		@PathVariable("commentId") Long commentId,
 		@Valid @RequestBody CommentUpdateRequestDTO commentUpdateRequestDTO,
 		@AuthenticationPrincipal UserPrincipal userPrincipal) {
+
 		sharingService.updateComment(commentId, commentUpdateRequestDTO, userPrincipal.getUserId());
+		return ApiResponse.ofSuccess();
 	}
 
 	/**
@@ -183,10 +199,12 @@ public class SharingController {
 	 * @param commentId
 	 */
 	@DeleteMapping("/comment/{commentId}")
-	public void deleteComment(
+	public ApiResponse<Void> deleteComment(
 		@PathVariable("commentId") Long commentId,
 		@AuthenticationPrincipal UserPrincipal userPrincipal) {
+
 		sharingService.deleteComment(commentId, userPrincipal.getUserId());
+		return ApiResponse.ofSuccess();
 	}
 
 	/**
@@ -197,11 +215,12 @@ public class SharingController {
 	 * @return
 	 */
 	@GetMapping("/wrote/{concertId}")
-	public SharingResponseDTO getWroteSharing(
+	public ApiResponse<SharingResponseDTO> getWroteSharing(
 		@PathVariable("concertId") Long concertId,
 		@RequestParam(value = "last", required = false) Long lastSharingId,
 		@AuthenticationPrincipal UserPrincipal userPrincipal) {
-		return sharingService.getWroteSharingList(userPrincipal.getUserId(), concertId, lastSharingId);
+
+		return ApiResponse.success(sharingService.getWroteSharingList(userPrincipal.getUser(), concertId, lastSharingId));
 	}
 
 	/**
@@ -212,11 +231,12 @@ public class SharingController {
 	 * @return
 	 */
 	@GetMapping("/scrap/{concertId}")
-	public SharingResponseDTO getScrappedSharing(
+	public ApiResponse<SharingResponseDTO> getScrappedSharing(
 		@PathVariable("concertId") Long concertId,
 		@RequestParam(value = "last", required = false) Long lastSharingId,
 		@AuthenticationPrincipal UserPrincipal userPrincipal) {
-		return sharingService.getScrappedSharingList(userPrincipal.getUserId(), concertId, lastSharingId);
+
+		return ApiResponse.success(sharingService.getScrappedSharingList(userPrincipal.getUser(), concertId, lastSharingId));
 	}
 
 }

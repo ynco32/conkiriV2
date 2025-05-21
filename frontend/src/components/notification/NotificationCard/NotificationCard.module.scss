@@ -1,0 +1,154 @@
+.notificationCard {
+  display: flex;
+  width: 100%;
+  margin-bottom: $spacing-md;
+  background-color: white;
+  border-radius: $border-radius-md;
+  box-shadow: $shadow-sm;
+  transition: all 0.3s ease;
+}
+
+.cardContainer {
+  display: flex;
+  width: 100%;
+}
+
+.leftIndicator {
+  width: 8px;
+  background-color: $con-lightblue;
+  border-top-left-radius: $border-radius-md;
+  border-bottom-left-radius: $border-radius-md;
+}
+
+.unread .leftIndicator {
+  background-color: $con-blue;
+}
+
+.content {
+  flex: 1;
+  padding: $spacing-md;
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: $spacing-xs;
+}
+
+.category {
+  font-size: $font-size-xs;
+  font-weight: $font-weight-bold;
+  color: $con-blue;
+}
+
+.date {
+  font-size: $font-size-xs;
+  color: $text-sub;
+}
+
+.messageContent {
+  margin-top: $spacing-sm;
+}
+
+.body {
+  font-size: $font-size-md;
+  color: $text-main;
+  margin-bottom: $spacing-sm;
+  font-weight: $font-weight-medium;
+  line-height: 1.5;
+}
+
+.unread .body {
+  font-weight: $font-weight-bold;
+  color: darken($text-main, 15%);
+}
+
+.concertInfo {
+  display: flex;
+  align-items: center;
+  margin-top: $spacing-md;
+  background-color: #eef7fe;
+  padding: $spacing-md;
+  border-radius: $border-radius-md;
+}
+
+.concertImage {
+  width: 48px;
+  height: 48px;
+  border-radius: $border-radius-sm;
+  overflow: hidden;
+  background-color: $con-gray;
+  margin-right: $spacing-md;
+}
+
+.concertImage img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.concertDetails {
+  display: flex;
+  flex-direction: column;
+}
+
+.concertName {
+  font-size: $font-size-sm;
+  font-weight: $font-weight-bold;
+  color: $text-main;
+}
+
+.artistName {
+  font-size: $font-size-xs;
+  color: $text-sub;
+}
+
+.actionButton {
+  margin-top: $spacing-md;
+  padding: $spacing-sm $spacing-lg;
+  background-color: $con-blue;
+  color: white;
+  border-radius: $border-radius-md;
+  font-size: $font-size-sm;
+  font-weight: $font-weight-medium;
+  border: none;
+  cursor: pointer;
+  transition: background-color 0.2s;
+  width: 100%;
+  max-width: 150px;
+  float: right;
+
+  &:hover {
+    background-color: darken($con-blue, 5%);
+  }
+}
+
+// 읽음 상태에 따른 스타일 차이
+.read {
+  opacity: 0.8;
+}
+
+.unread {
+  box-shadow: $shadow-con;
+}
+
+.highlighted {
+  animation: highlight-pulse 2s ease-out;
+  box-shadow: 0 0 0 2px $con-blue;
+}
+
+@keyframes highlight-pulse {
+  0% {
+    box-shadow: 0 0 0 4px rgba($con-blue, 0.5);
+    transform: scale(1.02);
+  }
+  50% {
+    box-shadow: 0 0 0 2px rgba($con-blue, 0.3);
+    transform: scale(1.01);
+  }
+  100% {
+    box-shadow: 0 0 0 0 rgba($con-blue, 0);
+    transform: scale(1);
+  }
+}

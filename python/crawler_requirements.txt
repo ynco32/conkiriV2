@@ -1,0 +1,20 @@
+# 웹 스크래핑 & 크롤링
+beautifulsoup4==4.13.4
+selenium==4.31.0
+requests==2.32.3
+
+# 이미지 처리 & OCR
+pillow==11.2.1
+opencv-python==4.11.0.86
+
+# 데이터 처리
+python-dotenv==1.1.0
+
+# AWS 서비스 (이미지 저장)
+boto3==1.38.11
+
+# OpenAI API (OCR 텍스트 처리)
+openai==1.77.0
+
+# 유틸리티
+regex==2024.11.6

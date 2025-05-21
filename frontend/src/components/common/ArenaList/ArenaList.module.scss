@@ -1,0 +1,14 @@
+.arenaList {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 24px;
+  height: calc(100dvh - 109px); // 상단 검색바 높이 고려하여 조정
+  overflow-y: auto; // 스크롤 가능하도록 설정
+  padding: 10px;
+  padding-bottom: 20px;
+ 
+  scrollbar-width: none; /* Firefox */
+  ::-webkit-scrollbar {
+    display: none; /* Chrome, Safari, and Opera */
+  }
+}

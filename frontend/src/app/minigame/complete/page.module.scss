@@ -1,0 +1,194 @@
+// Page.module.scss
+
+// 변수 정의
+$gradient-colors: (
+  green: #c0ffbd,
+  blue: #3b82f6,
+);
+
+$button-size: (
+  height: 3.5rem,
+  width: 9rem,
+);
+
+// 믹싱 정의
+@mixin greenBlueGradient($blur: false) {
+  @if $blur {
+    background: linear-gradient(
+      to right,
+      map-get($gradient-colors, green),
+      map-get($gradient-colors, blue)
+    );
+    opacity: 0.1;
+    filter: blur(12px);
+  } @else {
+    background: linear-gradient(
+      to right,
+      map-get($gradient-colors, green),
+      map-get($gradient-colors, blue)
+    );
+  }
+}
+
+@mixin buttonBase {
+  font-size: 1rem;
+  font-weight: 600;
+  line-height: 1.25rem;
+  height: map-get($button-size, height);
+  width: map-get($button-size, width);
+  border-radius: $border-radius-lg;
+  background-color: white;
+  box-shadow: $shadow-con;
+}
+
+.container {
+  display: flex;
+  height: 100%;
+  width: 100%;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background: radial-gradient(
+    300px 300px at 50% 50%,
+    #dbeefd 0%,
+    #eef7fe 51.9%,
+    #fff 100%
+  );
+}
+
+.wrapper {
+  max-width: 24rem;
+  margin-top: -4rem;
+  width: 24rem;
+}
+
+.header {
+  text-align: center;
+}
+
+.title {
+  font-size: 1.875rem;
+  font-weight: 700;
+  color: $text-main;
+}
+
+.subtitle {
+  margin-top: 0.5rem;
+  color: $text-sub;
+}
+
+.resultContainer {
+  display: flex;
+  height: auto;
+  width: 100%;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  border-radius: 0.75rem;
+  padding: 0.5rem 0;
+}
+
+.reactionTime {
+  font-size: 3.75rem;
+  font-weight: 700;
+  color: $con-blue;
+}
+
+.reactionTimeUnit {
+  margin: 0.5rem 0;
+  font-size: 1.25rem;
+  color: $text-sub;
+}
+
+.successRateSection {
+  margin: 1.5rem 0;
+  display: flex;
+  justify-content: center;
+}
+
+.successRateCard {
+  position: relative;
+  width: 300px;
+  border-radius: $border-radius-lg;
+  background-color: white;
+  padding: 1.5rem;
+  box-shadow: $shadow-con;
+}
+
+.emoji {
+  position: absolute;
+  top: -1rem;
+  left: 50%;
+  transform: translateX(-50%);
+  font-size: 2.25rem;
+}
+
+.successRateTitle {
+  margin-top: 0.5rem;
+  text-align: center;
+  font-size: 1.125rem;
+  font-weight: 500;
+  color: $text-main;
+}
+
+.successRateValueContainer {
+  position: relative;
+  margin-top: 1rem;
+  display: flex;
+  justify-content: center;
+}
+
+.successRateBlur {
+  position: absolute;
+  inset: 0;
+  @include greenBlueGradient(true);
+}
+
+.successRateValue {
+  font-size: 3rem;
+  font-weight: 700;
+  @include greenBlueGradient;
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  color: transparent;
+}
+
+.gaugeBar {
+  margin-top: 1rem;
+  height: 0.75rem;
+  width: 100%;
+  overflow: hidden;
+  border-radius: 9999px;
+  background-color: #e5e7eb;
+}
+
+.gaugeBarFill {
+  height: 100%;
+  @include greenBlueGradient;
+  transition-property: all;
+  transition-duration: 1000ms;
+}
+
+.successRateMessage {
+  margin-top: 1rem;
+  text-align: center;
+  color: $text-main;
+}
+
+.buttonContainer {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: $spacing-md;
+}
+
+.retryButton {
+  @include buttonBase;
+  color: $con-blue;
+  padding: 1rem;
+}
+
+.homeButton {
+  @include buttonBase;
+}

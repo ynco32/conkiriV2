@@ -22,6 +22,18 @@ public class Arena {
 	@Column(name = "arena_name", length = 100)
 	private String arenaName;
 
+	@Column(name = "arena_eng_name", length = 100)
+	private String arenaEngName;
+
+	@Column(name = "address", length = 100)
+	private String address;
+
+	@Column(name = "latitude")
+	private Double latitude;
+
+	@Column(name = "longitude")
+	private Double longitude;
+
 	@Column(name = "photo_url", length = 200)
 	private String photoUrl;
 }

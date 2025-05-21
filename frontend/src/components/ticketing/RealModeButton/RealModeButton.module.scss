@@ -1,0 +1,68 @@
+.eventCardLink {
+  display: block;
+  width: 100%;
+  text-decoration: none;
+  transition: transform 0.2s ease;
+
+  &:hover {
+    transform: translateY(-2px);
+  }
+}
+
+.eventCard {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  background-color: rgba(255, 255, 255, 0.85);
+  border-radius: $border-radius-md;
+  padding: 1rem;
+  box-shadow: $shadow-sm;
+}
+
+.eventImageContainer {
+  margin-right: 1rem;
+  flex-shrink: 0;
+}
+
+.eventIcon {
+  width: 60px !important;
+  height: 60px !important;
+}
+
+.eventInfo {
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+}
+
+.eventLabel {
+  font-size: $font-size-sm;
+  color: $text-sub;
+  margin-bottom: 0.25rem;
+}
+
+.eventDetails {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+  max-width: 300px;
+  margin-bottom: 0.25rem;
+}
+
+.eventDate {
+  font-size: $font-size-xl;
+  font-weight: 600;
+  color: $text-main;
+}
+
+.eventTime {
+  font-size: $font-size-xl;
+  font-weight: 600;
+  color: $text-main;
+}
+
+.eventStatus {
+  font-size: $font-size-sm;
+  color: $con-blue;
+  font-weight: 500;
+}

@@ -1,0 +1,156 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: $spacing-xs;
+}
+
+.title {
+  font-size: $font-size-md;
+  font-weight: $font-weight-medium;
+  margin: $spacing-xs 0 0 0; // 상단 마진 추가
+  text-align: center;
+  color: $text-main; // 메인 텍스트 색상
+}
+
+.cardButton {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: $spacing-md;
+  border-radius: $border-radius-lg;
+  background-color: #fcfcfc;
+  box-shadow: $shadow-con;
+  transition: all 200ms;
+  aspect-ratio: 1 / 1;
+
+  &.small {
+    width: 4rem;
+    height: 4rem;
+  }
+
+  &.medium {
+    width: 6rem;
+    height: 6rem;
+  }
+
+  &.large {
+    width: 8rem;
+    height: 8rem;
+  }
+
+  &:not(.disabled) {
+    cursor: pointer;
+
+    &:hover {
+      .label {
+        font-weight: $font-weight-medium;
+      }
+    }
+  }
+
+  &.disabled {
+    cursor: not-allowed;
+    background-color: #dbdbe1;
+  }
+}
+
+.contentWrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: $spacing-xs;
+}
+
+.imageContainer {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  width: 2rem;
+  height: 2rem;
+
+  .small & {
+    width: 2.5rem;
+    height: 2.5rem;
+  }
+
+  .medium & {
+    width: 4rem;
+    height: 4rem;
+  }
+
+  .large & {
+    width: 5.5rem;
+    height: 5.5rem;
+  }
+}
+
+.image {
+  z-index: 10;
+  object-fit: contain;
+}
+
+.icon {
+  width: 2rem;
+  height: 2rem;
+
+  .small & {
+    width: 1.75rem;
+    height: 1.75rem;
+  }
+
+  .medium & {
+    width: 2.25rem;
+    height: 2.25rem;
+  }
+
+  .large & {
+    width: 3rem;
+    height: 3rem;
+  }
+}
+
+.lockIcon {
+  width: 2rem;
+  height: 2rem;
+  color: #a2a4b3;
+  fill: #a2a4b3;
+
+  .small & {
+    width: 1.75rem;
+    height: 1.75rem;
+  }
+
+  .medium & {
+    width: 2.25rem;
+    height: 2.25rem;
+  }
+
+  .large & {
+    width: 3rem;
+    height: 3rem;
+  }
+}
+
+.label {
+  text-align: center;
+  font-size: $font-size-xs;
+  line-height: 18px;
+  transition: all 200ms;
+
+  .small & {
+    font-size: $font-size-2xs;
+  }
+
+  .large & {
+    font-size: $font-size-sm;
+  }
+
+  &.labelDisabled {
+    color: #a2a4b3;
+  }
+}
