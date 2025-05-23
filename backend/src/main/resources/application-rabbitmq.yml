@@ -1,4 +1,3 @@
-
 ---
 spring:
   config:
@@ -10,8 +9,8 @@ spring:
     port: 5672
     username: guest
     password: guest
-    publisher-confirm-type: correlated  # Publisher Confirms 활성화
-    publisher-returns: true             # Return 메시지 활성화
+    publisher-confirm-type: correlated # Publisher Confirms 활성화
+    publisher-returns: true # Return 메시지 활성화
 
     # 메시지 전송 실패 시 재시도
     template:
@@ -21,12 +20,11 @@ spring:
         multiplier: 2
         max-attempts: 3
         max-interval: 10000
-
 ---
 spring:
   config:
     activate:
-      on-profile: "rabbitmq-dev"
+      on-profile: "rabbitmq-master"
 
   rabbitmq:
     host: ${RABBITMQ_HOST}
