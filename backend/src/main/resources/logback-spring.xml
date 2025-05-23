@@ -32,4 +32,10 @@
         <appender-ref ref="LOGSTASH"/>
     </logger>
 
+    <!-- Hibernate Validator 로그 설정 -->
+    <logger name="org.hibernate.validator" level="INFO" additivity="false">
+        <appender-ref ref="CONSOLE"/>
+        <appender-ref ref="LOGSTASH"/>
+    </logger>
+
 </configuration>
