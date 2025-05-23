@@ -20,7 +20,6 @@ spring:
     include: oauth, db, cloud, redis, rabbitmq, fcm
 
 logging:
-  config: classpath:logback-spring.xml
   level:
     root: INFO
     com.conkiri: DEBUG
