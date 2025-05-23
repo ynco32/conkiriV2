@@ -248,11 +248,11 @@ pipeline {  // 파이프라인 정의 시작
                 script {
                     try {
                         // 기존 컨테이너 정리
-                        sh """
-                            # 기존 컨테이너 중지 및 삭제
-                            docker stop backend-dev-new frontend-dev-new || true
-                            docker rm backend-dev-new frontend-dev-new || true
-                        """
+                        // sh """
+                        //     # 기존 컨테이너 중지 및 삭제
+                        //     docker stop backend-dev-new frontend-dev-new || true
+                        //     docker rm backend-dev-new frontend-dev-new || true
+                        // """
                         
                         def credentialsList = []
                         
