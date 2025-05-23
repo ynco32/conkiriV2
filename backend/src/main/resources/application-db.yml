@@ -1,4 +1,3 @@
-
 ---
 spring:
   config:
@@ -23,12 +22,11 @@ spring:
         use_sql_comments: true
         jdbc:
           time_zone: Asia/Seoul
-
 ---
 spring:
   config:
     activate:
-      on-profile: "db-dev"
+      on-profile: "db-master"
 
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver

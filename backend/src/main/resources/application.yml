@@ -15,7 +15,7 @@ spring:
         - db-dev
         - cloud
         - redis
-        - rabbitmq-dev
+        - rabbitmq-master
         - fcm
     include: oauth, db, cloud, redis, rabbitmq, fcm
 
