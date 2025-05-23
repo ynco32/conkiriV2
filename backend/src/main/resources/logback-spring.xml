@@ -16,7 +16,7 @@
         <!-- 접속 끊길 때 재시도 딜레이(ms) -->
         <reconnectionDelay>5000</reconnectionDelay>
         <encoder class="net.logstash.logback.encoder.LogstashEncoder">
-            <customFields>{"appname":"backend-master"}</customFields>
+            <customFields>{"appname":"backend-master-new"}</customFields>
         </encoder>
     </appender>
 
